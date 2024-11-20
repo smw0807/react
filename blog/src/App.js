@@ -16,11 +16,9 @@ function App() {
 
   const [like, setLike] = useState([0, 0, 0]);
   const likeUp = (idx) => {
-    setLike(
-      like.map((t, i) => {
-        return i === idx ? like[i] + 1 : like[i];
-      })
-    );
+    const newLike = [...like];
+    newLike[idx] = newLike[idx] + 1;
+    setLike(newLike);
   };
   return (
     <div className="App">
