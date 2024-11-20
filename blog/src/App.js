@@ -10,22 +10,70 @@ function App() {
     '강남 우동 맛집',
     '파이썬 공부',
   ]);
+  const firstTitleChange = () => {
+    setTitle(title.map((t, i) => (i === 0 ? '여자 코트 추천' : t)));
+  };
 
+  const [like, setLike] = useState([0, 0, 0]);
+  const likeUp = (idx) => {
+    setLike(
+      like.map((t, i) => {
+        return i === idx ? like[i] + 1 : like[i];
+      })
+    );
+  };
   return (
     <div className="App">
       <div className="black-nav">
         <h4 style={{ color: 'red', fontSize: '20px' }}>{logo}</h4>
       </div>
+      <button
+        onClick={() => {
+          firstTitleChange();
+        }}
+      >
+        button
+      </button>
       <div className="list">
-        <h4>{title[0]}</h4>
+        <h4>
+          {title[0]}
+          <span
+            onClick={() => {
+              likeUp(0);
+            }}
+          >
+            👍
+          </span>
+          {like[0]}
+        </h4>
         <p>2024년 11월 20일 발행</p>
       </div>
       <div className="list">
-        <h4>{title[1]}</h4>
+        <h4>
+          {title[1]}
+          <span
+            onClick={() => {
+              likeUp(1);
+            }}
+          >
+            👍
+          </span>
+          {like[1]}
+        </h4>
         <p>2024년 11월 20일 발행</p>
       </div>
       <div className="list">
-        <h4>{title[2]}</h4>
+        <h4>
+          {title[2]}
+          <span
+            onClick={() => {
+              likeUp(2);
+            }}
+          >
+            👍
+          </span>
+          {like[2]}
+        </h4>
         <p>2024년 11월 20일 발행</p>
       </div>
     </div>
