@@ -32,6 +32,15 @@ function App() {
       >
         button
       </button>
+      <button
+        onClick={() => {
+          const newTitle = [...title];
+          newTitle.sort();
+          setTitle(newTitle);
+        }}
+      >
+        가나다순정렬
+      </button>
       <div className="list">
         <h4>
           {title[0]}
