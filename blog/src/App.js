@@ -23,6 +23,20 @@ function App() {
   };
 
   const [modal, setModal] = useState(false);
+
+  const list = [];
+  for (let i = 0; i < title.length; i++) {
+    list.push(
+      <div className="list" key={i}>
+        <h4>
+          <span onClick={() => setModal(!modal)}>{title[i]}</span>
+          <span onClick={() => likeUp(i)}>👍</span>
+          {like[i]}
+        </h4>
+        <p>2024년 11월 20일 발행</p>
+      </div>
+    );
+  }
   return (
     <div className="App">
       <div className="black-nav">
@@ -45,48 +59,19 @@ function App() {
         가나다순정렬
       </button>
 
-      <div className="list">
-        <h4 onClick={() => setModal(!modal)}>
-          {title[0]}
-          <span
-            onClick={() => {
-              likeUp(0);
-            }}
-          >
-            👍
-          </span>
-          {like[0]}
-        </h4>
-        <p>2024년 11월 20일 발행</p>
-      </div>
-      <div className="list">
-        <h4 onClick={() => setModal(!modal)}>
-          {title[1]}
-          <span
-            onClick={() => {
-              likeUp(1);
-            }}
-          >
-            👍
-          </span>
-          {like[1]}
-        </h4>
-        <p>2024년 11월 20일 발행</p>
-      </div>
-      <div className="list">
-        <h4 onClick={() => setModal(!modal)}>
-          {title[2]}
-          <span
-            onClick={() => {
-              likeUp(2);
-            }}
-          >
-            👍
-          </span>
-          {like[2]}
-        </h4>
-        <p>2024년 11월 20일 발행</p>
-      </div>
+      {/* {title.map((t, i) => {
+        return (
+          <div className="list" key={i}>
+            <h4>
+              <span onClick={() => setModal(!modal)}>{t}</span>
+              <span onClick={() => likeUp(i)}>👍</span>
+              {like[i]}
+            </h4>
+            <p>2024년 11월 20일 발행</p>
+          </div>
+        );
+      })} */}
+      {list}
 
       {modal ? <Modal /> : null}
     </div>
