@@ -10,6 +10,7 @@ function App() {
     '강남 우동 맛집',
     '파이썬 공부',
   ]);
+
   const firstTitleChange = () => {
     setTitle(title.map((t, i) => (i === 0 ? '여자 코트 추천' : t)));
   };
@@ -20,6 +21,8 @@ function App() {
     newLike[idx] = newLike[idx] + 1;
     setLike(newLike);
   };
+
+  const [modal, setModal] = useState(false);
   return (
     <div className="App">
       <div className="black-nav">
@@ -41,8 +44,9 @@ function App() {
       >
         가나다순정렬
       </button>
+
       <div className="list">
-        <h4>
+        <h4 onClick={() => setModal(!modal)}>
           {title[0]}
           <span
             onClick={() => {
@@ -56,7 +60,7 @@ function App() {
         <p>2024년 11월 20일 발행</p>
       </div>
       <div className="list">
-        <h4>
+        <h4 onClick={() => setModal(!modal)}>
           {title[1]}
           <span
             onClick={() => {
@@ -70,7 +74,7 @@ function App() {
         <p>2024년 11월 20일 발행</p>
       </div>
       <div className="list">
-        <h4>
+        <h4 onClick={() => setModal(!modal)}>
           {title[2]}
           <span
             onClick={() => {
@@ -84,7 +88,7 @@ function App() {
         <p>2024년 11월 20일 발행</p>
       </div>
 
-      <Modal />
+      {modal ? <Modal /> : null}
     </div>
   );
 }
