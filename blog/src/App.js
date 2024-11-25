@@ -24,12 +24,18 @@ function App() {
 
   const [modal, setModal] = useState(false);
 
+  const [modalTitle, setModalTitle] = useState('');
+  const modalChange = (title) => {
+    setModalTitle(title);
+    setModal(!modal);
+  };
+
   const list = [];
   for (let i = 0; i < title.length; i++) {
     list.push(
       <div className="list" key={i}>
         <h4>
-          <span onClick={() => setModal(!modal)}>{title[i]}</span>
+          <span onClick={() => modalChange(title[i])}>{title[i]}</span>
           <span onClick={() => likeUp(i)}>👍</span>
           {like[i]}
         </h4>
@@ -59,31 +65,22 @@ function App() {
         가나다순정렬
       </button>
 
-      {/* {title.map((t, i) => {
-        return (
-          <div className="list" key={i}>
-            <h4>
-              <span onClick={() => setModal(!modal)}>{t}</span>
-              <span onClick={() => likeUp(i)}>👍</span>
-              {like[i]}
-            </h4>
-            <p>2024년 11월 20일 발행</p>
-          </div>
-        );
-      })} */}
       {list}
 
-      {modal ? <Modal /> : null}
+      {modal ? <Modal title={modalTitle} /> : null}
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
+  const [title, setTitle] = useState(props.title);
+
   return (
     <div className="modal">
-      <h4>제목</h4>
+      <h4>{title}</h4>
       <p>날짜</p>
       <p>상세내용</p>
+      <button onClick={() => setTitle('여자 코트 추천')}>글 수정</button>
     </div>
   );
 }
