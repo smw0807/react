@@ -33,8 +33,11 @@ function App() {
   };
 
   const deleteTitle = (idx) => {
-    const newTitle = title.filter((t, i) => i !== idx);
+    const newTitle = [...title];
+    newTitle.splice(idx, 1);
     setTitle(newTitle);
+    // const newTitle = title.filter((t, i) => i !== idx);
+    // setTitle(newTitle);
   };
 
   const list = [];
@@ -76,7 +79,7 @@ function App() {
       {list}
 
       <input type="text" onChange={(e) => setInput(e.target.value)} />
-      <button onClick={() => setTitle([...title, input])}>등록</button>
+      <button onClick={() => setTitle([input, ...title])}>등록</button>
 
       {modal ? <Modal title={modalTitle} /> : null}
     </div>
