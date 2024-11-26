@@ -32,6 +32,16 @@ function App() {
     setModal(!modal);
   };
 
+  const addTitle = () => {
+    if (input === '') {
+      alert('제목을 입력하세요');
+      return;
+    }
+    const newTitle = [input, ...title];
+    setTitle(newTitle);
+    setLike([...like, 0]);
+  };
+
   const deleteTitle = (idx) => {
     const newTitle = [...title];
     newTitle.splice(idx, 1);
@@ -79,7 +89,8 @@ function App() {
       {list}
 
       <input type="text" onChange={(e) => setInput(e.target.value)} />
-      <button onClick={() => setTitle([input, ...title])}>등록</button>
+      {/* <button onClick={() => setTitle([input, ...title])}>등록</button> */}
+      <button onClick={() => addTitle()}>등록</button>
 
       {modal ? <Modal title={modalTitle} /> : null}
     </div>
