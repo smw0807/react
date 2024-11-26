@@ -22,12 +22,19 @@ function App() {
     setLike(newLike);
   };
 
+  const [input, setInput] = useState('');
+
   const [modal, setModal] = useState(false);
 
   const [modalTitle, setModalTitle] = useState('');
   const modalChange = (title) => {
     setModalTitle(title);
     setModal(!modal);
+  };
+
+  const deleteTitle = (idx) => {
+    const newTitle = title.filter((t, i) => i !== idx);
+    setTitle(newTitle);
   };
 
   const list = [];
@@ -39,6 +46,7 @@ function App() {
           <span onClick={() => likeUp(i)}>👍</span>
           {like[i]}
         </h4>
+        <button onClick={() => deleteTitle(i)}>삭제</button>
         <p>2024년 11월 20일 발행</p>
       </div>
     );
@@ -66,6 +74,9 @@ function App() {
       </button>
 
       {list}
+
+      <input type="text" onChange={(e) => setInput(e.target.value)} />
+      <button onClick={() => setTitle([...title, input])}>등록</button>
 
       {modal ? <Modal title={modalTitle} /> : null}
     </div>
