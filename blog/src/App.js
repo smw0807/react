@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import React from 'react';
 function App() {
   // const [logo, setLogo] = useState('ReactBlog');
   const logo = 'ReactBlog';
@@ -93,6 +94,8 @@ function App() {
       <button onClick={() => addTitle()}>등록</button>
 
       {modal ? <Modal title={modalTitle} /> : null}
+
+      <Modal2 />
     </div>
   );
 }
@@ -109,4 +112,28 @@ function Modal(props) {
     </div>
   );
 }
+/**
+ * 요즘은 함수형 컴포넌트를 많이 사용함
+ * 클래스 방식은 옛날에 사용하던 방식
+ */
+class Modal2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '홍길동',
+      age: 20,
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <p>안녕 {this.props.name}</p>
+        <p>{this.state.age}</p>
+        <button onClick={() => this.setState({ age: 21 })}>버튼</button>
+      </div>
+    );
+  }
+}
+
 export default App;
