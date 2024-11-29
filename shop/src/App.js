@@ -23,7 +23,9 @@ function App() {
       <Container>
         <Row>
           {shoes.map((v) => (
-            <ColData shoes={v} key={v.id} />
+            <Col md={4} key={v.id}>
+              <ColData shoes={v} />
+            </Col>
           ))}
         </Row>
       </Container>
@@ -33,11 +35,11 @@ function App() {
 
 function ColData(props) {
   return (
-    <Col md={4}>
+    <>
       <img src={props.shoes.img} width="80%" alt="상품" />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
-    </Col>
+    </>
   );
 }
 export default App;
