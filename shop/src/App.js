@@ -22,9 +22,9 @@ function App() {
 
       <Container>
         <Row>
-          {shoes.map((v) => {
-            return <ColData shoes={v} key={v.id} />;
-          })}
+          {shoes.map((v) => (
+            <ColData shoes={v} key={v.id} />
+          ))}
         </Row>
       </Container>
     </div>
