@@ -1,7 +1,11 @@
 import './App.css';
+import { useState } from 'react';
 
 import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
+import { data } from './data.js';
+
 function App() {
+  const [shoes] = useState(data);
   return (
     <div>
       <Navbar bg="dark" variant="dark">
@@ -18,37 +22,22 @@ function App() {
 
       <Container>
         <Row>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes1.jpg"
-              width="80%"
-              alt="상품1"
-            />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </Col>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes2.jpg"
-              width="80%"
-              alt="상품2"
-            />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </Col>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes3.jpg"
-              width="80%"
-              alt="상품3"
-            />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </Col>
+          {shoes.map((v) => {
+            return <ColData shoes={v} key={v.id} />;
+          })}
         </Row>
       </Container>
     </div>
   );
 }
 
+function ColData(props) {
+  return (
+    <Col md={4}>
+      <img src={props.shoes.img} width="80%" alt="상품" />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
+    </Col>
+  );
+}
 export default App;
