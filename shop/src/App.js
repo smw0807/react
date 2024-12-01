@@ -1,9 +1,9 @@
 import './App.css';
 import { useState } from 'react';
 
-import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
+import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 function App() {
   const [shoes] = useState(data);
@@ -26,7 +26,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<List shoes={shoes} />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="*" element={<div>404 Not Found</div>} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />
