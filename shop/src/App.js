@@ -5,6 +5,7 @@ import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+
 function App() {
   const [shoes] = useState(data);
   /**
