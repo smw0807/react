@@ -43,9 +43,15 @@ function App() {
 }
 
 function ColData(props) {
+  const navigate = useNavigate();
   return (
     <>
-      <img src={props.shoes.img} width="80%" alt="상품" />
+      <img
+        src={props.shoes.img}
+        width="80%"
+        alt="상품"
+        onClick={() => navigate(`/detail/${props.shoes.id}`)}
+      />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </>
