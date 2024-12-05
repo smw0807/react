@@ -28,9 +28,10 @@ export default function Detail(props) {
   const { id } = useParams();
   const shoes = props.shoes.find((item) => item.id === Number(id));
 
+  const [alert, setAlert] = useState(true);
   useEffect(() => {
     setTimeout(() => {
-      document.querySelector('.alert').style.display = 'none';
+      setAlert(false);
     }, 2000);
   });
   return !shoes ? (
@@ -43,7 +44,10 @@ export default function Detail(props) {
         </CustomBtn>
         <YellowBtn>버튼</YellowBtn>
       </Box>
-      <div className="alert alert-warning">2초 이내 구매시 할인</div>
+      {alert ? (
+        <div className="alert alert-warning">2초 이내 구매시 할인</div>
+      ) : null}
+
       <Row>
         <Col md={6}>
           <img src={shoes.img} width="100%" alt="상품" />
