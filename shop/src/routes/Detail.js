@@ -27,27 +27,61 @@ const Box = styled.div`
 export default function Detail(props) {
   const { id } = useParams();
   const shoes = props.shoes.find((item) => item.id === Number(id));
-
+  const [count, setCount] = useState(0);
   const [alert, setAlert] = useState(true);
+  const [input, setInput] = useState('');
+  const [error, setError] = useState(false);
+
+  // 재렌더링마다 코드를 실행하고 싶을 때
+  useEffect(() => {});
+  // mount시 1회 코드를 실행하고 싶을 때
+  useEffect(() => {}, []);
+  // 특정 state 변경시에만 실행하고 싶을 때
+  useEffect(() => {}, [count]);
+  // unmount 시 1회 코드실행하고 싶을 때
   useEffect(() => {
-    setTimeout(() => {
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setAlert(false);
     }, 2000);
-  });
+    console.log('count', count);
+    // clean up function
+    return () => {
+      // useEffect 동작 전에 실행됨
+      clearTimeout(timer);
+      // unmount 시 실행
+    };
+    // count가 변경될 때마다 실행, [] 빈 배열은 mount될 때만 실행함
+  }, [count]);
+
+  useEffect(() => {
+    console.log('input', input.match(/[0-9]/g));
+    if (!input.match(/^[0-9]/g)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [input]);
   return !shoes ? (
     <div>데이터가 없습니다.</div>
   ) : (
     <Container>
       <Box>
-        <CustomBtn bg="blue" color="white">
+        <CustomBtn bg="blue" color="white" onClick={() => setCount(count + 1)}>
           버튼
         </CustomBtn>
         <YellowBtn>버튼</YellowBtn>
+        <input type="text" onChange={(e) => setInput(e.target.value)} />
       </Box>
       {alert ? (
         <div className="alert alert-warning">2초 이내 구매시 할인</div>
       ) : null}
-
+      {error ? (
+        <div className="alert alert-danger">숫자만 입력하세요.</div>
+      ) : null}
       <Row>
         <Col md={6}>
           <img src={shoes.img} width="100%" alt="상품" />
