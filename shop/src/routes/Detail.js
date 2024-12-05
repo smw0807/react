@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -26,16 +27,23 @@ const Box = styled.div`
 export default function Detail(props) {
   const { id } = useParams();
   const shoes = props.shoes.find((item) => item.id === Number(id));
+
+  useEffect(() => {
+    setTimeout(() => {
+      document.querySelector('.alert').style.display = 'none';
+    }, 2000);
+  });
   return !shoes ? (
     <div>데이터가 없습니다.</div>
   ) : (
     <Container>
       <Box>
-        <CustomBtn onClick={() => alert('커스텀버튼')} bg="blue" color="white">
-          커스텀버튼
+        <CustomBtn bg="blue" color="white">
+          버튼
         </CustomBtn>
         <YellowBtn>버튼</YellowBtn>
       </Box>
+      <div className="alert alert-warning">2초 이내 구매시 할인</div>
       <Row>
         <Col md={6}>
           <img src={shoes.img} width="100%" alt="상품" />
