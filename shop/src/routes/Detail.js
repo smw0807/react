@@ -58,8 +58,9 @@ export default function Detail(props) {
   }, [count]);
 
   useEffect(() => {
-    console.log('input', input.match(/[0-9]/g));
-    if (!input.match(/^[0-9]/g)) {
+    const reg = /^[0-9]*$/g;
+    const result = reg.test(input);
+    if (!result) {
       setError(true);
     } else {
       setError(false);
