@@ -9,6 +9,7 @@ import axios from 'axios';
 
 function App() {
   const [shoes, setShoes] = useState(data);
+  const [count, setCount] = useState(2);
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
@@ -42,18 +43,19 @@ function App() {
       <Button
         onClick={() => {
           axios
-            .get('https://codingapple1.github.io/shop/data2.json')
+            .get(`https://codingapple1.github.io/shop/data${count}.json`)
             .then((res) => {
               console.log(res.data);
               const newData = [...shoes, ...res.data];
               setShoes(newData);
+              setCount(count + 1);
             })
             .catch((err) => {
               console.log(err);
             });
         }}
       >
-        버튼
+        더보기
       </Button>
     </div>
   );
