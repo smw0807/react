@@ -5,9 +5,10 @@ import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 function App() {
-  const [shoes] = useState(data);
+  const [shoes, setShoes] = useState(data);
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
@@ -24,7 +25,6 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-
       <Routes>
         <Route path="/" element={<List shoes={shoes} />} />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
@@ -38,6 +38,23 @@ function App() {
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
       </Routes>
+
+      <Button
+        onClick={() => {
+          axios
+            .get('https://codingapple1.github.io/shop/data2.json')
+            .then((res) => {
+              console.log(res.data);
+              const newData = [...shoes, ...res.data];
+              setShoes(newData);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      >
+        버튼
+      </Button>
     </div>
   );
 }
