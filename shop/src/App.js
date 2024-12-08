@@ -8,8 +8,7 @@ import Detail from './routes/Detail.js';
 import axios from 'axios';
 
 function App() {
-  const [shoes, setShoes] = useState(data);
-  const [count, setCount] = useState(2);
+  const [shoes] = useState(data);
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
@@ -39,24 +38,6 @@ function App() {
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
       </Routes>
-
-      <Button
-        onClick={() => {
-          axios
-            .get(`https://codingapple1.github.io/shop/data${count}.json`)
-            .then((res) => {
-              console.log(res.data);
-              const newData = [...shoes, ...res.data];
-              setShoes(newData);
-              setCount(count + 1);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }}
-      >
-        더보기
-      </Button>
     </div>
   );
 }
@@ -78,18 +59,38 @@ function ColData(props) {
 }
 
 function List(props) {
+  const [shoes, setShoes] = useState(props.shoes);
+  const [count, setCount] = useState(2);
   return (
     <>
       <div className="main-bg"></div>
       <Container>
         <Row>
-          {props.shoes.map((v) => (
+          {shoes.map((v) => (
             <Col md={4} key={v.id}>
               <ColData shoes={v} />
             </Col>
           ))}
         </Row>
       </Container>
+      <Button
+        onClick={() => {
+          axios
+            .get(`https://codingapple1.github.io/shop/data${count}.json`)
+            .then((res) => {
+              console.log(res.data);
+              const newData = [...shoes, ...res.data];
+              setShoes(newData);
+              console.log(newData);
+              setCount(count + 1);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      >
+        더보기
+      </Button>
     </>
   );
 }
