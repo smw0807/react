@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -31,6 +31,8 @@ export default function Detail(props) {
   const [alert, setAlert] = useState(true);
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
+
+  const [tab, setTab] = useState(0);
 
   // 재렌더링마다 코드를 실행하고 싶을 때
   useEffect(() => {});
@@ -94,6 +96,35 @@ export default function Detail(props) {
           <button className="btn btn-danger">주문하기</button>
         </Col>
       </Row>
+
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link eventKey="link0" onClick={() => setTab(0)}>
+            버튼0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link1" onClick={() => setTab(1)}>
+            버튼1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link2" onClick={() => setTab(2)}>
+            버튼2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab={tab} />
     </Container>
   );
+}
+
+function TabContent({ tab }) {
+  if (tab === 0) {
+    return <div>content0</div>;
+  } else if (tab === 1) {
+    return <div>content1</div>;
+  } else if (tab === 2) {
+    return <div>content2</div>;
+  }
 }
