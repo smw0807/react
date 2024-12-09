@@ -68,63 +68,83 @@ export default function Detail(props) {
       setError(false);
     }
   }, [input]);
+
+  const [fade, setFade] = useState('');
+  useEffect(() => {
+    setFade('end');
+    return () => {
+      setFade('');
+    };
+  }, []);
   return !shoes ? (
     <div>데이터가 없습니다.</div>
   ) : (
-    <Container>
-      <Box>
-        <CustomBtn bg="blue" color="white" onClick={() => setCount(count + 1)}>
-          버튼
-        </CustomBtn>
-        <YellowBtn>버튼</YellowBtn>
-        <input type="text" onChange={(e) => setInput(e.target.value)} />
-      </Box>
-      {alert ? (
-        <div className="alert alert-warning">2초 이내 구매시 할인</div>
-      ) : null}
-      {error ? (
-        <div className="alert alert-danger">숫자만 입력하세요.</div>
-      ) : null}
-      <Row>
-        <Col md={6}>
-          <img src={shoes.img} width="100%" alt="상품" />
-        </Col>
-        <Col md={6}>
-          <h4 className="pt-5">{shoes.title}</h4>
-          <p>{shoes.content}</p>
-          <p>{shoes.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
-        </Col>
-      </Row>
+    <div className={`start ${fade}`}>
+      <Container>
+        <Box>
+          <CustomBtn
+            bg="blue"
+            color="white"
+            onClick={() => setCount(count + 1)}
+          >
+            버튼
+          </CustomBtn>
+          <YellowBtn>버튼</YellowBtn>
+          <input type="text" onChange={(e) => setInput(e.target.value)} />
+        </Box>
+        {alert ? (
+          <div className="alert alert-warning">2초 이내 구매시 할인</div>
+        ) : null}
+        {error ? (
+          <div className="alert alert-danger">숫자만 입력하세요.</div>
+        ) : null}
+        <Row>
+          <Col md={6}>
+            <img src={shoes.img} width="100%" alt="상품" />
+          </Col>
+          <Col md={6}>
+            <h4 className="pt-5">{shoes.title}</h4>
+            <p>{shoes.content}</p>
+            <p>{shoes.price}원</p>
+            <button className="btn btn-danger">주문하기</button>
+          </Col>
+        </Row>
 
-      <Nav variant="tabs" defaultActiveKey="link0">
-        <Nav.Item>
-          <Nav.Link eventKey="link0" onClick={() => setTab(0)}>
-            버튼0
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link1" onClick={() => setTab(1)}>
-            버튼1
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link2" onClick={() => setTab(2)}>
-            버튼2
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-      <TabContent tab={tab} />
-    </Container>
+        <Nav variant="tabs" defaultActiveKey="link0">
+          <Nav.Item>
+            <Nav.Link eventKey="link0" onClick={() => setTab(0)}>
+              버튼0
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link1" onClick={() => setTab(1)}>
+              버튼1
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link2" onClick={() => setTab(2)}>
+              버튼2
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <TabContent tab={tab} />
+      </Container>
+    </div>
   );
 }
 
 function TabContent({ tab }) {
-  if (tab === 0) {
-    return <div>content0</div>;
-  } else if (tab === 1) {
-    return <div>content1</div>;
-  } else if (tab === 2) {
-    return <div>content2</div>;
-  }
+  const [fade, setFade] = useState('');
+  useEffect(() => {
+    const setFadeTimeout = setTimeout(() => setFade('end'), 100);
+    return () => {
+      clearTimeout(setFadeTimeout);
+      setFade('');
+    };
+  }, [tab]);
+  return (
+    <div className={`start ${fade}`}>
+      {[<div>content0</div>, <div>content1</div>, <div>content2</div>][tab]}
+    </div>
+  );
 }
