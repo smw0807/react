@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { Context1 } from '../App';
 /**
  * styled-components 사용법
  * 1. styled.태그명
@@ -128,12 +128,16 @@ export default function Detail(props) {
           </Nav.Item>
         </Nav>
         <TabContent tab={tab} />
+        {/* <TabContent tab={tab} shoes={props.shoes} /> */}
       </Container>
     </div>
   );
 }
 
 function TabContent({ tab }) {
+  const test = useContext(Context1);
+  console.log(test);
+  const { shoes } = useContext(Context1);
   const [fade, setFade] = useState('');
   useEffect(() => {
     const setFadeTimeout = setTimeout(() => setFade('end'), 100);
@@ -144,7 +148,11 @@ function TabContent({ tab }) {
   }, [tab]);
   return (
     <div className={`start ${fade}`}>
-      {[<div>content0</div>, <div>content1</div>, <div>content2</div>][tab]}
+      {
+        [<div>{shoes[0].title}</div>, <div>content1</div>, <div>content2</div>][
+          tab
+        ]
+      }
     </div>
   );
 }

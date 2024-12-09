@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 
 import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
@@ -7,8 +7,12 @@ import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
 
+export const Context1 = createContext();
+
 function App() {
   const [shoes] = useState(data);
+  const [stock] = useState([10, 11, 12]);
+
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
@@ -27,7 +31,14 @@ function App() {
       </Navbar>
       <Routes>
         <Route path="/" element={<List shoes={shoes} />} />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ stock, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route path="*" element={<div>404 Not Found</div>} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />
