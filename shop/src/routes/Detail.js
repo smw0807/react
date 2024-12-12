@@ -41,7 +41,17 @@ export default function Detail(props) {
   // 재렌더링마다 코드를 실행하고 싶을 때
   useEffect(() => {});
   // mount시 1회 코드를 실행하고 싶을 때
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const watched = localStorage.getItem('watched');
+    if (watched) {
+      const watchedList = JSON.parse(watched);
+      watchedList.push(shoes.id);
+      const set = new Set(watchedList);
+      localStorage.setItem('watched', JSON.stringify(Array.from(set)));
+    } else {
+      localStorage.setItem('watched', JSON.stringify([shoes.id]));
+    }
+  }, []);
   // 특정 state 변경시에만 실행하고 싶을 때
   useEffect(() => {}, [count]);
   // unmount 시 1회 코드실행하고 싶을 때
@@ -53,7 +63,7 @@ export default function Detail(props) {
     const timer = setTimeout(() => {
       setAlert(false);
     }, 2000);
-    console.log('count', count);
+    // console.log('count', count);
     // clean up function
     return () => {
       // useEffect 동작 전에 실행됨
