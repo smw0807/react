@@ -3,6 +3,8 @@ import { Container, Row, Col, Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Context1 } from '../App';
+import { addItem } from '../store';
+import { useDispatch } from 'react-redux';
 /**
  * styled-components 사용법
  * 1. styled.태그명
@@ -33,6 +35,8 @@ export default function Detail(props) {
   const [error, setError] = useState(false);
 
   const [tab, setTab] = useState(0);
+
+  const dispatch = useDispatch();
 
   // 재렌더링마다 코드를 실행하고 싶을 때
   useEffect(() => {});
@@ -76,6 +80,16 @@ export default function Detail(props) {
       setFade('');
     };
   }, []);
+
+  const addCart = (item) => {
+    dispatch(
+      addItem({
+        id: item.id,
+        name: item.title,
+        count: 1,
+      })
+    );
+  };
   return !shoes ? (
     <div>데이터가 없습니다.</div>
   ) : (
@@ -106,7 +120,9 @@ export default function Detail(props) {
             <h4 className="pt-5">{shoes.title}</h4>
             <p>{shoes.content}</p>
             <p>{shoes.price}원</p>
-            <button className="btn btn-danger">주문하기</button>
+            <button className="btn btn-danger" onClick={() => addCart(shoes)}>
+              주문하기
+            </button>
           </Col>
         </Row>
 
@@ -135,8 +151,8 @@ export default function Detail(props) {
 }
 
 function TabContent({ tab }) {
-  const test = useContext(Context1);
-  console.log(test);
+  // const test = useContext(Context1);
+  // console.log(test);
   const { shoes } = useContext(Context1);
   const [fade, setFade] = useState('');
   useEffect(() => {

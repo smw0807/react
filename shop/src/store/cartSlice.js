@@ -15,8 +15,17 @@ export const cartStore = createSlice({
       if (newState.count === 0) return state;
       newState.count = newState.count - 1;
     },
+    removeItem(state, actions) {
+      const findIndex = state.findIndex((v) => v.id === actions.payload);
+      state.splice(findIndex, 1);
+    },
     addItem(state, actions) {
-      state.push(actions.payload);
+      const findItem = state.find((v) => v.id === actions.payload.id);
+      if (findItem) {
+        findItem.count = findItem.count + 1;
+      } else {
+        state.push(actions.payload);
+      }
     },
   },
 });

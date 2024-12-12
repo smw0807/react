@@ -2,7 +2,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { user } from './store/userSlice';
 import { cartStore } from './store/cartSlice';
 export const { addName, addAge } = user.actions;
-export const { addCount, minusCount, addItem } = cartStore.actions;
+export const { addCount, minusCount, addItem, removeItem } = cartStore.actions;
 
 const stockStore = createSlice({
   name: 'stock',

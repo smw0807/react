@@ -1,6 +1,6 @@
 import { Table } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { addAge, addCount, minusCount } from '../store';
+import { addAge, addCount, minusCount, removeItem } from '../store';
 
 export default function Cart() {
   const cartStore = useSelector((state) => state.cartStore);
@@ -42,6 +42,9 @@ function CartItem(props) {
       <td>
         <button onClick={() => dispatch(addCount(props.item.id))}>+</button>
         <button onClick={() => dispatch(minusCount(props.item.id))}>-</button>
+        <button onClick={() => dispatch(removeItem(props.item.id))}>
+          삭제
+        </button>
       </td>
     </tr>
   );
