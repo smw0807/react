@@ -4,7 +4,14 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 const user = createSlice({
   name: 'user',
   initialState: 'song',
+  reducers: {
+    addName(state, action) {
+      return state + action.payload;
+    },
+  },
 });
+
+export const { addName } = user.actions;
 
 const stockStore = createSlice({
   name: 'stock',

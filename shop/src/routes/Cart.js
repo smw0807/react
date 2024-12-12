@@ -1,9 +1,9 @@
 import { Table } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addName } from '../store';
 
 export default function Cart() {
   const cartStore = useSelector((state) => state.cartStore);
-
   return (
     <div>
       <Table>
@@ -26,13 +26,14 @@ export default function Cart() {
 }
 
 function CartItem(props) {
+  const dispatch = useDispatch();
   return (
     <tr>
       <td>{props.item.id}</td>
       <td>{props.item.name}</td>
       <td>{props.item.count}</td>
       <td>
-        <button>+</button>
+        <button onClick={() => dispatch(addName('minwoo'))}>+</button>
         <button>-</button>
       </td>
     </tr>
