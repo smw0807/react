@@ -7,6 +7,7 @@ import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
 import Cart from './routes/Cart.js';
+import { useQuery } from 'react-query';
 
 export const Context1 = createContext();
 
@@ -14,13 +15,29 @@ function App() {
   const [shoes] = useState(data);
   const [stock] = useState([10, 11, 12]);
 
+  // axios.get('https://codingapple1.github.io/userdata.json').then((res) => {
+  //   console.log(res.data);
+  // });
+  const result = useQuery(
+    'user',
+    async () => {
+      const res = await axios.get(
+        'https://codingapple1.github.io/userdata.json'
+      );
+      return res.data;
+    },
+    {
+      staleTime: 1000 * 60 * 5,
+    }
+  );
+  console.log(result);
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
   const navigate = useNavigate();
   return (
     <div className="App">
-      <Navbar bg="dark" variant="dark">
+      <Navbar>
         <Container>
           <Navbar.Brand href="#home">Shoe Shop</Navbar.Brand>
           <Nav className="me-auto">
@@ -28,6 +45,9 @@ function App() {
             <Nav.Link onClick={() => navigate('/detail')}>Detail</Nav.Link>
             <Nav.Link onClick={() => navigate('/about')}>About</Nav.Link>
             <Nav.Link onClick={() => navigate('/cart')}>Cart</Nav.Link>
+          </Nav>
+          <Nav className="ms-auth">
+            반가워요 {result.isLoading ? '로딩중' : result.data.name}
           </Nav>
         </Container>
       </Navbar>
