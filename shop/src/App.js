@@ -1,15 +1,17 @@
 import './App.css';
-import { createContext, useState } from 'react';
+import { createContext, useState, lazy, Suspense } from 'react';
 
 import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
-import axios from 'axios';
 import Cart from './routes/Cart.js';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 
 export const Context1 = createContext();
+// const Detail = lazy(() => import('./routes/Detail.js'));
+// const Cart = lazy(() => import('./routes/Cart.js'));
 
 function App() {
   const [shoes] = useState(data);
@@ -42,7 +44,6 @@ function App() {
           <Navbar.Brand href="#home">Shoe Shop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
-            <Nav.Link onClick={() => navigate('/detail')}>Detail</Nav.Link>
             <Nav.Link onClick={() => navigate('/about')}>About</Nav.Link>
             <Nav.Link onClick={() => navigate('/cart')}>Cart</Nav.Link>
           </Nav>
@@ -51,6 +52,7 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
+      <Suspense fallback={<div>로딩중...</div>}></Suspense>
       <Routes>
         <Route path="/" element={<List shoes={shoes} />} />
         <Route
