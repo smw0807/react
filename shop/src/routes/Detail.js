@@ -106,13 +106,13 @@ export default function Detail(props) {
     <div className={`start ${fade}`}>
       <Container>
         <Box>
-          <CustomBtn
+          {/* <CustomBtn
             bg="blue"
             color="white"
             onClick={() => setCount(count + 1)}
           >
             버튼
-          </CustomBtn>
+          </CustomBtn> */}
           <YellowBtn>버튼</YellowBtn>
           <input type="text" onChange={(e) => setInput(e.target.value)} />
         </Box>
