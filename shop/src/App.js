@@ -1,5 +1,12 @@
 import './App.css';
-import { createContext, useState, lazy, Suspense } from 'react';
+import {
+  createContext,
+  useState,
+  useTransition,
+  useDeferredValue,
+  lazy,
+  Suspense,
+} from 'react';
 
 import { Navbar, Container, Nav, Row, Col, Button } from 'react-bootstrap';
 import { data } from './data.js';
@@ -16,6 +23,14 @@ export const Context1 = createContext();
 function App() {
   const [shoes] = useState(data);
   const [stock] = useState([10, 11, 12]);
+  const [name, setName] = useState('');
+  const deferredName = useDeferredValue(name);
+  /**
+   * useTransition 함수는 비동기 상태를 관리하는 함수
+   * 빚 돌려막기
+   */
+  const [isPending, startTransition] = useTransition();
+  const array = new Array(10000).fill(1);
 
   // axios.get('https://codingapple1.github.io/userdata.json').then((res) => {
   //   console.log(res.data);
@@ -32,7 +47,7 @@ function App() {
       staleTime: 1000 * 60 * 5,
     }
   );
-  console.log(result);
+  // console.log(result);
   /**
    * useNavigate 함수는 페이지 이동을 할 수 있게 해주는 함수
    */
@@ -74,6 +89,16 @@ function App() {
         </Route>
         <Route path="/cart" element={<Cart />} />
       </Routes>
+      <br />
+      <input onChange={(e) => startTransition(() => setName(e.target.value))} />
+      {/* <input onChange={(e) => setName(e.target.value)} /> */}
+      {name}
+      {isPending
+        ? '로딩중'
+        : array.map((v, k) => {
+            // return <div key={k}>{name}</div>;
+            return <div key={k}>{deferredName}</div>;
+          })}
     </div>
   );
 }
