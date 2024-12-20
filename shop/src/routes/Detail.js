@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Context1 } from '../App';
 import { addItem } from '../store';
 import { useDispatch } from 'react-redux';
+import useLike from '../hooks/like';
+import useUser from '../hooks/user';
 /**
  * styled-components 사용법
  * 1. styled.태그명
@@ -100,6 +102,9 @@ export default function Detail(props) {
       })
     );
   };
+  const [like, addLike] = useLike();
+  const [name] = useUser();
+
   return !shoes ? (
     <div>데이터가 없습니다.</div>
   ) : (
@@ -122,6 +127,7 @@ export default function Detail(props) {
         {error ? (
           <div className="alert alert-danger">숫자만 입력하세요.</div>
         ) : null}
+        {name}
         <Row>
           <Col md={6}>
             <img src={shoes.img} width="100%" alt="상품" />
@@ -130,9 +136,11 @@ export default function Detail(props) {
             <h4 className="pt-5">{shoes.title}</h4>
             <p>{shoes.content}</p>
             <p>{shoes.price}원</p>
+
             <button className="btn btn-danger" onClick={() => addCart(shoes)}>
               주문하기
             </button>
+            <button onClick={addLike}>❤{like}</button>
           </Col>
         </Row>
 
