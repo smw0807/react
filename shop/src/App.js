@@ -15,7 +15,7 @@ import Detail from './routes/Detail.js';
 import Cart from './routes/Cart.js';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-
+import Test from './routes/Test.js';
 export const Context1 = createContext();
 // const Detail = lazy(() => import('./routes/Detail.js'));
 // const Cart = lazy(() => import('./routes/Cart.js'));
@@ -61,44 +61,49 @@ function App() {
             <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
             <Nav.Link onClick={() => navigate('/about')}>About</Nav.Link>
             <Nav.Link onClick={() => navigate('/cart')}>Cart</Nav.Link>
+            <Nav.Link onClick={() => navigate('/test')}>Test</Nav.Link>
           </Nav>
           <Nav className="ms-auth">
             반가워요 {result.isLoading ? '로딩중' : result.data.name}
           </Nav>
         </Container>
       </Navbar>
-      <Suspense fallback={<div>로딩중...</div>}></Suspense>
-      <Routes>
-        <Route path="/" element={<List shoes={shoes} />} />
-        <Route
-          path="/detail/:id"
-          element={
-            <Context1.Provider value={{ stock, shoes }}>
-              <Detail shoes={shoes} />
-            </Context1.Provider>
-          }
-        />
-        <Route path="*" element={<div>404 Not Found</div>} />
-        <Route path="/about" element={<About />}>
-          <Route path="member" element={<div>멤버임</div>} />
-          <Route path="location" element={<div>위치임</div>} />
-        </Route>
-        <Route path="/event" element={<Event />}>
-          <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
-          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
-        </Route>
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-      <br />
-      <input onChange={(e) => startTransition(() => setName(e.target.value))} />
-      {/* <input onChange={(e) => setName(e.target.value)} /> */}
-      {name}
-      {isPending
-        ? '로딩중'
-        : array.map((v, k) => {
-            // return <div key={k}>{name}</div>;
-            return <div key={k}>{deferredName}</div>;
-          })}
+      <Suspense fallback={<div>로딩중...</div>}>
+        <Routes>
+          <Route path="/" element={<List shoes={shoes} />} />
+          <Route
+            path="/detail/:id"
+            element={
+              <Context1.Provider value={{ stock, shoes }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+            }
+          />
+          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="/about" element={<About />}>
+            <Route path="member" element={<div>멤버임</div>} />
+            <Route path="location" element={<div>위치임</div>} />
+          </Route>
+          <Route path="/event" element={<Event />}>
+            <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
+            <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+          </Route>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+        <br />
+        {/* <input
+          onChange={(e) => startTransition(() => setName(e.target.value))}
+        /> */}
+        {/* <input onChange={(e) => setName(e.target.value)} /> */}
+        {/* {name}
+        {isPending
+          ? '로딩중'
+          : array.map((v, k) => {
+              // return <div key={k}>{name}</div>;
+              return <div key={k}>{deferredName}</div>;
+            })} */}
+      </Suspense>
     </div>
   );
 }
