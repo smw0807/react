@@ -12,6 +12,9 @@ import MuiCard from '@mui/material/Card';
 import { useState } from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
 import KakaoIcon from '/kakaotalk.svg';
+import axios from '~/common/axios';
+import { setToken, TokenType } from '~/common/Token';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -56,21 +59,40 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function Signin() {
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
+  const handleSubmit = async () => {
+    if (!validateInputs()) {
       return;
     }
-    const data = new FormData(event.currentTarget);
+    if (emailError || passwordError) {
+      return;
+    }
+    const email = document.getElementById('email') as HTMLInputElement;
+    const password = document.getElementById('password') as HTMLInputElement;
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: email.value,
+      password: password.value,
     });
+    try {
+      const res = await axios.post('/api/auth/login', {
+        email: email.value,
+        password: password.value,
+      });
+      if (res.data.success) {
+        setToken(TokenType.ACCESS_TOKEN, res.data.token.access_token);
+        setToken(TokenType.REFRESH_TOKEN, res.data.token.refresh_token);
+        navigate('/');
+      }
+    } catch (e) {
+      console.error(e);
+      alert(e.message);
+    }
   };
 
   const validateInputs = () => {
@@ -110,7 +132,6 @@ export default function Signin() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
             noValidate
             sx={{
               display: 'flex',
@@ -154,10 +175,10 @@ export default function Signin() {
               />
             </FormControl>
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
+              onClick={() => handleSubmit()}
             >
               Sign in
             </Button>
