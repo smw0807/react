@@ -178,7 +178,7 @@ export default function Signin() {
               type="button"
               fullWidth
               variant="contained"
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
             >
               Sign in
             </Button>
