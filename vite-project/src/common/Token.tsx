@@ -2,7 +2,10 @@ import { Cookies } from 'react-cookie';
 const ACCESS_TOKEN_NAME = import.meta.env.VITE_ACCESS_TOKEN_NAME;
 const REFRESH_TOKEN_NAME = import.meta.env.VITE_REFRESH_TOKEN_NAME;
 
-type TokenType = 'accessToken' | 'refreshToken';
+export enum TokenType {
+  ACCESS_TOKEN = ACCESS_TOKEN_NAME,
+  REFRESH_TOKEN = REFRESH_TOKEN_NAME,
+}
 interface CookieSetOptions {
   path?: string;
   expires?: Date;
@@ -21,32 +24,36 @@ export const setToken = (
   value: string,
   options?: CookieSetOptions
 ) => {
-  cookies.set(name, value, options);
+  if (name === TokenType.ACCESS_TOKEN) {
+    cookies.set(ACCESS_TOKEN_NAME, value, options);
+  } else if (name === TokenType.REFRESH_TOKEN) {
+    cookies.set(REFRESH_TOKEN_NAME, value, options);
+  }
 };
 
 export const getToken = (name: TokenType) => {
-  return cookies.get(name);
-};
-
-export const removeToken = (name: TokenType) => {
-  cookies.remove(name);
-};
-
-export const updateToken = (
-  name: TokenType,
-  value: string,
-  options?: CookieSetOptions
-) => {
-  cookies.set(name, value, options);
+  if (name === TokenType.ACCESS_TOKEN) {
+    return cookies.get(ACCESS_TOKEN_NAME);
+  } else if (name === TokenType.REFRESH_TOKEN) {
+    return cookies.get(REFRESH_TOKEN_NAME);
+  }
 };
 
 export const clearAllTokens = () => {
-  setToken(ACCESS_TOKEN_NAME, '', { expires: new Date(0) });
-  setToken(REFRESH_TOKEN_NAME, '', { expires: new Date(0) });
+  removeToken(TokenType.ACCESS_TOKEN);
+  removeToken(TokenType.REFRESH_TOKEN);
+};
+
+export const removeToken = (name: TokenType) => {
+  if (name === TokenType.ACCESS_TOKEN) {
+    cookies.remove(ACCESS_TOKEN_NAME);
+  } else if (name === TokenType.REFRESH_TOKEN) {
+    cookies.remove(REFRESH_TOKEN_NAME);
+  }
 };
 
 export const hasToken = () => {
-  const accessToken = getToken(ACCESS_TOKEN_NAME);
-  const refreshToken = getToken(REFRESH_TOKEN_NAME);
+  const accessToken = getToken(TokenType.ACCESS_TOKEN);
+  const refreshToken = getToken(TokenType.REFRESH_TOKEN);
   return accessToken && refreshToken;
 };
