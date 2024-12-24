@@ -95,6 +95,18 @@ export default function Signin() {
     }
   };
 
+  const handleSnSLogin = async (type: 'google' | 'kakao') => {
+    if (type === 'google') {
+      const res = await axios.get('/api/auth/google/signin');
+      window.location.href = res.data;
+    } else if (type === 'kakao') {
+      const res = await axios.get('/api/auth/kakao/signin');
+      window.location.href = res.data;
+    } else {
+      console.error('Invalid login type');
+    }
+  };
+
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
@@ -189,7 +201,7 @@ export default function Signin() {
               <Button
                 fullWidth
                 variant="outlined"
-                onClick={() => alert('google')}
+                onClick={() => handleSnSLogin('google')}
                 startIcon={<GoogleIcon />}
               >
                 구글로 로그인
@@ -197,7 +209,7 @@ export default function Signin() {
               <Button
                 fullWidth
                 variant="outlined"
-                onClick={() => alert('kakao')}
+                onClick={() => handleSnSLogin('kakao')}
               >
                 <img
                   src={KakaoIcon}
