@@ -37,8 +37,10 @@ export default function Auth() {
         setToken(TokenType.REFRESH_TOKEN, res.data.refresh_token);
         navigate('/');
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert(e.message);
+      navigate('/signin');
     }
   };
   return (
