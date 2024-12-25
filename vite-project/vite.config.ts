@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import withReactRouter from 'vite-plugin-next-react-router';
-import path from 'path';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,12 +12,8 @@ export default defineConfig({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       layout: '_layout',
     }),
+    tsconfigPaths(),
   ],
-  resolve: {
-    alias: {
-      '~': path.resolve(__dirname, 'src'),
-    },
-  },
   server: {
     port: 3000,
     proxy: {

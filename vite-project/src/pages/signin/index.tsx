@@ -12,7 +12,7 @@ import MuiCard from '@mui/material/Card';
 import { useState } from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
 import KakaoIcon from '/kakaotalk.svg';
-import axios from '~/common/axios';
+import axios from '~/common/Axios';
 import { setToken, TokenType } from '~/common/Token';
 import { useNavigate } from 'react-router-dom';
 
@@ -89,7 +89,7 @@ export default function Signin() {
         setToken(TokenType.REFRESH_TOKEN, res.data.token.refresh_token);
         navigate('/');
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       alert(e.message);
     }

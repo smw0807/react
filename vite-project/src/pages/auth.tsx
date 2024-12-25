@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from '~/common/axios';
+import axios from '~/common/Axios';
 import { useNavigate } from 'react-router-dom';
-import { setToken, TokenType } from '../common/Token';
+import { setToken, TokenType } from '~/common/Token';
 
 const socialSigninUrl = {
   google: '/api/auth/google/callback',
