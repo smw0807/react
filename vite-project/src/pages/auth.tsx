@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from '~/common/Axios';
 import { useNavigate } from 'react-router-dom';
 import { setToken, TokenType } from '~/common/Token';
+import { Alert, Container, Grid2 } from '@mui/material';
 
 const socialSigninUrl = {
   google: '/api/auth/google/callback',
@@ -17,11 +18,11 @@ export default function Auth() {
   const state = params.get('state') as string;
   useEffect(() => {
     // 구글 로그인
-    if (state) {
-      handleSocialAuth(code, 'kakao');
-    } else {
-      handleSocialAuth(code, 'google');
-    }
+    // if (state) {
+    //   handleSocialAuth(code, 'kakao');
+    // } else {
+    //   handleSocialAuth(code, 'google');
+    // }
   }, []);
 
   const navigate = useNavigate();
@@ -44,8 +45,10 @@ export default function Auth() {
     }
   };
   return (
-    <div>
-      <h1>Auth</h1>
-    </div>
+    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Alert variant="outlined" severity="info">
+        This is an outlined info Alert.
+      </Alert>
+    </Container>
   );
 }
