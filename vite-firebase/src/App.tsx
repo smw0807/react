@@ -1,9 +1,7 @@
-import Login from './pages/Login';
-import Main from './pages';
 import { useState } from 'react';
 import { Layout, Menu, theme, Typography } from 'antd';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
-import MenuItems from './routes';
+import { useNavigate, useLocation } from 'react-router-dom';
+import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
@@ -33,7 +31,7 @@ function App() {
             theme="dark"
             defaultSelectedKeys={[location.pathname]}
             mode="inline"
-            items={MenuItems}
+            items={items}
             onClick={(e) => navigate(e.key)}
           />
         </Sider>
@@ -48,10 +46,7 @@ function App() {
                 borderRadius: borderRadiusLG,
               }}
             >
-              <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
+              <RoutesComponent />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

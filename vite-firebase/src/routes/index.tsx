@@ -1,3 +1,6 @@
+import Login from '~/pages/Login';
+import Main from '~/pages';
+import { Route, Routes } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { HomeOutlined, TableOutlined } from '@ant-design/icons';
 
@@ -16,9 +19,16 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
+export const items: MenuItem[] = [
   getItem('홈', '/', <HomeOutlined />),
   getItem('데이터', '/login', <TableOutlined />),
 ];
 
-export default items;
+export default function RoutesComponent() {
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
+}
