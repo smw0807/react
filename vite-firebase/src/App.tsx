@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Layout, Menu, theme, Typography } from 'antd';
+import { Layout, Menu, theme, Typography, Button, Row, Col } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
+import { LoginOutlined } from '@ant-design/icons';
 
 function App() {
   const navigate = useNavigate();
@@ -15,11 +16,23 @@ function App() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header
-        style={{ display: 'flex', alignItems: 'center', paddingLeft: '25px' }}
+        style={{ display: 'flex', alignItems: 'center', padding: '0 0 0 25px' }}
       >
-        <Typography.Title level={2} style={{ color: 'white' }}>
-          React Firebase
-        </Typography.Title>
+        <Row
+          justify="space-between"
+          align="middle"
+          gutter={32}
+          style={{ width: '100%' }}
+        >
+          <Col>
+            <Typography.Title level={2} style={{ color: 'white', margin: 0 }}>
+              React Firebase
+            </Typography.Title>
+          </Col>
+          <Col style={{ paddingRight: 0 }}>
+            <Button icon={<LoginOutlined />}>로그인</Button>
+          </Col>
+        </Row>
       </Header>
       <Layout>
         <Sider
