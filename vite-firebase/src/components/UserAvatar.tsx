@@ -1,5 +1,5 @@
-import { Avatar, Image, Tooltip, TooltipProps } from 'antd';
-import { useMemo, useState } from 'react';
+import { Avatar, Image, Tooltip } from 'antd';
+import { useState } from 'react';
 
 type UserAvatarType = {
   displayName: string;
