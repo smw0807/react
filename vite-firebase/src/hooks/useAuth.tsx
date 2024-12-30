@@ -1,6 +1,7 @@
 import {
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -36,17 +37,41 @@ export const useAuth = () => {
       dispatch(setUser(signinResult.user));
     } catch (e) {
       console.error(e);
-      throw new Error('Google Signin Error');
+      throw new Error('구글 로그인 실패');
     }
   };
 
   /**
    * 로그아웃
    */
-  const googleSignout = () => {
+  const googleSignout = (): void => {
     signOut(getFirebaseAuth());
     dispatch(setUser(null));
   };
 
-  return { googleSignin, googleSignout };
+  /**
+   * 현재 로그인 중인 사용자 정보 조회
+   * 현재 사용자를 가져올 때 권장하는 방법(공식문서).
+   * Auth 객체에 관찰자 설정.
+   * https://firebase.google.com/docs/auth/web/manage-users?hl=ko&authuser=0
+   *
+   * Firebase 인증 상태는 비동기적으로 변경되기 때문에 콜백 패턴을 사용한다.
+   * 구독패턴(subscription pattern)의 한 종류로, 이벤트가 발생하면 콜백함수가 실행되는 방식이다.
+   */
+  const getNowUserAuth = (): void => {
+    try {
+      onAuthStateChanged(getFirebaseAuth(), (user) => {
+        if (user) {
+          dispatch(setUser(user));
+        } else {
+          dispatch(setUser(null));
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      throw new Error('현재 사용자 정보 가져오기 실패');
+    }
+  };
+
+  return { googleSignin, googleSignout, getNowUserAuth };
 };
