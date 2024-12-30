@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
 import { LoginOutlined } from '@ant-design/icons';
+import { useAuth } from '~/hooks/useAuth';
 
 function App() {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ function App() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const { googleSignin } = useAuth();
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header
@@ -30,7 +33,9 @@ function App() {
             </Typography.Title>
           </Col>
           <Col style={{ paddingRight: 0 }}>
-            <Button icon={<LoginOutlined />}>로그인</Button>
+            <Button icon={<LoginOutlined />} onClick={googleSignin}>
+              로그인
+            </Button>
           </Col>
         </Row>
       </Header>
@@ -59,6 +64,7 @@ function App() {
                 borderRadius: borderRadiusLG,
               }}
             >
+              {/* 화면 컴포넌트 출력 */}
               <RoutesComponent />
             </div>
           </Content>
