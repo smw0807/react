@@ -45,6 +45,7 @@ export const useAuth = () => {
    */
   const googleSignout = () => {
     signOut(getFirebaseAuth());
+    dispatch(setUser(null));
   };
 
   return { googleSignin, googleSignout };
