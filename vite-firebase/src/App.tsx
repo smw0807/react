@@ -1,21 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Menu, theme, Typography, Button, Row, Col } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
-import { LoginOutlined } from '@ant-design/icons';
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useAuth } from '~/hooks/useAuth';
+import { RootState } from './store';
+import { useSelector } from 'react-redux';
+import UserAvatar from './components/UserAvatar';
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [showAvatar, setShowAvatar] = useState(false);
+  const user = useSelector((state: RootState) => state.userStore.user);
+  const [displayName, setDispalyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
+  useEffect(() => {
+    if (user) {
+      setDispalyName(user.displayName as string);
+      setEmail(user.email as string);
+      setPhotoURL(user.photoURL as string);
+      setShowAvatar(true);
+    } else {
+      setShowAvatar(false);
+    }
+  }, [user]);
 
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const { googleSignin } = useAuth();
+  const { googleSignin, googleSignout } = useAuth();
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header
@@ -33,9 +52,22 @@ function App() {
             </Typography.Title>
           </Col>
           <Col style={{ paddingRight: 0 }}>
-            <Button icon={<LoginOutlined />} onClick={googleSignin}>
-              로그인
-            </Button>
+            {showAvatar ? (
+              <div>
+                <UserAvatar
+                  displayName={displayName}
+                  email={email}
+                  photoURL={photoURL}
+                />
+                <Button icon={<LogoutOutlined />} onClick={googleSignout}>
+                  로그아웃
+                </Button>
+              </div>
+            ) : (
+              <Button icon={<LoginOutlined />} onClick={googleSignin}>
+                로그인
+              </Button>
+            )}
           </Col>
         </Row>
       </Header>
