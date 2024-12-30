@@ -1,4 +1,4 @@
-import Login from '~/pages/Login';
+import Data from '~/pages/Data';
 import Main from '~/pages';
 import { Route, Routes } from 'react-router-dom';
 import type { MenuProps } from 'antd';
@@ -21,14 +21,14 @@ function getItem(
 
 export const items: MenuItem[] = [
   getItem('홈', '/', <HomeOutlined />),
-  getItem('데이터', '/login', <TableOutlined />),
+  getItem('데이터', '/data', <TableOutlined />),
 ];
 
 export default function RoutesComponent() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/data" element={<Data />} />
     </Routes>
   );
 }
