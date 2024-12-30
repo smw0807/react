@@ -1,13 +1,17 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import { useFirebaseApp } from './useFirebase';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '~/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '~/store';
 import { setUser } from '~/store/userSlice';
 
 export const useAuth = () => {
   const dispatch: AppDispatch = useDispatch();
-  // const userStore = useSelector((state: RootState) => state.userStore);
 
   const firebaseApp = useFirebaseApp();
 
@@ -19,6 +23,10 @@ export const useAuth = () => {
     return new GoogleAuthProvider();
   };
 
+  /**
+   * 구글 로그인
+   * 성공 시 상태 저장
+   */
   const googleSignin = async (): Promise<void> => {
     try {
       const signinResult = await signInWithPopup(
@@ -32,5 +40,12 @@ export const useAuth = () => {
     }
   };
 
-  return { googleSignin };
+  /**
+   * 로그아웃
+   */
+  const googleSignout = () => {
+    signOut(getFirebaseAuth());
+  };
+
+  return { googleSignin, googleSignout };
 };
