@@ -1,4 +1,4 @@
-import Data from '~/pages/Data';
+import Board from '~/pages/Board';
 import Main from '~/pages';
 import { Route, Routes } from 'react-router-dom';
 import type { MenuProps } from 'antd';
@@ -21,14 +21,14 @@ function getItem(
 
 export const items: MenuItem[] = [
   getItem('홈', '/', <HomeOutlined />),
-  getItem('데이터', '/data', <TableOutlined />),
+  getItem('게시판', '/board', <TableOutlined />),
 ];
 
 export default function RoutesComponent() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/data" element={<Data />} />
+      <Route path="/board" element={<Board />} />
     </Routes>
   );
 }
