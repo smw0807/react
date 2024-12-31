@@ -10,10 +10,10 @@ import type { DocumentData } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
 
 // 파이어베이스 데이터 리스트 타입용
-type FirestoreDocType = (DocumentData & { id: string })[] | [];
+export type FirestoreDocType = (DocumentData & { id: string })[] | [];
 
 // 파이어베이스 검색조건 타입용
-type FirestoreWhereType = {
+export type FirestoreWhereType = {
   field: string;
   operator:
     | '<'
