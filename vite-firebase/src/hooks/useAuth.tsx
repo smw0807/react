@@ -62,7 +62,14 @@ export const useAuth = () => {
     try {
       onAuthStateChanged(getFirebaseAuth(), (user) => {
         if (user) {
-          dispatch(setUser(user));
+          dispatch(
+            setUser({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+            })
+          );
         } else {
           dispatch(setUser(null));
         }
