@@ -65,7 +65,7 @@ export default function Board() {
       <Title level={2} style={{ margin: 0 }}>
         게시판
       </Title>
-      <Table columns={columns} dataSource={board} />
+      <Table columns={columns} dataSource={board} rowKey="id" />
     </div>
   );
 }
