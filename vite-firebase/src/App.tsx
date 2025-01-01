@@ -90,7 +90,7 @@ function App() {
           <Content style={{ margin: '15px' }}>
             <div
               style={{
-                padding: 24,
+                padding: 20,
                 minHeight: 360,
                 height: '100%',
                 background: colorBgContainer,
