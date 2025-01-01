@@ -53,7 +53,6 @@ export default function Board() {
         };
       });
       setBoard(boardList);
-      console.log(boardList);
     });
     return () => {
       unsubscirbe();
