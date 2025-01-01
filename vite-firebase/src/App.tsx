@@ -5,17 +5,15 @@ import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useAuth } from '~/hooks/useAuth';
-import { RootState } from './store';
-import { useSelector } from 'react-redux';
 import UserAvatar from './components/UserAvatar';
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { googleSignin, googleSignout, getNowUserAuth } = useAuth();
+  const { user, googleSignin, googleSignout, getNowUserAuth } = useAuth();
   const [showAvatar, setShowAvatar] = useState(false);
-  const user = useSelector((state: RootState) => state.userStore.user);
+
   const [displayName, setDispalyName] = useState('');
   const [email, setEmail] = useState('');
   const [photoURL, setPhotoURL] = useState('');

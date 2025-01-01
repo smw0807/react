@@ -7,11 +7,12 @@ import {
 } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import { useFirebaseApp } from './useFirebase';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '~/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '~/store';
 import { setUser } from '~/store/userSlice';
 
 export const useAuth = () => {
+  const user = useSelector((state: RootState) => state.userStore.user);
   const dispatch: AppDispatch = useDispatch();
 
   const firebaseApp = useFirebaseApp();
@@ -84,5 +85,5 @@ export const useAuth = () => {
     }
   };
 
-  return { googleSignin, googleSignout, getNowUserAuth };
+  return { user, googleSignin, googleSignout, getNowUserAuth };
 };
