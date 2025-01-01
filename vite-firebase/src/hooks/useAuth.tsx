@@ -30,11 +30,15 @@ export const useAuth = () => {
    */
   const googleSignin = async (): Promise<void> => {
     try {
-      const signinResult = await signInWithPopup(
-        getFirebaseAuth(),
-        getProvider()
+      const { user } = await signInWithPopup(getFirebaseAuth(), getProvider());
+      dispatch(
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        })
       );
-      dispatch(setUser(signinResult.user));
     } catch (e) {
       console.error(e);
       throw new Error('구글 로그인 실패');
