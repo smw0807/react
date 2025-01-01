@@ -12,7 +12,7 @@ export const useFirebaseApp = (): FirebaseApp => {
       storageBucket: import.meta.env.VITE_FB_storageBucket,
       appId: import.meta.env.VITE_FB_appId,
       measurementId: import.meta.env.VITE_FB_measurementId,
-      messagingSenderId: import.meta.env.VITE_FB_messagingSenderId,
+      // messagingSenderId: import.meta.env.VITE_FB_messagingSenderId,
     });
   } else {
     app = getApps()[0];
