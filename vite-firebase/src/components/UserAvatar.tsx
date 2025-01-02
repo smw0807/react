@@ -1,4 +1,4 @@
-import { Avatar, Button, Popover } from 'antd';
+import { Avatar, Button, Popconfirm, Popover } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { LogoutOutlined } from '@ant-design/icons';
 
@@ -22,9 +22,15 @@ function PopoverContent(props: UserAvatarType) {
       <Avatar size={100} src={<img src={props.photoURL} />} />
       <Title level={3}>{props.displayName}</Title>
       <p>{props.email}</p>
-      <Button icon={<LogoutOutlined />} onClick={props.googleSignout}>
-        로그아웃
-      </Button>
+      <Popconfirm
+        title="로그아웃"
+        description="로그아웃 하시겠습니까?"
+        onConfirm={props.googleSignout}
+        okText="예"
+        cancelText="아니오"
+      >
+        <Button icon={<LogoutOutlined />}>로그아웃</Button>
+      </Popconfirm>
     </div>
   );
 }
