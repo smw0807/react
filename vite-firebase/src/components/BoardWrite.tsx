@@ -59,7 +59,7 @@ export default function BoardWrite({
             <Input />
           </Form.Item>
           <Form.Item label="내용" name="content" key="content">
-            <Input.TextArea />
+            <Input.TextArea rows={10} />
           </Form.Item>
         </Form>
       </Modal>
