@@ -3,7 +3,7 @@ import { Layout, Menu, theme, Typography, Button, Row, Col } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RoutesComponent, { items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
-import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { LoginOutlined } from '@ant-design/icons';
 import { useAuth } from '~/hooks/useAuth';
 import UserAvatar from './components/UserAvatar';
 
@@ -57,10 +57,8 @@ function App() {
                   displayName={displayName}
                   email={email}
                   photoURL={photoURL}
+                  googleSignout={googleSignout}
                 />
-                <Button icon={<LogoutOutlined />} onClick={googleSignout}>
-                  로그아웃
-                </Button>
               </div>
             ) : (
               <Button icon={<LoginOutlined />} onClick={googleSignin}>
