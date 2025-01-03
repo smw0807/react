@@ -3,9 +3,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
 export default function BoardWrite({
-  handlWrite,
+  handleWrite,
 }: {
-  handlWrite: (value: any) => void;
+  handleWrite: (value: any) => void;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModel = () => {
@@ -16,7 +16,7 @@ export default function BoardWrite({
   const handleOk = () => {
     const title = form.getFieldValue('title');
     const content = form.getFieldValue('content');
-    handlWrite({ title, content });
+    handleWrite({ title, content });
     setIsModalOpen(false);
     resetFields();
   };
