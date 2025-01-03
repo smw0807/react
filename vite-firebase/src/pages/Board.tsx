@@ -42,6 +42,7 @@ const columns = [
 ];
 export default function Board() {
   const [board, setBoard] = useState<DocumentData[]>([]);
+  const [loading, setLoading] = useState(true);
   const firebaseApp = useFirebaseApp();
   const db = getFirestore(firebaseApp);
   useEffect(() => {
@@ -54,6 +55,7 @@ export default function Board() {
         };
       });
       setBoard(boardList);
+      setLoading(false);
     });
     return () => {
       unsubscirbe();
@@ -83,7 +85,12 @@ export default function Board() {
         </Title>
         <BoardWrite handleWrite={handleWrite} />
       </Row>
-      <Table columns={columns} dataSource={board} rowKey="id" />
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={board}
+        rowKey="id"
+      />
     </div>
   );
 }
