@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { Button, Form, Input, Modal } from 'antd';
 
-export default function BoardDetail({ row }: { row: DocumentData }) {
+export const BoardDetail = ({ row }: { row: DocumentData }) => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => setIsModalOpen(true);
@@ -41,4 +41,4 @@ export default function BoardDetail({ row }: { row: DocumentData }) {
       </Modal>
     </div>
   );
-}
+};

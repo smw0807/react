@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useFirebaseApp } from '~/hooks/useFirebase';
 import { BoardWrite } from '~/components/BoardWrite';
 import { useAuth } from '~/hooks/useAuth';
-import BoardDetail from '~/components/BoardDetail';
+import { BoardDetail } from '~/components/BoardDetail';
 
 const COLLECTION_NAME = 'board';
 const columns = [

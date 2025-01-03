@@ -3,8 +3,8 @@ import { Layout, Menu, theme, Typography, Button, Row, Col } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginOutlined } from '@ant-design/icons';
 import { useAuth } from '~/hooks/useAuth';
-import UserAvatar from './components/UserAvatar';
-import RoutesComponent, { items } from './routes';
+import { UserAvatar } from './components/UserAvatar';
+import { RoutesComponent, items } from './routes';
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {

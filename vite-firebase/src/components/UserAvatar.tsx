@@ -8,13 +8,13 @@ type UserAvatarType = {
   photoURL: string;
   googleSignout: () => void;
 };
-export default function UserAvater(props: UserAvatarType) {
+export const UserAvatar = (props: UserAvatarType) => {
   return (
     <Popover placement="bottom" content={<PopoverContent {...props} />}>
       <Avatar size={50} src={<img src={props.photoURL} />} />
     </Popover>
   );
-}
+};
 
 function PopoverContent(props: UserAvatarType) {
   return (

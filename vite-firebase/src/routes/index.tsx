@@ -24,11 +24,11 @@ export const items: MenuItem[] = [
   getItem('게시판', '/board', <TableOutlined />),
 ];
 
-export default function RoutesComponent() {
+export const RoutesComponent = () => {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/board" element={<Board />} />
     </Routes>
   );
-}
+};
