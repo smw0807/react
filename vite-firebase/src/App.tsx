@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Layout, Menu, theme, Typography, Button, Row, Col } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import RoutesComponent, { items } from './routes';
-const { Header, Content, Footer, Sider } = Layout;
 import { LoginOutlined } from '@ant-design/icons';
 import { useAuth } from '~/hooks/useAuth';
 import UserAvatar from './components/UserAvatar';
+import RoutesComponent, { items } from './routes';
+const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
   const navigate = useNavigate();
@@ -14,12 +14,12 @@ function App() {
   const { user, googleSignin, googleSignout, getNowUserAuth } = useAuth();
   const [showAvatar, setShowAvatar] = useState(false);
 
-  const [displayName, setDispalyName] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [photoURL, setPhotoURL] = useState('');
   useEffect(() => {
     if (user?.email) {
-      setDispalyName(user.displayName as string);
+      setDisplayName(user.displayName as string);
       setEmail(user.email as string);
       setPhotoURL(user.photoURL as string);
       setShowAvatar(true);
