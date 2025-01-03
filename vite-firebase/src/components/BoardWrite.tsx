@@ -1,18 +1,18 @@
-import { Button, Form, Input, Modal, Popconfirm, Space } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Modal, Popconfirm, Space } from 'antd';
 
-export default function BoardWrite({
+export const BoardWrite = ({
   handleWrite,
 }: {
   handleWrite: (value: any) => void;
-}) {
+}) => {
+  const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const [form] = Form.useForm();
   const handleOk = () => {
     const title = form.getFieldValue('title');
     const content = form.getFieldValue('content');
@@ -26,9 +26,7 @@ export default function BoardWrite({
   };
 
   const resetFields = () => {
-    //todo 한번에 다 초기화시켜주는 함수 있는지 확인
-    form.setFieldValue('title', '');
-    form.setFieldValue('content', '');
+    form.resetFields();
   };
   return (
     <>
@@ -66,4 +64,4 @@ export default function BoardWrite({
       </Modal>
     </>
   );
-}
+};
