@@ -9,9 +9,7 @@ export const BoardWrite = ({
 }) => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const showModal = () => setIsModalOpen(true);
 
   const handleOk = () => {
     const title = form.getFieldValue('title');
@@ -36,6 +34,7 @@ export const BoardWrite = ({
       <Modal
         title="글쓰기"
         open={isModalOpen}
+        closeIcon={null}
         footer={
           <Space>
             <Button variant="outlined" onClick={handleCancel}>
