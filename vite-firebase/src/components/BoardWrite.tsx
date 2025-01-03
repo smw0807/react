@@ -26,6 +26,7 @@ export default function BoardWrite({
   };
 
   const resetFields = () => {
+    //todo 한번에 다 초기화시켜주는 함수 있는지 확인
     form.setFieldValue('title', '');
     form.setFieldValue('content', '');
   };
