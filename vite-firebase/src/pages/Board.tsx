@@ -11,8 +11,9 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useFirebaseApp } from '~/hooks/useFirebase';
-import BoardWrite from '~/components/BoardWrite';
+import { BoardWrite } from '~/components/BoardWrite';
 import { useAuth } from '~/hooks/useAuth';
+import BoardDetail from '~/components/BoardDetail';
 
 const COLLECTION_NAME = 'board';
 const columns = [
@@ -25,11 +26,7 @@ const columns = [
     title: '내용',
     dataIndex: 'content',
     key: 'content',
-    render: (content: string) => (
-      <span>
-        {content.length > 10 ? content.slice(0, 10) + '...' : content}
-      </span>
-    ),
+    render: (_content: string, row: DocumentData) => <BoardDetail row={row} />,
   },
   {
     title: '작성자',
@@ -84,7 +81,7 @@ export default function Board() {
         <Title level={2} style={{ margin: 0 }}>
           게시판
         </Title>
-        <BoardWrite handlWrite={handleWrite} />
+        <BoardWrite handleWrite={handleWrite} />
       </Row>
       <Table columns={columns} dataSource={board} rowKey="id" />
     </div>
