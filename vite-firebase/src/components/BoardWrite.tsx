@@ -52,7 +52,7 @@ export const BoardWrite = ({
           </Space>
         }
       >
-        <Form form={form} name="boardWrite">
+        <Form form={form}>
           <Form.Item label="제목" name="title" key="title">
             <Input />
           </Form.Item>
