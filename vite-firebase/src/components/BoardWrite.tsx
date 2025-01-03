@@ -8,7 +8,7 @@ export default function BoardWrite({
   handleWrite: (value: any) => void;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModel = () => {
+  const showModal = () => {
     setIsModalOpen(true);
   };
 
@@ -31,7 +31,7 @@ export default function BoardWrite({
   };
   return (
     <>
-      <Button type="primary" icon={<PlusOutlined />} onClick={showModel}>
+      <Button type="primary" icon={<PlusOutlined />} onClick={showModal}>
         글쓰기
       </Button>
       <Modal
