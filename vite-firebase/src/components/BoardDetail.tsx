@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DocumentData } from 'firebase/firestore';
 import { Button, Form, Input, Modal } from 'antd';
 
@@ -8,11 +8,15 @@ export const BoardDetail = ({ row }: { row: DocumentData }) => {
   const showModal = () => setIsModalOpen(true);
   const hideModal = () => setIsModalOpen(false);
 
-  form.setFieldsValue({
-    title: row.title,
-    writerEmail: row.writerEmail,
-    content: row.content,
-  });
+  useEffect(() => {
+    if (isModalOpen) {
+      form.setFieldsValue({
+        title: row.title,
+        writerEmail: row.writerEmail,
+        content: row.content,
+      });
+    }
+  }, [isModalOpen, form, row]);
   return (
     <div>
       <a onClick={showModal}>
