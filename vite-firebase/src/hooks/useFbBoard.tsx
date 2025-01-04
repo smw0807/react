@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import {
   addDoc,
   collection,
+  doc,
   DocumentData,
   getFirestore,
   onSnapshot,
   query,
+  updateDoc,
 } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
 import { useAuth } from '~/hooks/useAuth';
@@ -37,7 +39,7 @@ export const useFbBoard = () => {
 
   // 글쓰기
   const { user } = useAuth();
-  const handleWrite = async (data: DocumentData) => {
+  const boardWrite = async (data: DocumentData) => {
     try {
       await addDoc(collection(db, COLLECTION_NAME), {
         ...data,
@@ -50,5 +52,19 @@ export const useFbBoard = () => {
     }
   };
 
-  return { board, loading, handleWrite };
+  const boardUpdate = async (data: DocumentData) => {
+    console.log(data);
+    try {
+      const id = data.id;
+      delete data.id;
+      await updateDoc(doc(db, COLLECTION_NAME, id), {
+        ...data,
+        updDtime: new Date(),
+      });
+    } catch (e) {
+      console.error('글수정 실패 : ', e);
+    }
+  };
+
+  return { board, loading, boardWrite, boardUpdate };
 };
