@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 export default function Board() {
-  const { board, loading, handleWrite } = useFbBoard();
+  const { board, loading, boardWrite } = useFbBoard();
 
   return (
     <div>
@@ -38,7 +38,7 @@ export default function Board() {
         <Title level={2} style={{ margin: 0 }}>
           게시판
         </Title>
-        <BoardWrite handleWrite={handleWrite} />
+        <BoardWrite handleWrite={boardWrite} />
       </Row>
       <Table
         loading={loading}
