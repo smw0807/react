@@ -1,21 +1,10 @@
 import { Row, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
-import {
-  collection,
-  DocumentData,
-  Timestamp,
-  getFirestore,
-  onSnapshot,
-  query,
-  addDoc,
-} from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { useFirebaseApp } from '~/hooks/useFirebase';
+import { DocumentData, Timestamp } from 'firebase/firestore';
 import { BoardWrite } from '~/components/BoardWrite';
-import { useAuth } from '~/hooks/useAuth';
 import { BoardDetail } from '~/components/BoardDetail';
+import { useFbBoard } from '~/hooks/useFbBoard';
 
-const COLLECTION_NAME = 'board';
 const columns = [
   {
     title: '제목',
@@ -41,41 +30,7 @@ const columns = [
   },
 ];
 export default function Board() {
-  const [board, setBoard] = useState<DocumentData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const firebaseApp = useFirebaseApp();
-  const db = getFirestore(firebaseApp);
-  useEffect(() => {
-    const q = query(collection(db, COLLECTION_NAME));
-    const unsubscirbe = onSnapshot(q, (snapshot) => {
-      const boardList = snapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      setBoard(boardList);
-      setLoading(false);
-    });
-    return () => {
-      unsubscirbe();
-    };
-  }, [db]);
-
-  // 글쓰기
-  const { user } = useAuth();
-  const handleWrite = async (data: DocumentData) => {
-    try {
-      await addDoc(collection(db, COLLECTION_NAME), {
-        ...data,
-        writerEmail: user?.email,
-        regDtime: new Date(),
-        updDtime: new Date(),
-      });
-    } catch (e) {
-      console.error('글쓰기 실패 : ', e);
-    }
-  };
+  const { board, loading, handleWrite } = useFbBoard();
 
   return (
     <div>
