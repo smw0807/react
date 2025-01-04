@@ -11,7 +11,7 @@ export const BoardDetail = ({ row }: { row: DocumentData }) => {
   const showModal = () => setIsModalOpen(true);
   const hideModal = () => setIsModalOpen(false);
 
-  const { boardUpdate } = useFbBoard();
+  const { boardUpdate, boardDelete } = useFbBoard();
   const handleUpdate = () => {
     const formData = form.getFieldsValue();
     boardUpdate({ ...formData, id: row.id });
@@ -48,15 +48,28 @@ export const BoardDetail = ({ row }: { row: DocumentData }) => {
           <>
             <Button onClick={hideModal}>닫기</Button>
             {isMine && (
-              <Popconfirm
-                title="수정"
-                description="수정하시겠습니까?"
-                onConfirm={handleUpdate}
-                okText="예"
-                cancelText="아니오"
-              >
-                <Button type="primary">수정</Button>
-              </Popconfirm>
+              <>
+                <Popconfirm
+                  title="수정"
+                  description="수정하시겠습니까?"
+                  onConfirm={handleUpdate}
+                  okText="예"
+                  cancelText="아니오"
+                >
+                  <Button type="primary">수정</Button>
+                </Popconfirm>
+                <Popconfirm
+                  title="삭제"
+                  description="삭제하시겠습니까?"
+                  onConfirm={() => boardDelete(row.id)}
+                  okText="예"
+                  cancelText="아니오"
+                >
+                  <Button color="danger" variant="solid">
+                    삭제
+                  </Button>
+                </Popconfirm>
+              </>
             )}
           </>
         }

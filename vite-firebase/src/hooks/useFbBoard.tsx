@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getFirestore,
@@ -52,8 +53,8 @@ export const useFbBoard = () => {
     }
   };
 
+  // 글수정
   const boardUpdate = async (data: DocumentData) => {
-    console.log(data);
     try {
       const id = data.id;
       delete data.id;
@@ -66,5 +67,14 @@ export const useFbBoard = () => {
     }
   };
 
-  return { board, loading, boardWrite, boardUpdate };
+  //글삭제
+  const boardDelete = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, COLLECTION_NAME, id));
+    } catch (e) {
+      console.error('글삭제 실패 : ', e);
+    }
+  };
+
+  return { board, loading, boardWrite, boardUpdate, boardDelete };
 };
