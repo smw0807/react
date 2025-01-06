@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
 import { useAuth } from '~/hooks/useAuth';
+import { message } from 'antd';
 
 export const useFbBoard = () => {
   const firebaseApp = useFirebaseApp();
@@ -41,6 +42,10 @@ export const useFbBoard = () => {
   // 글쓰기
   const { user } = useAuth();
   const boardWrite = async (data: DocumentData) => {
+    if (!user) {
+      message.error('로그인 후 이용해주세요.');
+      return;
+    }
     try {
       await addDoc(collection(db, COLLECTION_NAME), {
         ...data,
@@ -55,6 +60,10 @@ export const useFbBoard = () => {
 
   // 글수정
   const boardUpdate = async (data: DocumentData) => {
+    if (!user) {
+      message.error('로그인 후 이용해주세요.');
+      return;
+    }
     try {
       const id = data.id;
       delete data.id;
@@ -69,6 +78,10 @@ export const useFbBoard = () => {
 
   //글삭제
   const boardDelete = async (id: string) => {
+    if (!user) {
+      message.error('로그인 후 이용해주세요.');
+      return;
+    }
     try {
       await deleteDoc(doc(db, COLLECTION_NAME, id));
     } catch (e) {
