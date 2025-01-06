@@ -2,7 +2,12 @@ import Board from '~/pages/Board';
 import Main from '~/pages';
 import { Route, Routes } from 'react-router-dom';
 import type { MenuProps } from 'antd';
-import { HomeOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  TableOutlined,
+  FolderOpenFilled,
+} from '@ant-design/icons';
+import { FileStore } from '~/pages/FIleStore';
 
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -22,6 +27,7 @@ function getItem(
 export const items: MenuItem[] = [
   getItem('홈', '/', <HomeOutlined />),
   getItem('게시판', '/board', <TableOutlined />),
+  getItem('파일 저장소', '/fileStore', <FolderOpenFilled />),
 ];
 
 export const RoutesComponent = () => {
@@ -29,6 +35,7 @@ export const RoutesComponent = () => {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/board" element={<Board />} />
+      <Route path="/fileStore" element={<FileStore />} />
     </Routes>
   );
 };
