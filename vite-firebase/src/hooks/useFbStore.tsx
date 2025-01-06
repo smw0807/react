@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import {
+  addDoc,
   collection,
   DocumentData,
   getFirestore,
@@ -13,6 +14,8 @@ import {
   query,
 } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
+import { useAuth } from './useAuth';
+import { message } from 'antd';
 
 export const useFbStorage = () => {
   const firebaseApp = useFirebaseApp();
@@ -20,6 +23,8 @@ export const useFbStorage = () => {
   const db = getFirestore(firebaseApp);
   const FILE_PATH = 'react-storage';
   const COLLECTION_NAME = 'file';
+
+  const { user } = useAuth();
 
   // 파일 리스트
   const [fileList, setFileList] = useState<DocumentData[]>([]);
@@ -43,6 +48,10 @@ export const useFbStorage = () => {
 
   // 파일 업로드
   const fileUpload = async (file: File[]) => {
+    if (!user) {
+      message.error('로그인 후 이용해주세요.');
+      return;
+    }
     if (file.length === 0) return;
     const uploadPromises = file.map((file) => {
       const fileRef = ref(
@@ -68,6 +77,24 @@ export const useFbStorage = () => {
   };
 
   // 파일 게시글 등록
+  const fileBoardWrite = async (downloadUrl: { [key: string]: string }) => {
+    if (!user) {
+      message.error('로그인 후 이용해주세요.');
+      return;
+    }
+    try {
+      await addDoc(collection(db, COLLECTION_NAME), {
+        writerEmail: user.email,
+        fileUrl: downloadUrl,
+        fileName: Object.keys(downloadUrl),
+        createdAt: new Date(),
+        downloadCount: 0,
+      });
+    } catch (e) {
+      console.error(e);
+      throw new Error('파일 게시글 등록 실패');
+    }
+  };
 
   // 파일 다운로드
 
@@ -77,5 +104,6 @@ export const useFbStorage = () => {
     fileList,
     loading,
     fileUpload,
+    fileBoardWrite,
   };
 };
