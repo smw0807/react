@@ -81,7 +81,7 @@ export const FileUpload = () => {
           </Space>
         }
       >
-        <Input type="file" multiple onChange={handleChange} accept="image/*" />
+        <Input type="file" multiple onChange={handleChange} />
 
         {/* 이미지 미리보기 */}
         <div
