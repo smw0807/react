@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { getStorage } from 'firebase/storage';
 import {
-  addDoc,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import {
   collection,
-  deleteDoc,
-  doc,
   DocumentData,
   getFirestore,
   onSnapshot,
   query,
-  updateDoc,
 } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
 
@@ -41,8 +42,29 @@ export const useFbStorage = () => {
   });
 
   // 파일 업로드
-  const fileUpload = async (file: FIle[]) => {
-    console.log(file);
+  const fileUpload = async (file: File[]) => {
+    if (file.length === 0) return;
+    const uploadPromises = file.map((file) => {
+      const fileRef = ref(
+        storage,
+        `${FILE_PATH}/${new Date().getTime()}||${file.name}`
+      );
+      return uploadBytesResumable(fileRef, file);
+    });
+    try {
+      const snapshotArray = await Promise.all(uploadPromises);
+      const downloadUrlArray = await Promise.all(
+        snapshotArray.map(async (snapshot) => ({
+          [snapshot.metadata.name.split('||')[1]]: await getDownloadURL(
+            snapshot.ref
+          ),
+        }))
+      );
+      return downloadUrlArray;
+    } catch (e) {
+      console.error(e);
+      throw new Error('파일 업로드 실패');
+    }
   };
 
   // 파일 게시글 등록
@@ -54,5 +76,6 @@ export const useFbStorage = () => {
   return {
     fileList,
     loading,
+    fileUpload,
   };
 };
