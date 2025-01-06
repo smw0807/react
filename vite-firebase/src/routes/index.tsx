@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Main } from '~/pages';
 import { Board } from '~/pages/Board';
-import { FileStore } from '~/pages/FIleStore';
+import { FileStorage } from '~/pages/FileStorage';
 
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -27,7 +27,7 @@ function getItem(
 export const items: MenuItem[] = [
   getItem('홈', '/', <HomeOutlined />),
   getItem('게시판', '/board', <TableOutlined />),
-  getItem('파일 저장소', '/fileStore', <FolderOpenFilled />),
+  getItem('파일 저장소', '/fileStorage', <FolderOpenFilled />),
 ];
 
 export const RoutesComponent = () => {
@@ -35,7 +35,7 @@ export const RoutesComponent = () => {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/board" element={<Board />} />
-      <Route path="/fileStore" element={<FileStore />} />
+      <Route path="/fileStorage" element={<FileStorage />} />
     </Routes>
   );
 };

@@ -1,6 +1,6 @@
 import Title from 'antd/es/typography/Title';
 
-export const FileStore = () => {
+export const FileStorage = () => {
   return (
     <>
       <Title level={2} style={{ margin: 0 }}>
