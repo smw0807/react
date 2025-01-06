@@ -7,7 +7,10 @@ interface FilePreview {
   preview: string;
 }
 
-export const FileUpload = () => {
+interface FileUploadProps {
+  onFile?: (files: File[]) => void;
+}
+export const FileUpload = ({ onFile }: FileUploadProps) => {
   const [fileUpload, setFileUpload] = useState<FilePreview[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,7 +45,7 @@ export const FileUpload = () => {
   }, [fileUpload]);
 
   const handleUpload = () => {
-    console.log(fileUpload.map((f) => f.file));
+    onFile?.(fileUpload.map((f) => f.file));
   };
 
   const handleDelete = (index: number) => {
