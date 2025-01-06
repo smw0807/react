@@ -29,7 +29,7 @@ const columns = [
     render: (date: Timestamp) => <span>{date.toDate().toLocaleString()}</span>,
   },
 ];
-export default function Board() {
+export const Board = () => {
   const { board, loading, boardWrite } = useFbBoard();
 
   return (
@@ -48,4 +48,4 @@ export default function Board() {
       />
     </div>
   );
-}
+};

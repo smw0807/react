@@ -1,4 +1,4 @@
 import { Button } from 'antd';
-export default function Main() {
+export const Main = () => {
   return <Button>Main</Button>;
-}
+};

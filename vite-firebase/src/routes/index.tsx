@@ -1,5 +1,3 @@
-import Board from '~/pages/Board';
-import Main from '~/pages';
 import { Route, Routes } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import {
@@ -7,6 +5,8 @@ import {
   TableOutlined,
   FolderOpenFilled,
 } from '@ant-design/icons';
+import { Main } from '~/pages';
+import { Board } from '~/pages/Board';
 import { FileStore } from '~/pages/FIleStore';
 
 type MenuItem = Required<MenuProps>['items'][number];
