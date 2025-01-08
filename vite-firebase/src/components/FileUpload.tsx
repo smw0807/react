@@ -46,6 +46,7 @@ export const FileUpload = ({ onFile }: FileUploadProps) => {
 
   const handleUpload = () => {
     onFile?.(fileUpload.map((f) => f.file));
+    hideModal();
   };
 
   const handleDelete = (index: number) => {
