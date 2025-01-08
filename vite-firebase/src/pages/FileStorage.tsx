@@ -63,13 +63,8 @@ export const FileStorage = () => {
       ),
     },
   ];
-  /**
-   * 3. 파일 다운로드
-   * 4. 파일 삭제
-   *  - 파일 삭제 시 게시글 삭제
-   */
+
   const handleFile = async (files: File[]) => {
-    console.log(files.map((f) => console.log(f)));
     // 파이어베이스 스토리지에 파일 저장
     const downloadUrlArray = await fileUpload(files);
     if (!downloadUrlArray || downloadUrlArray.length === 0) return;
