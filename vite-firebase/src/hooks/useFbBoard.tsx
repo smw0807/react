@@ -7,6 +7,7 @@ import {
   DocumentData,
   getFirestore,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
 } from 'firebase/firestore';
@@ -23,7 +24,10 @@ export const useFbBoard = () => {
   const [board, setBoard] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const q = query(collection(db, COLLECTION_NAME));
+    const q = query(
+      collection(db, COLLECTION_NAME),
+      orderBy('regDtime', 'desc')
+    );
     const unsubscirbe = onSnapshot(q, (snapshot) => {
       const boardList = snapshot.docs.map((doc) => {
         return {

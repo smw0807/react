@@ -15,6 +15,7 @@ import {
   getDoc,
   getFirestore,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
 } from 'firebase/firestore';
@@ -35,7 +36,10 @@ export const useFbStorage = () => {
   const [fileList, setFileList] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const q = query(collection(db, COLLECTION_NAME));
+    const q = query(
+      collection(db, COLLECTION_NAME),
+      orderBy('createdAt', 'desc')
+    );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const fileList = snapshot.docs.map((doc) => {
         return {
