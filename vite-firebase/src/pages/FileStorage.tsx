@@ -72,7 +72,6 @@ export const FileStorage = () => {
     for (const downloadUrl of downloadUrlArray) {
       await fileBoardWrite(downloadUrl);
     }
-    console.log(downloadUrlArray);
   };
 
   return (
