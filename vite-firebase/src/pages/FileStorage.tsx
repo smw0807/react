@@ -3,7 +3,7 @@ import Title from 'antd/es/typography/Title';
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { FileUpload } from '~/components/FileUpload';
-import { useFbStorage } from '~/hooks/useFbStore';
+import { useFbStorage } from '~/hooks/useFbStorage';
 import { DocumentData, Timestamp } from 'firebase/firestore';
 
 export const FileStorage = () => {
