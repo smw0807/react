@@ -42,7 +42,7 @@ export const FileStorage = () => {
     {
       title: '-',
       key: 'action',
-      render: (_, record: DocumentData) => (
+      render: (_: string, record: DocumentData) => (
         <>
           <Button
             color="primary"
