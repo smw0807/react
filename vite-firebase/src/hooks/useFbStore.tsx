@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -8,10 +9,14 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   DocumentData,
+  getDoc,
   getFirestore,
   onSnapshot,
   query,
+  updateDoc,
 } from 'firebase/firestore';
 import { useFirebaseApp } from './useFirebase';
 import { useAuth } from './useAuth';
@@ -64,9 +69,7 @@ export const useFbStorage = () => {
       const snapshotArray = await Promise.all(uploadPromises);
       const downloadUrlArray = await Promise.all(
         snapshotArray.map(async (snapshot) => ({
-          [snapshot.metadata.name.split('||')[1]]: await getDownloadURL(
-            snapshot.ref
-          ),
+          [snapshot.metadata.name]: await getDownloadURL(snapshot.ref),
         }))
       );
       return downloadUrlArray;
@@ -82,11 +85,15 @@ export const useFbStorage = () => {
       message.error('로그인 후 이용해주세요.');
       return;
     }
+    const storageFileName = Object.keys(downloadUrl)[0];
+    const fileName = storageFileName.split('||')[1];
+    const fileUrl = downloadUrl[storageFileName];
     try {
       await addDoc(collection(db, COLLECTION_NAME), {
         writerEmail: user.email,
-        fileUrl: downloadUrl,
-        fileName: Object.keys(downloadUrl),
+        storageFileName,
+        fileUrl,
+        fileName,
         createdAt: new Date(),
         downloadCount: 0,
       });
@@ -97,13 +104,59 @@ export const useFbStorage = () => {
   };
 
   // 파일 다운로드
+  const fileDownload = async (id: string) => {
+    try {
+      const docInfo = await getDoc(doc(db, COLLECTION_NAME, id));
+      const data = docInfo.data();
+      if (!data) return;
+      const downloadUrl = data.fileUrl;
+      const fileName = data.fileName;
+
+      const response = await fetch(downloadUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // 다운로드 수 증가
+      await updateDoc(doc(db, COLLECTION_NAME, id), {
+        downloadCount: data.downloadCount + 1,
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error('파일 다운로드 실패');
+    }
+  };
 
   // 파일 삭제
+  const fileDelete = async (id: string) => {
+    try {
+      // 데이터 조회
+      const docInfo = await getDoc(doc(db, COLLECTION_NAME, id));
+      const data = docInfo.data();
+      if (!data) return;
+      // 파일 삭제
+      const desertRef = ref(storage, `${FILE_PATH}/${data.storageFileName}`);
+      await deleteObject(desertRef);
+      // 게시글 삭제
+      await deleteDoc(doc(db, COLLECTION_NAME, id));
+    } catch (e) {
+      console.error(e);
+      throw new Error('파일 삭제 실패');
+    }
+  };
 
   return {
     fileList,
     loading,
     fileUpload,
     fileBoardWrite,
+    fileDownload,
+    fileDelete,
   };
 };

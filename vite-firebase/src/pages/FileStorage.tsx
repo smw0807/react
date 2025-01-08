@@ -1,36 +1,68 @@
-import { useState } from 'react';
-import { Row, Table } from 'antd';
+import { Button, Popconfirm, Row, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { FileUpload } from '~/components/FileUpload';
 import { useFbStorage } from '~/hooks/useFbStore';
-import { Timestamp } from 'firebase/firestore';
+import { DocumentData, Timestamp } from 'firebase/firestore';
 
-const columns = [
-  {
-    title: '파일명',
-    dataIndex: 'fileName',
-    key: 'fileName',
-  },
-  {
-    title: '등록자',
-    dataIndex: 'writerEmail',
-    key: 'writerEmail',
-  },
-  {
-    title: '등록일',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: (date: Timestamp) => <span>{date.toDate().toLocaleString()}</span>,
-  },
-  {
-    title: '다운로드 수',
-    dataIndex: 'downloadCount',
-    key: 'downloadCount',
-  },
-];
 export const FileStorage = () => {
-  const { fileList, loading, fileUpload, fileBoardWrite } = useFbStorage();
+  const {
+    fileList,
+    loading,
+    fileUpload,
+    fileBoardWrite,
+    fileDownload,
+    fileDelete,
+  } = useFbStorage();
+  const columns = [
+    {
+      title: '파일명',
+      dataIndex: 'fileName',
+      key: 'fileName',
+    },
+    {
+      title: '등록자',
+      dataIndex: 'writerEmail',
+      key: 'writerEmail',
+    },
+    {
+      title: '등록일',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (date: Timestamp) => (
+        <span>{date.toDate().toLocaleString()}</span>
+      ),
+    },
+    {
+      title: '다운로드 수',
+      dataIndex: 'downloadCount',
+      key: 'downloadCount',
+    },
+    {
+      title: '-',
+      key: 'action',
+      render: (_, record: DocumentData) => (
+        <>
+          <Button
+            color="primary"
+            variant="solid"
+            icon={<DownloadOutlined />}
+            onClick={() => fileDownload(record.id)}
+          />
+          <Popconfirm
+            title="파일 삭제"
+            description="파일을 삭제하시겠습니까?"
+            okText="삭제"
+            cancelText="취소"
+            onConfirm={() => fileDelete(record.id)}
+          >
+            <Button color="danger" variant="solid" icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </>
+      ),
+    },
+  ];
   /**
    * 3. 파일 다운로드
    * 4. 파일 삭제
