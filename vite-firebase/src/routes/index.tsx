@@ -8,6 +8,7 @@ import {
 import { Main } from '~/pages';
 import { Board } from '~/pages/Board';
 import { FileStorage } from '~/pages/FileStorage';
+import { Error404 } from '~/pages/error/404';
 
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -36,6 +37,7 @@ export const RoutesComponent = () => {
       <Route path="/" element={<Main />} />
       <Route path="/board" element={<Board />} />
       <Route path="/fileStorage" element={<FileStorage />} />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };
