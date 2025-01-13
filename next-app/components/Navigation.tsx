@@ -1,8 +1,4 @@
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -25,19 +21,6 @@ export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
             onClick: () => {
               router.push('/');
             },
-          },
-          {
-            key: '/board',
-            icon: <VideoCameraOutlined />,
-            label: 'Board',
-            onClick: () => {
-              router.push('/board');
-            },
-          },
-          {
-            key: '3',
-            icon: <UploadOutlined />,
-            label: 'nav 3',
           },
         ]}
       />
