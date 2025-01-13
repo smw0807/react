@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Layout, theme } from 'antd';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { Navigation } from '~/components/Navigation';
+import { NavigationComponent } from '~/components/Navigation';
 import { HeaderComponent } from '~/components/Header';
 import { Footer } from 'antd/es/layout/layout';
 
@@ -22,7 +22,7 @@ export default function RootLayout({
       <body>
         <AntdRegistry>
           <Layout style={{ minHeight: '100vh' }}>
-            <Navigation collapsed={collapsed} />
+            <NavigationComponent collapsed={collapsed} />
             <Layout>
               <HeaderComponent
                 collapsed={collapsed}

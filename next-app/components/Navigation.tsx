@@ -6,7 +6,7 @@ import {
 import { Layout, Menu } from 'antd';
 
 const { Sider } = Layout;
-export const Navigation = ({ collapsed }: { collapsed: boolean }) => {
+export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <Sider collapsible collapsed={collapsed}>
       <div className="demo-logo-vertical" />
