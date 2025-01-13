@@ -4,26 +4,35 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
 
 const { Sider } = Layout;
 export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
+  const router = useRouter();
+  const pathname = usePathname();
   return (
     <Sider collapsible collapsed={collapsed}>
       <div className="demo-logo-vertical" />
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={[pathname]}
         items={[
           {
-            key: '1',
+            key: '/',
             icon: <UserOutlined />,
-            label: 'nav 1',
+            label: 'Home',
+            onClick: () => {
+              router.push('/');
+            },
           },
           {
-            key: '2',
+            key: '/board',
             icon: <VideoCameraOutlined />,
-            label: 'nav 2',
+            label: 'Board',
+            onClick: () => {
+              router.push('/board');
+            },
           },
           {
             key: '3',
