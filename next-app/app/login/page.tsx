@@ -2,13 +2,8 @@
 import React, { FormEvent } from 'react';
 import { Form, Input, Button, Card, Typography, Divider, Image } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
+
 const { Title } = Typography;
-
-// interface Values {
-//   email: string;
-//   password: string;
-// }
-
 export default function Login() {
   const [form] = Form.useForm();
   const emailRules = [
@@ -33,6 +28,20 @@ export default function Login() {
     }
     const inputValues = form.getFieldsValue();
     console.log(inputValues);
+
+    try {
+      const res = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(inputValues),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        return;
+      }
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleGoogleLogin = () => {
