@@ -1,11 +1,21 @@
 'use client';
 import React, { FormEvent } from 'react';
-import { Form, Input, Button, Card, Typography, Divider, Image } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Typography,
+  Divider,
+  Image,
+  notification,
+} from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 export default function Login() {
   const [form] = Form.useForm();
+  const [api, contextHolder] = notification.useNotification();
   const emailRules = [
     { required: true, message: '이메일을 입력해주세요.' },
     {
@@ -39,6 +49,10 @@ export default function Login() {
       });
       const data = await res.json();
       if (!data.success) {
+        api.error({
+          message: '로그인 실패',
+          description: data.message,
+        });
         return;
       }
       console.log(data);
@@ -64,6 +78,7 @@ export default function Login() {
         height: '100vh',
       }}
     >
+      {contextHolder}
       <Card style={{ width: 500 }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Title level={2}>UserAccess Portal </Title>
