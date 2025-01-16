@@ -11,7 +11,7 @@ import {
   notification,
 } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { useFetch } from '~/hooks/useFetch';
+import { useFetch } from '~/common/useFetch';
 
 const { Title } = Typography;
 export default function Login() {
