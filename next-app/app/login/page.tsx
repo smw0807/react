@@ -63,7 +63,7 @@ export default function Login() {
     >
       <Card style={{ width: 500 }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Title level={2}>UserAccess Hub </Title>
+          <Title level={2}>UserAccess Portal </Title>
         </div>
         <Form form={form} name="normal_login" className="login-form">
           <Form.Item name="email" rules={emailRules}>
