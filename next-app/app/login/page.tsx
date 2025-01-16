@@ -11,10 +11,12 @@ import {
   notification,
 } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { useFetch } from '~/hooks/useFetch';
 
 const { Title } = Typography;
 export default function Login() {
   const [form] = Form.useForm();
+  const fetchData = useFetch();
   const [api, contextHolder] = notification.useNotification();
   const emailRules = [
     { required: true, message: '이메일을 입력해주세요.' },
@@ -40,22 +42,18 @@ export default function Login() {
     console.log(inputValues);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetchData('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify(inputValues),
       });
-      const data = await res.json();
-      if (!data.success) {
+      if (!res.success) {
         api.error({
           message: '로그인 실패',
-          description: data.message,
+          description: res.message,
         });
         return;
       }
-      console.log(data);
+      console.log(res);
     } catch (e) {
       console.error(e);
     }
