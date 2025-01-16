@@ -11,12 +11,18 @@ import {
   notification,
 } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { useCookies } from 'next-client-cookies';
 import { useFetch } from '~/common/useFetch';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 export default function Login() {
-  const [form] = Form.useForm();
   const fetchData = useFetch();
+  const cookies = useCookies();
+  const router = useRouter();
+
+  const [form] = Form.useForm();
+
   const [api, contextHolder] = notification.useNotification();
   const emailRules = [
     { required: true, message: '이메일을 입력해주세요.' },
@@ -32,14 +38,12 @@ export default function Login() {
   };
 
   const handleLogin = async () => {
-    console.log('Handle login logic here');
     const valid = await form.validateFields();
     if (valid.errorFields && valid.errorFields.length > 0) {
       console.log(valid.errorFields);
       return;
     }
     const inputValues = form.getFieldsValue();
-    console.log(inputValues);
 
     try {
       const res = await fetchData('/api/auth/login', {
@@ -53,7 +57,18 @@ export default function Login() {
         });
         return;
       }
-      console.log(res);
+      console.log(res.token);
+      cookies.set(
+        process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!,
+        res.token.access_token,
+        { expires: res.token.expiry_date }
+      );
+      cookies.set(
+        process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME!,
+        res.token.refresh_token,
+        { expires: res.token.expiry_date }
+      );
+      router.push('/');
     } catch (e) {
       console.error(e);
     }
@@ -67,6 +82,11 @@ export default function Login() {
     console.log('Handle kakao login logic here');
   };
 
+  // 이미 로그인 되어있으면 메인페이지로 이동
+  const accessToken = cookies.get(process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!);
+  if (accessToken) {
+    router.push('/');
+  }
   return (
     <div
       style={{
