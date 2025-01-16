@@ -1,5 +1,5 @@
 export const useFetch = () => {
-  return async (url: string, options: RequestInit) => {
+  return async (url: string, options?: RequestInit) => {
     const res = await fetch(url, {
       ...options,
       headers: {
