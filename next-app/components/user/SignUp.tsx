@@ -51,7 +51,7 @@ export const SignUp = ({ open, register, onClose }: SignUpProps) => {
       message: '비밀번호에 공백이 포함될 수 없습니다.',
     },
     ({ getFieldValue }: { getFieldValue: (password: string) => string }) => ({
-      validator(_, value) {
+      validator(_, value: string) {
         if (!value || getFieldValue('password') === value) {
           return Promise.resolve();
         }
