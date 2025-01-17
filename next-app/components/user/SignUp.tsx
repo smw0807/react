@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, Popconfirm } from 'antd';
 
 type SignUpProps = {
   open: boolean;
@@ -124,9 +124,15 @@ export const SignUp = ({ open, register, onClose }: SignUpProps) => {
 
             <Form.Item label={null}>
               <Button onClick={handleClose}>닫기</Button>
-              <Button type="primary" onClick={handleSubmit}>
-                회원가입
-              </Button>
+              <Popconfirm
+                title="회원가입을 진행하시겠습니까?"
+                onConfirm={handleSubmit}
+                onCancel={handleClose}
+                okText="확인"
+                cancelText="취소"
+              >
+                <Button type="primary">회원가입</Button>
+              </Popconfirm>
             </Form.Item>
           </Form>
         </Modal>
