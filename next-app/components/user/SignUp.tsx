@@ -66,6 +66,7 @@ export const SignUp = ({ open, register, onClose }: SignUpProps) => {
       return;
     }
     const values = form.getFieldsValue();
+    delete values.passwordCheck;
     register(values);
   };
 
