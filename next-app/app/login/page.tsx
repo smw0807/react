@@ -74,12 +74,26 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log('Handle google login logic here');
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await fetchData('/api/auth/google/signin');
+      if (res.success) {
+        window.location.href = res.url;
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const handleKakaoLogin = () => {
-    console.log('Handle kakao login logic here');
+  const handleKakaoLogin = async () => {
+    try {
+      const res = await fetchData('/api/auth/kakao/signin');
+      if (res.success) {
+        window.location.href = res.url;
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // 이미 로그인 되어있으면 메인페이지로 이동
