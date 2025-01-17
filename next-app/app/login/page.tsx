@@ -57,7 +57,6 @@ export default function Login() {
         });
         return;
       }
-      console.log(res.token);
       cookies.set(
         process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!,
         res.token.access_token,
