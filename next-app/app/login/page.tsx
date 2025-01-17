@@ -1,5 +1,5 @@
 'use client';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import {
   Form,
   Input,
@@ -14,6 +14,14 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { useCookies } from 'next-client-cookies';
 import { useFetch } from '~/common/useFetch';
 import { useRouter } from 'next/navigation';
+import { SignUp } from '~/components/user/SignUp';
+
+type FieldType = {
+  email: string;
+  name: string;
+  password: string;
+  passwordCheck: string;
+};
 
 const { Title } = Typography;
 export default function Login() {
@@ -31,11 +39,6 @@ export default function Login() {
       message: '이메일 형식이 올바르지 않습니다.',
     },
   ];
-
-  const handleRegister = (e: FormEvent) => {
-    e.preventDefault();
-    console.log('Handle registration logic here');
-  };
 
   const handleLogin = async () => {
     const valid = await form.validateFields();
@@ -70,6 +73,39 @@ export default function Login() {
       router.push('/');
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const [RegisterModal, setRegisterModal] = useState(false);
+  const handleRegister = (e: FormEvent) => {
+    e.preventDefault();
+    setRegisterModal(true);
+  };
+  const handleRegisterSubmit = async (values: FieldType) => {
+    try {
+      const res = await fetchData('/api/user/signup', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      });
+      console.log(res);
+      if (!res.success) {
+        api.error({
+          message: '회원가입 실패',
+          description: res.message,
+        });
+        return;
+      }
+      api.success({
+        message: '회원가입 성공',
+        description: '회원가입이 완료되었습니다.',
+      });
+      setRegisterModal(false);
+    } catch (e: any) {
+      console.error(e);
+      api.error({
+        message: '회원가입 실패',
+        description: e.message,
+      });
     }
   };
 
@@ -110,6 +146,11 @@ export default function Login() {
       }}
     >
       {contextHolder}
+      <SignUp
+        open={RegisterModal}
+        register={handleRegisterSubmit}
+        onClose={() => setRegisterModal(false)}
+      />
       <Card style={{ width: 500 }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Title level={2}>UserAccess Portal </Title>
