@@ -4,7 +4,7 @@ import { Button, Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useFetch } from '~/common/useFetch';
-import { useCookies } from 'next-client-cookies';
+import { useAuth } from '~/common/useAuth';
 
 type ProcessStatusType = 'processing' | 'success' | 'error';
 export default function AuthPage() {
@@ -46,7 +46,7 @@ export default function AuthPage() {
   }, [processing, router]);
 
   const fetchData = useFetch();
-  const cookies = useCookies();
+  const { setToken } = useAuth();
   const query = useSearchParams();
   const code = query.get('code');
   const state = query.get('state');
@@ -60,16 +60,12 @@ export default function AuthPage() {
       }
       try {
         const res = await fetchData(url);
-        cookies.set(
-          process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!,
-          res.access_token,
-          { expires: res.expiry_date }
-        );
-        cookies.set(
-          process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME!,
-          res.refresh_token,
-          { expires: res.expiry_date }
-        );
+        setToken('access_token', res.access_token, {
+          expires: res.expiry_date,
+        });
+        setToken('refresh_token', res.refresh_token, {
+          expires: res.expiry_date,
+        });
         setProcessing('success');
         setTimeout(() => router.push('/'), 2000);
       } catch (e) {

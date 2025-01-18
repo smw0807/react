@@ -11,10 +11,10 @@ import {
   notification,
 } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { useCookies } from 'next-client-cookies';
 import { useFetch } from '~/common/useFetch';
 import { useRouter } from 'next/navigation';
 import { SignUp } from '~/components/user/SignUp';
+import { useAuth } from '~/common/useAuth';
 
 type FieldType = {
   email: string;
@@ -26,7 +26,7 @@ type FieldType = {
 const { Title } = Typography;
 export default function Login() {
   const fetchData = useFetch();
-  const cookies = useCookies();
+  const { setToken, getToken } = useAuth();
   const router = useRouter();
 
   const [form] = Form.useForm();
@@ -60,16 +60,12 @@ export default function Login() {
         });
         return;
       }
-      cookies.set(
-        process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!,
-        res.token.access_token,
-        { expires: res.token.expiry_date }
-      );
-      cookies.set(
-        process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME!,
-        res.token.refresh_token,
-        { expires: res.token.expiry_date }
-      );
+      setToken('access_token', res.token.access_token, {
+        expires: res.token.expiry_date,
+      });
+      setToken('refresh_token', res.token.refresh_token, {
+        expires: res.token.expiry_date,
+      });
       router.push('/');
     } catch (e) {
       console.error(e);
@@ -132,7 +128,7 @@ export default function Login() {
   };
 
   // 이미 로그인 되어있으면 메인페이지로 이동
-  const accessToken = cookies.get(process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME!);
+  const accessToken = getToken('access_token');
   if (accessToken) {
     router.push('/');
   }
