@@ -1,6 +1,6 @@
 import { useCookies } from 'next-client-cookies';
 type TokenName = 'access_token' | 'refresh_token';
-export const useAuth = () => {
+export const useToken = () => {
   const cookies = useCookies();
 
   const setToken = (name: TokenName, token: string, options?: any) => {

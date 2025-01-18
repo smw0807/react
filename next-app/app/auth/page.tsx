@@ -4,7 +4,7 @@ import { Button, Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useFetch } from '~/common/useFetch';
-import { useAuth } from '~/common/useAuth';
+import { useToken } from '~/common/useToken';
 
 type ProcessStatusType = 'processing' | 'success' | 'error';
 export default function AuthPage() {
@@ -46,7 +46,7 @@ export default function AuthPage() {
   }, [processing, router]);
 
   const fetchData = useFetch();
-  const { setToken } = useAuth();
+  const { setToken } = useToken();
   const query = useSearchParams();
   const code = query.get('code');
   const state = query.get('state');

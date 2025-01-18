@@ -14,7 +14,7 @@ import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { useFetch } from '~/common/useFetch';
 import { useRouter } from 'next/navigation';
 import { SignUp } from '~/components/user/SignUp';
-import { useAuth } from '~/common/useAuth';
+import { useToken } from '~/common/useToken';
 
 type FieldType = {
   email: string;
@@ -26,7 +26,7 @@ type FieldType = {
 const { Title } = Typography;
 export default function Login() {
   const fetchData = useFetch();
-  const { setToken, getToken } = useAuth();
+  const { setToken, getToken } = useToken();
   const router = useRouter();
 
   const [form] = Form.useForm();
