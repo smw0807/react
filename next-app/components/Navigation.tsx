@@ -15,11 +15,11 @@ export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
         defaultSelectedKeys={[pathname]}
         items={[
           {
-            key: '/',
+            key: '/manage/users',
             icon: <UserOutlined />,
-            label: 'Home',
+            label: 'User',
             onClick: () => {
-              router.push('/');
+              router.push('/manage/users');
             },
           },
         ]}
