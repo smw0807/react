@@ -26,7 +26,7 @@ type FieldType = {
 const { Title } = Typography;
 export default function Login() {
   const fetchData = useFetch();
-  const { setToken, getToken } = useToken();
+  const { setToken } = useToken();
   const router = useRouter();
 
   const [form] = Form.useForm();
@@ -127,11 +127,6 @@ export default function Login() {
     }
   };
 
-  // 이미 로그인 되어있으면 메인페이지로 이동
-  const accessToken = getToken('access_token');
-  if (accessToken) {
-    router.push('/');
-  }
   return (
     <div
       style={{
