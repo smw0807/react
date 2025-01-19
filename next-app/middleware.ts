@@ -94,11 +94,8 @@ export async function middleware(request: NextRequest) {
     const user = await userInfo(accessToken.value);
     if (user.success) {
       const role = user.data.role;
-      if (role === 'ADMIN') {
-        return NextResponse.redirect(new URL('/manage/users', request.url));
-      } else if (role === 'USER') {
-        return NextResponse.redirect(new URL('/user', request.url));
-      }
+      const url = role === 'ADMIN' ? '/manage/users' : '/user';
+      return NextResponse.redirect(new URL(url, request.url));
     }
     // 어세스 토큰 만료 시 리프레시 토큰 이용해 토큰 갱신
     return await refreshTokenProcess(request);
