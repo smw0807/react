@@ -1,6 +1,6 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { Button, Form, Input, Modal, Popconfirm } from 'antd';
-import { useState } from 'react';
 
 type SignUpProps = {
   open: boolean;
@@ -24,9 +24,11 @@ export const SignUp = ({
   const [confirmTextValue, setConfirmTextValue] =
     useState('회원가입을 진행하시겠습니까?');
 
-  if (confirmText) {
-    setConfirmTextValue(confirmText);
-  }
+  useEffect(() => {
+    if (confirmText) {
+      setConfirmTextValue(confirmText);
+    }
+  }, [confirmText]);
   const emailRules = [
     { required: true, message: '이메일을 입력해주세요.' },
     {
