@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Button, notification, Row, Table } from 'antd';
+import { Button, notification, Row, Table, Tag } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useFetch } from '~/common/useFetch';
 import { SignUp } from '~/components/user/SignUp';
@@ -77,7 +77,13 @@ export default function Users() {
       dataIndex: 'role',
       key: 'role',
       render: (text: string) => {
-        return text === 'ADMIN' ? '관리자' : '사용자';
+        return (
+          <>
+            <Tag color={text === 'ADMIN' ? 'geekblue' : 'orange'}>
+              {text === 'ADMIN' ? '관리자' : '사용자'}
+            </Tag>
+          </>
+        );
       },
     },
     {
@@ -85,7 +91,13 @@ export default function Users() {
       dataIndex: 'status',
       key: 'status',
       render: (text: string) => {
-        return text === 'ACTIVE' ? '활성' : '비활성';
+        return (
+          <>
+            <Tag color={text === 'ACTIVE' ? 'green' : 'red'}>
+              {text === 'ACTIVE' ? '활성' : '비활성'}
+            </Tag>
+          </>
+        );
       },
     },
     {
