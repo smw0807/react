@@ -1,9 +1,11 @@
 'use client';
 import { Button, Form, Input, Modal, Popconfirm } from 'antd';
+import { useState } from 'react';
 
 type SignUpProps = {
   open: boolean;
   onClose: () => void;
+  confirmText?: string;
   register: (values: FieldType) => void;
 };
 type FieldType = {
@@ -12,9 +14,19 @@ type FieldType = {
   password: string;
   passwordCheck: string;
 };
-export const SignUp = ({ open, register, onClose }: SignUpProps) => {
+export const SignUp = ({
+  open,
+  register,
+  confirmText,
+  onClose,
+}: SignUpProps) => {
   const [form] = Form.useForm();
+  const [confirmTextValue, setConfirmTextValue] =
+    useState('회원가입을 진행하시겠습니까?');
 
+  if (confirmText) {
+    setConfirmTextValue(confirmText);
+  }
   const emailRules = [
     { required: true, message: '이메일을 입력해주세요.' },
     {
@@ -125,7 +137,7 @@ export const SignUp = ({ open, register, onClose }: SignUpProps) => {
             <Form.Item label={null}>
               <Button onClick={handleClose}>닫기</Button>
               <Popconfirm
-                title="회원가입을 진행하시겠습니까?"
+                title={confirmTextValue}
                 onConfirm={handleSubmit}
                 onCancel={handleClose}
                 okText="확인"
