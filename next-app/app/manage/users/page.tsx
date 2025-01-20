@@ -1,5 +1,14 @@
-import { LoadingComponent } from '~/components/Loading';
+import { Row } from 'antd';
+import Title from 'antd/es/typography/Title';
 
 export default function Users() {
-  return <LoadingComponent content="유저 관리 페이지 작업 대기중입니다." />;
+  return (
+    <>
+      <Row justify="space-between" align="middle">
+        <Title level={2} style={{ margin: 0 }}>
+          회원목록
+        </Title>
+      </Row>
+    </>
+  );
 }
