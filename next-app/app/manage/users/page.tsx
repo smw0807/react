@@ -125,13 +125,33 @@ export default function Users() {
     },
   ];
   const [users, setUsers] = useState<User[]>([]);
+  const getUsers = async () => {
+    const res = await fetchData('/api/user');
+    setUsers(res.user.users);
+  };
   useEffect(() => {
-    fetchData('/api/user').then((res) => {
-      setUsers(res.user.users);
-    });
+    getUsers();
   }, []);
+
   const handleEdit = (values: FormValues) => {
     console.log(values);
+    fetchData(`/api/user/${values.email}`, {
+      method: 'PUT',
+      body: JSON.stringify(values),
+    }).then((res) => {
+      if (res.success) {
+        api.success({
+          message: '회원정보 수정 성공',
+          description: '회원정보가 수정되었습니다.',
+        });
+        getUsers();
+      } else {
+        api.error({
+          message: '회원정보 수정 실패',
+          description: res.message,
+        });
+      }
+    });
   };
   return (
     <>
