@@ -4,6 +4,7 @@ import { Button, notification, Row, Table, Tag } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useFetch } from '~/common/useFetch';
 import { SignUp } from '~/components/user/SignUp';
+import dayjs from 'dayjs';
 type User = {
   type: string;
   email: string;
@@ -53,7 +54,7 @@ export default function Users() {
 
   const columns = [
     {
-      title: '회원타입',
+      title: '로그인유형',
       dataIndex: 'type',
       key: 'type',
     },
@@ -104,11 +105,17 @@ export default function Users() {
       title: '생성일',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      render: (text: string) => {
+        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+      },
     },
     {
       title: '마지막 로그인',
       dataIndex: 'lastLoginAt',
       key: 'lastLoginAt',
+      render: (text: string) => {
+        return text ? dayjs(text).format('YYYY-MM-DD HH:mm:ss') : '-';
+      },
     },
   ];
   const [users, setUsers] = useState<User[]>([]);
