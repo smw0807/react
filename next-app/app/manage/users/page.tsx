@@ -20,13 +20,24 @@ type User = {
 };
 export default function Users() {
   const [signUpOpen, setSignUpOpen] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
+  const [api, contextHolder] = notification.useNotification();
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const handleSignUpOpen = () => {
     setSignUpOpen(true);
   };
   const handleSignUpClose = () => {
     setSignUpOpen(false);
   };
-  const [api, contextHolder] = notification.useNotification();
+  const getUsers = async () => {
+    const res = await fetchData('/api/user');
+    setUsers(res.user.users);
+  };
+
   const fetchData = useFetch();
   const handleSignUp = async (values: any) => {
     try {
@@ -40,6 +51,7 @@ export default function Users() {
           description: '회원추가가 완료되었습니다.',
         });
         setSignUpOpen(false);
+        getUsers();
       } else {
         api.error({
           message: '회원가입 실패',
@@ -124,14 +136,6 @@ export default function Users() {
       },
     },
   ];
-  const [users, setUsers] = useState<User[]>([]);
-  const getUsers = async () => {
-    const res = await fetchData('/api/user');
-    setUsers(res.user.users);
-  };
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   const handleEdit = (values: FormValues) => {
     fetchData(`/api/user/${values.email}`, {
