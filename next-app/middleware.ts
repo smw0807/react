@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { userInfo, getRefreshToken } from '~/api/token';
+import { verifyToken, getRefreshToken } from '~/api/token';
 
 /**
  * 리프레시 토큰 이용해 토큰 갱신
@@ -13,7 +13,7 @@ const refreshTokenProcess = async (request: NextRequest) => {
     process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME!
   );
   if (refreshToken) {
-    const user = await userInfo(refreshToken.value);
+    const user = await verifyToken(refreshToken.value);
     const cookieStore = await cookies();
     if (user.success) {
       const newAccessToken = await getRefreshToken(refreshToken.value);
@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
     // 토큰 정보가 있으면 토큰 정보를 이용해 사용자 정보 가져오기
-    const user = await userInfo(accessToken.value);
+    const user = await verifyToken(accessToken.value);
     if (user.success) {
       const role = user.data.role;
       const url = role === 'ADMIN' ? '/manage/users' : '/user';
@@ -81,7 +81,7 @@ export async function middleware(request: NextRequest) {
     if (!accessToken) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
-    const user = await userInfo(accessToken.value);
+    const user = await verifyToken(accessToken.value);
     if (user.success) {
       return NextResponse.next();
     }

@@ -23,7 +23,7 @@ const fetchAPI = async (url: string, token: string) => {
  * @param token
  * @returns
  */
-export const userInfo = (token: string) =>
+export const verifyToken = (token: string) =>
   fetchAPI(`${process.env.NEXT_API_URL}/api/auth/verify/token`, token);
 
 /**
