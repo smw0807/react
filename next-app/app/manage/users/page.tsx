@@ -134,7 +134,6 @@ export default function Users() {
   }, []);
 
   const handleEdit = (values: FormValues) => {
-    console.log(values);
     fetchData(`/api/user/${values.email}`, {
       method: 'PUT',
       body: JSON.stringify(values),
