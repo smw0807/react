@@ -4,7 +4,11 @@
 
 const fetchAPI = async (url: string, token: string) => {
   try {
-    const res = await fetch(url, {
+    const isServer = typeof window === 'undefined';
+    const apiUrl = isServer
+      ? `${process.env.NEXT_PUBLIC_API_URL}${url}`
+      : `${process.env.NEXT_PUBLIC_API_URL}${url}`;
+    const res = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +28,7 @@ const fetchAPI = async (url: string, token: string) => {
  * @returns
  */
 export const verifyToken = (token: string) =>
-  fetchAPI(`${process.env.NEXT_API_URL}/api/auth/verify/token`, token);
+  fetchAPI('/api/auth/verify/token', token);
 
 /**
  * 리프레시 토큰 이용해 토큰 갱신
@@ -32,4 +36,4 @@ export const verifyToken = (token: string) =>
  * @returns
  */
 export const getRefreshToken = (token: string) =>
-  fetchAPI(`${process.env.NEXT_API_URL}/api/auth/refresh/token`, token);
+  fetchAPI('/api/auth/refresh/token', token);
