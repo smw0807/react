@@ -5,13 +5,16 @@ import Title from 'antd/es/typography/Title';
 import { useFetch } from '~/common/useFetch';
 import { SignUp } from '~/components/user/SignUp';
 import dayjs from 'dayjs';
+import { EditUser, FormValues, Role, Status } from '~/components/user/EditUser';
+
 type User = {
   type: string;
   email: string;
   name: string;
   phoneNumber: string;
-  role: string;
-  status: string;
+  profileImage: string;
+  role: Role;
+  status: Status;
   createdAt: string;
   lastLoginAt: string;
 };
@@ -62,6 +65,9 @@ export default function Users() {
       title: '이메일',
       dataIndex: 'email',
       key: 'email',
+      render: (text: string) => {
+        return <EditUser email={text} handleEdit={handleEdit} />;
+      },
     },
     {
       title: '이름',
@@ -124,6 +130,9 @@ export default function Users() {
       setUsers(res.user.users);
     });
   }, []);
+  const handleEdit = (values: FormValues) => {
+    console.log(values);
+  };
   return (
     <>
       {contextHolder}
