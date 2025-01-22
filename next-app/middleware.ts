@@ -88,6 +88,8 @@ export async function middleware(request: NextRequest) {
     // 어세스 토큰 만료 시 리프레시 토큰 이용해 토큰 갱신
     return await refreshTokenProcess(request);
   }
+
+  // todo 권한이 아닌 페이지 접속 시 처리 로직?
   return NextResponse.next();
 }
 
