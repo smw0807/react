@@ -1,4 +1,4 @@
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, HistoryOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -17,9 +17,17 @@ export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
           {
             key: '/manage/users',
             icon: <UserOutlined />,
-            label: 'User',
+            label: '사용자목록',
             onClick: () => {
               router.push('/manage/users');
+            },
+          },
+          {
+            key: '/manage/pointHistory',
+            icon: <HistoryOutlined />,
+            label: '적립금 내역 조회',
+            onClick: () => {
+              router.push('/manage/pointHistory');
             },
           },
         ]}
