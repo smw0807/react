@@ -10,7 +10,7 @@ export const useFetch = () => {
       Authorization: '',
     };
     // 인증 관련 api가 아닌 경우 토큰 추가
-    if (!url.startsWith('/api/auth') || !url.startsWith('/api/user/signup')) {
+    if (!url.startsWith('/api/auth') && !url.startsWith('/api/user/signup')) {
       // 쿠키에서 토큰 가져오기
       const accessToken = token.getToken('access_token');
       if (!accessToken) return router.push('/login');
