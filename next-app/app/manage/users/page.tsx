@@ -167,7 +167,12 @@ export default function Users() {
           회원추가
         </Button>
       </Row>
-      <Table columns={columns} dataSource={users} rowKey="email" />
+      <Table
+        columns={columns}
+        dataSource={users}
+        rowKey="email"
+        pagination={false}
+      />
       {signUpOpen && (
         <SignUp
           open={signUpOpen}
