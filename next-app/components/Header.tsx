@@ -13,7 +13,7 @@ export const HeaderComponent = ({
 }: {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
-  handleLogout: () => void;
+  handleLogout?: () => void;
 }) => {
   const {
     token: { colorBgContainer },
@@ -31,9 +31,11 @@ export const HeaderComponent = ({
             height: 64,
           }}
         />
-        <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout}>
-          로그아웃
-        </Button>
+        {handleLogout && (
+          <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout}>
+            로그아웃
+          </Button>
+        )}
       </Row>
     </Header>
   );
