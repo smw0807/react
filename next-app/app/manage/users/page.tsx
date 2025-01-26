@@ -178,7 +178,7 @@ export default function Users() {
       {contextHolder}
       <Row justify="space-between" align="middle">
         <Title level={2} style={{ margin: 0 }}>
-          회원목록
+          회원목록 ({totalCount}명)
         </Title>
         <Button type="primary" onClick={handleSignUpOpen}>
           회원추가
