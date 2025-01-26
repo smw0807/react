@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Pagination, Row, Table } from 'antd';
+import { Col, Pagination, Row, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import dayjs from 'dayjs';
 import { useFetch } from '~/common/useFetch';
+import Search from 'antd/es/input/Search';
 
 export default function PointHistory() {
   const fetchData = useFetch();
@@ -51,7 +52,6 @@ export default function PointHistory() {
       const res = await fetchData(
         `/api/point/history?size=${pageSize}&page=${page}&keyword=${keyword}`
       );
-      console.log(res);
       if (res.success) {
         setPointHistory(res.data.pointHistoryList);
         setTotalCount(res.data.totalCount);
@@ -69,9 +69,20 @@ export default function PointHistory() {
   return (
     <>
       <Row justify="space-between" align="middle">
-        <Title level={2} style={{ margin: 0 }}>
-          적립금 내역 조회
-        </Title>
+        <Col>
+          <Title level={2} style={{ margin: 0 }}>
+            적립금 내역 조회
+          </Title>
+        </Col>
+        <Col>
+          <Search
+            placeholder="이메일 또는 사유 검색"
+            enterButton="검색"
+            size="large"
+            loading={loading}
+            onSearch={(value) => setKeyword(value)}
+          />
+        </Col>
       </Row>
       <Table
         loading={loading}
@@ -85,6 +96,7 @@ export default function PointHistory() {
         defaultCurrent={page}
         total={totalCount}
         pageSize={pageSize}
+        showSizeChanger={false}
         onChange={(page) => {
           setPage(page);
         }}
