@@ -71,7 +71,7 @@ export default function PointHistory() {
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={2} style={{ margin: 0 }}>
-            적립금 내역 조회
+            적립금 내역 조회 ({totalCount}건)
           </Title>
         </Col>
         <Col>
