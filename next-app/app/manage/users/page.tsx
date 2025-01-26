@@ -45,7 +45,6 @@ export default function Users() {
       const res = await fetchData(
         `/api/user?size=${pageSize}&page=${page}&keyword=${keyword}`
       );
-      console.log(res);
       setUsers(res.user.users);
       setTotalCount(res.user.totalCount);
     } catch (e) {
