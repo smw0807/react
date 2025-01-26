@@ -3,11 +3,17 @@ import { Layout, Menu } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 
 const { Sider } = Layout;
-export const NavigationComponent = ({ collapsed }: { collapsed: boolean }) => {
+export const NavigationComponent = ({
+  collapsed,
+  setCollapsed,
+}: {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+}) => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <Sider collapsible collapsed={collapsed}>
+    <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
       <div className="demo-logo-vertical" />
       <Menu
         theme="dark"

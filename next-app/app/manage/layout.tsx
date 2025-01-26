@@ -18,7 +18,10 @@ export default function ManageLayout({
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
-        <NavigationComponent collapsed={collapsed} />
+        <NavigationComponent
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        />
         <Layout>
           <HeaderComponent collapsed={collapsed} setCollapsed={setCollapsed} />
 
