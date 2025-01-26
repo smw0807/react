@@ -1,11 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Button, notification, Row, Table, Tag } from 'antd';
+import { Button, Col, notification, Pagination, Row, Table, Tag } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useFetch } from '~/common/useFetch';
 import { SignUp } from '~/components/user/SignUp';
 import dayjs from 'dayjs';
 import { EditUser, FormValues, Role, Status } from '~/components/user/EditUser';
+import Search from 'antd/es/input/Search';
 
 type User = {
   type: string;
@@ -23,9 +24,15 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [api, contextHolder] = notification.useNotification();
 
+  const [loading, setLoading] = useState(true);
+  const [keyword, setKeyword] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
+
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [page, pageSize, keyword]);
 
   const handleSignUpOpen = () => {
     setSignUpOpen(true);
@@ -34,8 +41,18 @@ export default function Users() {
     setSignUpOpen(false);
   };
   const getUsers = async () => {
-    const res = await fetchData('/api/user');
-    setUsers(res.user.users);
+    try {
+      const res = await fetchData(
+        `/api/user?size=${pageSize}&page=${page}&keyword=${keyword}`
+      );
+      console.log(res);
+      setUsers(res.user.users);
+      setTotalCount(res.user.totalCount);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchData = useFetch();
@@ -167,11 +184,33 @@ export default function Users() {
           회원추가
         </Button>
       </Row>
+      <Row justify="end" align="middle">
+        <Col span={6}>
+          <Search
+            placeholder="이메일 또는 이름 검색"
+            enterButton="검색"
+            size="large"
+            loading={loading}
+            onSearch={(value) => setKeyword(value)}
+          />
+        </Col>
+      </Row>
       <Table
         columns={columns}
         dataSource={users}
         rowKey="email"
         pagination={false}
+        loading={loading}
+      />
+      <Pagination
+        align="center"
+        defaultCurrent={page}
+        total={totalCount}
+        pageSize={pageSize}
+        showSizeChanger={false}
+        onChange={(page) => {
+          setPage(page);
+        }}
       />
       {signUpOpen && (
         <SignUp
