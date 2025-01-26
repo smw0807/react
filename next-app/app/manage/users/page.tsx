@@ -21,18 +21,7 @@ type User = {
 };
 export default function Users() {
   const [signUpOpen, setSignUpOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
   const [api, contextHolder] = notification.useNotification();
-
-  const [loading, setLoading] = useState(true);
-  const [keyword, setKeyword] = useState('');
-  const [page, setPage] = useState(1);
-  const [pageSize] = useState(10);
-  const [totalCount, setTotalCount] = useState(0);
-
-  useEffect(() => {
-    getUsers();
-  }, [page, pageSize, keyword]);
 
   const handleSignUpOpen = () => {
     setSignUpOpen(true);
@@ -40,6 +29,14 @@ export default function Users() {
   const handleSignUpClose = () => {
     setSignUpOpen(false);
   };
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [keyword, setKeyword] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
+
   const getUsers = async () => {
     try {
       const res = await fetchData(
@@ -53,6 +50,9 @@ export default function Users() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getUsers();
+  }, [page, pageSize, keyword]);
 
   const fetchData = useFetch();
   const handleSignUp = async (values: any) => {
@@ -81,6 +81,25 @@ export default function Users() {
         description: e.message,
       });
     }
+  };
+  const handleEdit = (values: FormValues) => {
+    fetchData(`/api/user/${values.email}`, {
+      method: 'PUT',
+      body: JSON.stringify(values),
+    }).then((res) => {
+      if (res.success) {
+        api.success({
+          message: '회원정보 수정 성공',
+          description: '회원정보가 수정되었습니다.',
+        });
+        getUsers();
+      } else {
+        api.error({
+          message: '회원정보 수정 실패',
+          description: res.message,
+        });
+      }
+    });
   };
 
   const columns = [
@@ -153,25 +172,6 @@ export default function Users() {
     },
   ];
 
-  const handleEdit = (values: FormValues) => {
-    fetchData(`/api/user/${values.email}`, {
-      method: 'PUT',
-      body: JSON.stringify(values),
-    }).then((res) => {
-      if (res.success) {
-        api.success({
-          message: '회원정보 수정 성공',
-          description: '회원정보가 수정되었습니다.',
-        });
-        getUsers();
-      } else {
-        api.error({
-          message: '회원정보 수정 실패',
-          description: res.message,
-        });
-      }
-    });
-  };
   return (
     <>
       {contextHolder}
