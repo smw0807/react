@@ -54,7 +54,9 @@ export const EditUser = ({ email, handleEdit }: Props) => {
       });
     }
     return () => {
-      form.resetFields();
+      if (isModalOpen) {
+        form.resetFields();
+      }
     };
   }, [email, isModalOpen]);
   return (
