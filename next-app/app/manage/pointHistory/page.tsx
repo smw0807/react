@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Col, Pagination, Row, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import dayjs from 'dayjs';
@@ -16,36 +16,39 @@ export default function PointHistory() {
   const [loading, setLoading] = useState(true);
   const [keyword, setKeyword] = useState('');
 
-  const columns = [
-    {
-      title: '이메일',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '총 적립금',
-      dataIndex: 'totalPoint',
-      key: 'totalPoint',
-    },
-    {
-      title: '적립금',
-      dataIndex: 'point',
-      key: 'point',
-    },
-    {
-      title: '사유',
-      dataIndex: 'reason',
-      key: 'reason',
-    },
-    {
-      title: '적립일',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (text: string) => {
-        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+  const columns = useMemo(
+    () => [
+      {
+        title: '이메일',
+        dataIndex: 'email',
+        key: 'email',
       },
-    },
-  ];
+      {
+        title: '총 적립금',
+        dataIndex: 'totalPoint',
+        key: 'totalPoint',
+      },
+      {
+        title: '적립금',
+        dataIndex: 'point',
+        key: 'point',
+      },
+      {
+        title: '사유',
+        dataIndex: 'reason',
+        key: 'reason',
+      },
+      {
+        title: '적립일',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        render: (text: string) => {
+          return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+        },
+      },
+    ],
+    []
+  );
 
   const getPointHistory = async () => {
     try {
