@@ -1,5 +1,11 @@
+/**
+ * columns는 렌더링마다 새로운 배열을 생성하므로 useMemo로 메모이제이션하면 불필요한 재생성을 방지할 수 있습니다.
+ * 콜백 함수들은 useCallback으로 메모이제이션하여 불필요한 리렌더링을 방지하고, 자식 컴포넌트에 props로 전달될 때 안정적인 참조를 유지할 수 있습니다.
+ * 특히 getUsers는 useEffect의 의존성 배열에 포함되어 있으므로, useCallback으로 메모이제이션하는 것이 중요합니다
+ *
+ */
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Button, Col, notification, Pagination, Row, Table, Tag } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useFetch } from '~/common/useFetch';
@@ -37,7 +43,7 @@ export default function Users() {
   const [pageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     try {
       const res = await fetchData(
         `/api/user?size=${pageSize}&page=${page}&keyword=${keyword}`
@@ -49,39 +55,43 @@ export default function Users() {
     } finally {
       setLoading(false);
     }
-  };
-  useEffect(() => {
-    getUsers();
   }, [page, pageSize, keyword]);
 
+  useEffect(() => {
+    getUsers();
+  }, [getUsers]);
+
   const fetchData = useFetch();
-  const handleSignUp = async (values: any) => {
-    try {
-      const res = await fetchData('/api/user/signup', {
-        method: 'POST',
-        body: JSON.stringify(values),
-      });
-      if (res.success) {
-        api.success({
-          message: '회원추가 성공',
-          description: '회원추가가 완료되었습니다.',
+  const handleSignUp = useCallback(
+    async (values: any) => {
+      try {
+        const res = await fetchData('/api/user/signup', {
+          method: 'POST',
+          body: JSON.stringify(values),
         });
-        setSignUpOpen(false);
-        getUsers();
-      } else {
+        if (res.success) {
+          api.success({
+            message: '회원추가 성공',
+            description: '회원추가가 완료되었습니다.',
+          });
+          setSignUpOpen(false);
+          getUsers();
+        } else {
+          api.error({
+            message: '회원가입 실패',
+            description: res.message,
+          });
+        }
+      } catch (e: any) {
+        console.error(e);
         api.error({
           message: '회원가입 실패',
-          description: res.message,
+          description: e.message,
         });
       }
-    } catch (e: any) {
-      console.error(e);
-      api.error({
-        message: '회원가입 실패',
-        description: e.message,
-      });
-    }
-  };
+    },
+    [api, fetchData, getUsers]
+  );
   const handleEdit = (values: FormValues) => {
     fetchData(`/api/user/${values.email}`, {
       method: 'PUT',
@@ -102,75 +112,78 @@ export default function Users() {
     });
   };
 
-  const columns = [
-    {
-      title: '로그인유형',
-      dataIndex: 'type',
-      key: 'type',
-    },
-    {
-      title: '이메일',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text: string) => {
-        return <EditUser email={text} handleEdit={handleEdit} />;
+  const columns = useMemo(
+    () => [
+      {
+        title: '로그인유형',
+        dataIndex: 'type',
+        key: 'type',
       },
-    },
-    {
-      title: '이름',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '휴대폰번호',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
-    },
-    {
-      title: '권한',
-      dataIndex: 'role',
-      key: 'role',
-      render: (text: string) => {
-        return (
-          <>
-            <Tag color={text === 'ADMIN' ? 'geekblue' : 'orange'}>
-              {text === 'ADMIN' ? '관리자' : '사용자'}
-            </Tag>
-          </>
-        );
+      {
+        title: '이메일',
+        dataIndex: 'email',
+        key: 'email',
+        render: (text: string) => {
+          return <EditUser email={text} handleEdit={handleEdit} />;
+        },
       },
-    },
-    {
-      title: '상태',
-      dataIndex: 'status',
-      key: 'status',
-      render: (text: string) => {
-        return (
-          <>
-            <Tag color={text === 'ACTIVE' ? 'green' : 'red'}>
-              {text === 'ACTIVE' ? '활성' : '비활성'}
-            </Tag>
-          </>
-        );
+      {
+        title: '이름',
+        dataIndex: 'name',
+        key: 'name',
       },
-    },
-    {
-      title: '생성일',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (text: string) => {
-        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+      {
+        title: '휴대폰번호',
+        dataIndex: 'phoneNumber',
+        key: 'phoneNumber',
       },
-    },
-    {
-      title: '마지막 로그인',
-      dataIndex: 'lastLoginAt',
-      key: 'lastLoginAt',
-      render: (text: string) => {
-        return text ? dayjs(text).format('YYYY-MM-DD HH:mm:ss') : '-';
+      {
+        title: '권한',
+        dataIndex: 'role',
+        key: 'role',
+        render: (text: string) => {
+          return (
+            <>
+              <Tag color={text === 'ADMIN' ? 'geekblue' : 'orange'}>
+                {text === 'ADMIN' ? '관리자' : '사용자'}
+              </Tag>
+            </>
+          );
+        },
       },
-    },
-  ];
+      {
+        title: '상태',
+        dataIndex: 'status',
+        key: 'status',
+        render: (text: string) => {
+          return (
+            <>
+              <Tag color={text === 'ACTIVE' ? 'green' : 'red'}>
+                {text === 'ACTIVE' ? '활성' : '비활성'}
+              </Tag>
+            </>
+          );
+        },
+      },
+      {
+        title: '생성일',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        render: (text: string) => {
+          return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+        },
+      },
+      {
+        title: '마지막 로그인',
+        dataIndex: 'lastLoginAt',
+        key: 'lastLoginAt',
+        render: (text: string) => {
+          return text ? dayjs(text).format('YYYY-MM-DD HH:mm:ss') : '-';
+        },
+      },
+    ],
+    []
+  );
 
   return (
     <>

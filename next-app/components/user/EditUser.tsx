@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Button, Form, Input, Modal, Popconfirm, Row, Select } from 'antd';
 import { useFetch } from '~/common/useFetch';
 
@@ -19,10 +19,10 @@ export type FormValues = {
 export const EditUser = ({ email, handleEdit }: Props) => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
+  const showModal = useCallback(() => {
     setIsModalOpen(true);
-  };
-  const handleOk = () => {
+  }, []);
+  const handleOk = useCallback(() => {
     const values = form.getFieldsValue();
     handleEdit({
       email: values.email,
@@ -32,10 +32,10 @@ export const EditUser = ({ email, handleEdit }: Props) => {
       status: values.status,
     });
     setIsModalOpen(false);
-  };
-  const handleCancel = () => {
+  }, [form, handleEdit]);
+  const handleCancel = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, []);
 
   const fetchData = useFetch();
   useEffect(() => {
