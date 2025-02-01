@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
+    "@reduxjs/toolkit": "^2.5.1",
     "antd": "^5.23.0",
     "dayjs": "^1.11.13",
     "next": "15.1.4",
     "next-client-cookies": "^2.0.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
