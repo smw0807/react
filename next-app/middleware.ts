@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifyToken, getRefreshToken } from '~/api/token';
 
@@ -83,6 +83,12 @@ export async function middleware(request: NextRequest) {
     }
     const user = await verifyToken(accessToken.value);
     if (user.success) {
+      if (isAdmin && user.data.role !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/user', request.url));
+      }
+      if (isUser && user.data.role !== 'USER') {
+        return NextResponse.redirect(new URL('/manage/users', request.url));
+      }
       return NextResponse.next();
     }
     // 어세스 토큰 만료 시 리프레시 토큰 이용해 토큰 갱신
