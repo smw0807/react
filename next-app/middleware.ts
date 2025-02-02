@@ -83,6 +83,7 @@ export async function middleware(request: NextRequest) {
     }
     const user = await verifyToken(accessToken.value);
     if (user.success) {
+      // 권한 검사
       if (isAdmin && user.data.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/user', request.url));
       }
@@ -95,7 +96,6 @@ export async function middleware(request: NextRequest) {
     return await refreshTokenProcess(request);
   }
 
-  // todo 권한이 아닌 페이지 접속 시 처리 로직?
   return NextResponse.next();
 }
 
