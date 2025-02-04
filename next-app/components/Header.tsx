@@ -11,8 +11,8 @@ export const HeaderComponent = ({
   setCollapsed,
   handleLogout,
 }: {
-  collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
+  collapsed?: boolean;
+  setCollapsed?: (collapsed: boolean) => void;
   handleLogout?: () => void;
 }) => {
   const {
@@ -21,16 +21,18 @@ export const HeaderComponent = ({
   return (
     <Header style={{ padding: 0, background: colorBgContainer }}>
       <Row justify="space-between" align="middle">
-        <Button
-          type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: '16px',
-            width: 64,
-            height: 64,
-          }}
-        />
+        {setCollapsed && (
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
+        )}
         {handleLogout && (
           <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout}>
             로그아웃
