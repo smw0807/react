@@ -1,9 +1,12 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Descriptions } from 'antd';
+import { Button, Descriptions, Modal } from 'antd';
 import { useFetch } from '~/common/useFetch';
 import dayjs from 'dayjs';
 import { SearchOutlined } from '@ant-design/icons';
+import { HeaderComponent } from '~/components/Header';
+import { useToken } from '~/common/useToken';
+import { useRouter } from 'next/navigation';
 
 type UserType = {
   email: string;
@@ -123,8 +126,26 @@ export default function User() {
     })();
   }, []);
 
+  const { removeToken } = useToken();
+  const [api, modal] = Modal.useModal();
+  const router = useRouter();
+  const handleLogout = () => {
+    api.confirm({
+      title: '정말 로그아웃 하시겠습니까?',
+      content: '로그아웃 하면 다시 로그인 해야합니다.',
+      okText: '로그아웃',
+      cancelText: '취소',
+      onOk: () => {
+        removeToken('all');
+        router.push('/login');
+      },
+    });
+  };
+
   return (
     <div>
+      {modal}
+      <HeaderComponent handleLogout={handleLogout} />
       <Descriptions title="내 정보" bordered items={items} />
     </div>
   );
