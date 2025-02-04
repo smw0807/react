@@ -83,6 +83,12 @@ export async function middleware(request: NextRequest) {
     }
     const user = await verifyToken(accessToken.value);
     if (user.success) {
+      // 쿠키에 사용자 정보 저장?
+      const cookieStore = await cookies();
+      cookieStore.set(
+        process.env.NEXT_PUBLIC_USER_INFO_NAME!,
+        JSON.stringify(user.data)
+      );
       // 권한 검사
       if (isAdmin && user.data.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/user', request.url));
