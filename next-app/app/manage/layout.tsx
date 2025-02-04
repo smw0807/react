@@ -6,6 +6,7 @@ import { HeaderComponent } from '~/components/Header';
 import { Footer } from 'antd/es/layout/layout';
 import { useToken } from '~/common/useToken';
 import { useRouter } from 'next/navigation';
+import useAuth from '~/hooks/useAuth';
 
 const { Content } = Layout;
 export default function ManageLayout({
@@ -33,6 +34,7 @@ export default function ManageLayout({
       },
     });
   };
+  useAuth();
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
