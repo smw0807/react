@@ -120,7 +120,6 @@ export default function User() {
     (async () => {
       const res = await fetchData('/api/user/myInfo');
       if (res.success) {
-        console.log(res.user);
         setUser(res.user);
       }
     })();
