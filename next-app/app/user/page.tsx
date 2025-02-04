@@ -1,30 +1,127 @@
 'use client';
-import { Descriptions } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Button, Descriptions } from 'antd';
 import { useFetch } from '~/common/useFetch';
-import { LoadingComponent } from '~/components/Loading';
+import dayjs from 'dayjs';
+import { SearchOutlined } from '@ant-design/icons';
+
+type UserType = {
+  email: string;
+  name: string;
+  type: string;
+  role: string;
+  status: string;
+  lastLoginAt: string;
+  profileImage: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
+  point: {
+    point: number;
+    pointHistory: {
+      point: number;
+      reason: string;
+      createdAt: string;
+    }[];
+  };
+};
+
 export default function User() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<UserType>();
+
+  // 포인트 상세보기
+  const [pointModal, setPointModal] = useState(false);
+  const handlePointModal = () => {
+    setPointModal(true);
+  };
+
+  const items = useMemo(
+    () => [
+      {
+        key: 'email',
+        label: '이메일',
+        children: `${user?.email}`,
+      },
+      {
+        key: 'name',
+        label: '이름',
+        children: `${user?.name}`,
+      },
+
+      {
+        key: 'type',
+        label: '로그인 타입',
+        children: `${user?.type}`,
+      },
+      {
+        key: 'role',
+        label: '역할',
+        children: user?.role === 'ADMIN' ? '관리자' : '사용자',
+      },
+      {
+        key: 'status',
+        label: '상태',
+        children: `${user?.status}`,
+      },
+      {
+        key: 'lastLoginAt',
+        label: '마지막 로그인',
+        children:
+          user?.lastLoginAt &&
+          `${dayjs(user?.lastLoginAt).format('YYYY-MM-DD HH:mm:ss')}`,
+      },
+      {
+        key: 'profileImage',
+        label: '프로필 이미지',
+        children: `${user?.profileImage}`,
+      },
+      {
+        key: 'phoneNumber',
+        label: '전화번호',
+        children: `${user?.phoneNumber}`,
+      },
+      {
+        key: 'createdAt',
+        label: '생성일',
+        children:
+          user?.createdAt &&
+          `${dayjs(user?.createdAt).format('YYYY-MM-DD HH:mm:ss')}`,
+      },
+      {
+        key: 'updatedAt',
+        label: '수정일',
+        children:
+          user?.updatedAt &&
+          `${dayjs(user?.updatedAt).format('YYYY-MM-DD HH:mm:ss')}`,
+      },
+      {
+        key: 'point',
+        label: '포인트',
+        children: user?.point && (
+          <>
+            {user?.point.point}점
+            <Button icon={<SearchOutlined />} onClick={handlePointModal} />
+          </>
+        ),
+      },
+    ],
+
+    [user]
+  );
   const fetchData = useFetch();
   useEffect(() => {
     (async () => {
       const res = await fetchData('/api/user/myInfo');
       if (res.success) {
-        const keys = Object.keys(res.user);
-        const items = keys.map((key) => ({
-          key,
-          label: key,
-          children: `${res.user[key]}`,
-        }));
-        console.log(items);
-        setUser(items);
+        console.log(res.user);
+        setUser(res.user);
       }
     })();
   }, []);
 
   return (
     <div>
-      <Descriptions title="User Info" bordered items={user} />;
+      <Descriptions title="내 정보" bordered items={items} />
     </div>
   );
 }
