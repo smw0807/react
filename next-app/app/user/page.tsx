@@ -100,7 +100,11 @@ export default function User() {
         children: user?.point && (
           <>
             {user?.point.point}점
-            <Button icon={<SearchOutlined />} onClick={handlePointModal} />
+            <Button
+              size="small"
+              icon={<SearchOutlined />}
+              onClick={handlePointModal}
+            />
           </>
         ),
       },
