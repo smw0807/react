@@ -17,7 +17,11 @@ const useAuth = () => {
     if (!user) {
       const userInfo = cookieStore.get(process.env.NEXT_PUBLIC_USER_INFO_NAME!);
       if (userInfo) {
-        dispatchUser(JSON.parse(userInfo));
+        const userInfoObj = JSON.parse(userInfo);
+        delete userInfoObj['id'];
+        delete userInfoObj['exp'];
+        delete userInfoObj['iat'];
+        dispatchUser(userInfoObj);
       }
     }
   }, [user]);
