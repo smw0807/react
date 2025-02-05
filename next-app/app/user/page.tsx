@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { Descriptions, Modal } from 'antd';
+import { Col, Descriptions, Modal, Row } from 'antd';
 import { useFetch } from '~/common/useFetch';
 import dayjs from 'dayjs';
 import { HeaderComponent } from '~/components/Header';
@@ -138,7 +138,11 @@ export default function User() {
     <div>
       {modal}
       <HeaderComponent handleLogout={handleLogout} />
-      <Descriptions title="내 정보" bordered items={items} />
+      <Row justify="center">
+        <Col span={12}>
+          <Descriptions title="내 정보" bordered items={items} />
+        </Col>
+      </Row>
     </div>
   );
 }
