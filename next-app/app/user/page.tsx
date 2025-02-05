@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Descriptions, Modal } from 'antd';
+import { Descriptions, Modal } from 'antd';
 import { useFetch } from '~/common/useFetch';
 import dayjs from 'dayjs';
-import { SearchOutlined } from '@ant-design/icons';
 import { HeaderComponent } from '~/components/Header';
 import { useToken } from '~/common/useToken';
 import { useRouter } from 'next/navigation';
+import { PointHistoryList } from '~/components/user/PointHistoryList';
 
 type UserType = {
   email: string;
@@ -31,12 +31,6 @@ type UserType = {
 
 export default function User() {
   const [user, setUser] = useState<UserType>();
-
-  // 포인트 상세보기
-  const [pointModal, setPointModal] = useState(false);
-  const handlePointModal = () => {
-    setPointModal(true);
-  };
 
   const items = useMemo(
     () => [
@@ -103,10 +97,9 @@ export default function User() {
         children: user?.point && (
           <>
             {user?.point.point}점
-            <Button
-              size="small"
-              icon={<SearchOutlined />}
-              onClick={handlePointModal}
+            <PointHistoryList
+              point={user?.point.point}
+              pointHistory={user?.point.pointHistory}
             />
           </>
         ),
