@@ -3,13 +3,14 @@ import { Button, Modal } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import dayjs from 'dayjs';
+export type PointHistory = {
+  point: number;
+  reason: string;
+  createdAt: string;
+};
 type Props = {
   point: number;
-  pointHistory: {
-    point: number;
-    reason: string;
-    createdAt: string;
-  }[];
+  pointHistory: PointHistory[];
 };
 const columns = [
   {

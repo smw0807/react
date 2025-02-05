@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
-import { Button, Form, Input, Modal, Popconfirm, Row, Select } from 'antd';
+import { Button, Col, Form, Input, Modal, Popconfirm, Row, Select } from 'antd';
 import { useFetch } from '~/common/useFetch';
+import { PointHistory, PointHistoryList } from './PointHistoryList';
 
 export type Role = 'ADMIN' | 'USER';
 export type Status = 'ACTIVE' | 'INACTIVE';
@@ -38,6 +39,8 @@ export const EditUser = ({ email, handleEdit }: Props) => {
   }, []);
 
   const fetchData = useFetch();
+  const [point, setPoint] = useState(0);
+  const [pointHistory, setPointHistory] = useState<PointHistory[]>([]);
   useEffect(() => {
     if (isModalOpen) {
       fetchData(`/api/user/${email}`).then((res) => {
@@ -48,6 +51,8 @@ export const EditUser = ({ email, handleEdit }: Props) => {
           form.setFieldValue('role', res.user.role);
           form.setFieldValue('status', res.user.status);
           if (res.user.point) {
+            setPoint(res.user.point.point);
+            setPointHistory(res.user.point.pointHistory);
             form.setFieldValue('point', res.user.point.point);
           }
         }
@@ -64,7 +69,12 @@ export const EditUser = ({ email, handleEdit }: Props) => {
       <Button type="link" onClick={showModal}>
         {email}
       </Button>
-      <Modal title="회원정보 수정" open={isModalOpen} footer={null}>
+      <Modal
+        title="회원정보 수정"
+        onCancel={handleCancel}
+        open={isModalOpen}
+        footer={null}
+      >
         <Form form={form}>
           <Form.Item name="email" label="이메일">
             <Input disabled />
@@ -91,9 +101,16 @@ export const EditUser = ({ email, handleEdit }: Props) => {
               ]}
             />
           </Form.Item>
-          <Form.Item name="point" label="포인트">
-            <Input disabled />
-          </Form.Item>
+          <Row>
+            <Col span={20}>
+              <Form.Item name="point" label="포인트">
+                <Input disabled />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <PointHistoryList point={point} pointHistory={pointHistory} />
+            </Col>
+          </Row>
           <Row justify="end">
             <Button onClick={handleCancel}>취소</Button>
             <Popconfirm
