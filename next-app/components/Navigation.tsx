@@ -36,6 +36,14 @@ export const NavigationComponent = ({
               router.push('/manage/pointHistory');
             },
           },
+          {
+            key: '/manage/ssr-users',
+            icon: <UserOutlined />,
+            label: 'SSR 사용자 목록',
+            onClick: () => {
+              router.push('/manage/ssr-users');
+            },
+          },
         ]}
       />
     </Sider>
