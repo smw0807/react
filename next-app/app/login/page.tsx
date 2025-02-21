@@ -47,11 +47,16 @@ export default function Login() {
       return;
     }
     const inputValues = form.getFieldsValue();
+    const basicToken = Buffer.from(
+      `${inputValues.email}:${inputValues.password}`
+    ).toString('base64');
 
     try {
       const res = await fetchData('/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify(inputValues),
+        headers: {
+          Authorization: `Basic ${basicToken}`,
+        },
       });
       if (!res.success) {
         api.error({
