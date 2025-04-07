@@ -8,6 +8,8 @@ import FullScreenMessage from '@shared/FullScreenMessage'
 import Heading from '@components/sections/Heading'
 import Video from '@components/sections/Video'
 import ImageGallery from '@components/sections/ImageGallery'
+import ImageViewer from '@components/ImageViewer'
+
 import { Wedding } from '@models/wedding'
 
 const cx = classNames.bind(styles)
