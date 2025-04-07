@@ -6,7 +6,18 @@ import Section from '@shared/Section'
 const cx = classNames.bind(style)
 
 function Video() {
-  return <Section>Video</Section>
+  return (
+    <Section className={cx('container')}>
+      <video
+        autoPlay={true}
+        muted={true}
+        loop={true}
+        poster="/assets/poster.jpg"
+      >
+        <source src="/assets/main.mp4" type="video/mp4" />
+      </video>
+    </Section>
+  )
 }
 
 export default Video
