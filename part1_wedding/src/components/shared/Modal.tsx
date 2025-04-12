@@ -18,9 +18,9 @@ function Modal({
   open,
   title,
   body,
-  rightButtonLabel,
+  rightButtonLabel = '확인',
   onRightButtonClick,
-  leftButtonLabel,
+  leftButtonLabel = '닫기',
   onLeftButtonClick,
 }: ModalProps) {
   if (open === false) {
