@@ -14,7 +14,8 @@ function Video() {
         loop={true}
         poster="/assets/poster.jpg"
       >
-        <source src="/assets/main.mp4" type="video/mp4" />
+        <source src="/assets/cut-Medium.webm" type="video/webm" />
+        <source src="/assets/cut-Medium.mp4" type="video/mp4" />
       </video>
     </Section>
   )
