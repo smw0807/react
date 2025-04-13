@@ -5,6 +5,8 @@ import style from './ImageGallery.module.scss'
 import Section from '@shared/Section'
 import ImageViewer from '@components/ImageViewer'
 
+import generateImageUrl from '@utils/generateImageUrl'
+
 const cx = classNames.bind(style)
 
 function ImageGallery({ images }: { images: string[] }) {
@@ -30,7 +32,10 @@ function ImageGallery({ images }: { images: string[] }) {
               key={idx}
               className={cx('wrap-image')}
             >
-              <img src={src} alt="청첩장 사진" />
+              <picture>
+                <source srcSet={`${src}.webp`} type="image/webp" />
+                <img src={`${src}.jpg`} alt="청첩장 사진" />
+              </picture>
             </li>
           ))}
         </ul>
