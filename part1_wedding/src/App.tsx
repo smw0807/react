@@ -21,11 +21,7 @@ const cx = classNames.bind(styles)
 
 function App() {
   // 1. wedding 데이터 호출
-  const { wedding, error } = useWedding()
-
-  if (error) {
-    return <FullScreenMessage type="error" />
-  }
+  const { wedding } = useWedding()
 
   if (!wedding) {
     return null
