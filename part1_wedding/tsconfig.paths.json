@@ -8,7 +8,9 @@
       "@models/*": ["src/models/*"],
       "@scss/*": ["src/scss/*"],
       "@contexts/*": ["src/contexts/*"],
-      "@utils/*": ["src/utils/*"]
+      "@api/*": ["src/api/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   }
 }
