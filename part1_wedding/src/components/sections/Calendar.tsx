@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import classNames from 'classnames/bind'
 import { parseISO, format } from 'date-fns'
 import { ko } from 'date-fns/locale'
@@ -51,4 +52,4 @@ function Calendar({ date }: { date: string }) {
   )
 }
 
-export default Calendar
+export default memo(Calendar)

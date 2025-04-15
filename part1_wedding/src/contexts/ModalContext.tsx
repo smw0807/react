@@ -1,4 +1,11 @@
-import { ComponentProps, createContext, useContext, useState } from 'react'
+import {
+  ComponentProps,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 
 import Modal from '@shared/Modal'
@@ -28,18 +35,23 @@ export function ModalContext({ children }: { children: React.ReactNode }) {
 
   const $potal_root = document.getElementById('root-portal')
 
-  const open = (options: ModalOptions) => {
+  /**
+   * 외부값에 영향을 받지 않기 때문에 캐시해서 사용해도됨.
+   */
+  const open = useCallback((options: ModalOptions) => {
     setModalState({ ...options, open: true })
-  }
+  }, [])
 
-  const close = () => {
+  const close = useCallback(() => {
     setModalState(defaultValues)
-  }
+  }, [])
 
-  const values = {
-    open,
-    close,
-  }
+  const values = useMemo(() => {
+    return {
+      open,
+      close,
+    }
+  }, [open, close])
 
   return (
     <Context.Provider value={values}>

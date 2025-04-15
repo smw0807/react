@@ -48,7 +48,12 @@ function AttendCountModal({ wedding }: { wedding: Wedding }) {
         close()
       },
     })
-  }, [])
+  }, [open, close, wedding, haveSeenModal])
+  /**
+   * []안에 open, close를 넣으면 무한 루프에 빠지게 됨
+   * 왜냐하면 open, close가 호출될 때마다 모달이 다시 열리기 때문임
+   * 하지만 open,과 close를 useCallback으로 선언해서 렌더링을 방지해주면 무한 루프에 빠지지 않음
+   */
   return null
 }
 
