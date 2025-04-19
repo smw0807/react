@@ -1,39 +1,47 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-
+import Text from '@shared/Text'
+import Button from '@shared/Button'
 import logo from './logo.svg'
 import './App.css'
 
-const bold = css`
-  font-weight: bold;
-`
-const containerStyles = css`
-  background-color: pink;
-`
-const Button = styled.button`
-  width: 200px;
-  height: 100px;
-  ${bold}
-`
 function App() {
   return (
-    <div className="App" css={containerStyles}>
-      <Button>Click me</Button>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Text typography="t1" display="block" color="red">
+        T1
+      </Text>
+      <Text typography="t2" display="block" color="blue">
+        T2
+      </Text>
+      <Text typography="t3" display="block" color="green">
+        T3
+      </Text>
+      <Text typography="t4" display="block" color="yellow">
+        T4
+      </Text>
+      <Text typography="t5" display="block" color="purple">
+        T5
+      </Text>
+
+      <div style={{ height: 10, width: '100%', background: '#efefef' }}></div>
+      <Button>클릭해주세요</Button>
+      <Button color="success">클릭해주세요</Button>
+      <Button color="error">클릭해주세요</Button>
+      <Button color="success">클릭해주세요</Button>
+      <Button color="success" weak>
+        클릭해주세요
+      </Button>
+      <Button color="success" size="medium">
+        클릭해주세요
+      </Button>
+      <Button color="success" size="large" full>
+        클릭해주세요
+      </Button>
+      <Button color="success" size="large" full disabled>
+        클릭해주세요
+      </Button>
     </div>
   )
 }
