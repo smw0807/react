@@ -1,11 +1,11 @@
 export interface Card {
   name: string
   corpName: string
-  tag: string[]
+  tags: string[]
   benefit: string[]
   promotion?: {
     title: string
-    term: string
+    terms: string
   }
   payback?: string
 }

@@ -1,6 +1,6 @@
+import styled from '@emotion/styled'
 import Flex from './Flex'
 import Text from '@shared/Text'
-import { css } from '@emotion/react'
 
 interface TopProps {
   title: string
@@ -8,16 +8,16 @@ interface TopProps {
 }
 function Top({ title, subtitle }: TopProps) {
   return (
-    <Flex direction="column" css={containerStyles}>
+    <Container direction="column">
       <Text bold={true} typography="t4">
         {title}
       </Text>
       <Text typography="t7">{subtitle}</Text>
-    </Flex>
+    </Container>
   )
 }
 
-const containerStyles = css`
+const Container = styled(Flex)`
   padding: 24px;
 `
 export default Top
