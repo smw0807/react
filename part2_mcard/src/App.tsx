@@ -1,19 +1,24 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useAlertContext } from '@contexts/AlertContext'
 
 import HomePage from '@pages/Home'
 import CardPage from '@pages/Card'
 import TestPage from '@pages/Test'
+import SigninPage from '@pages/Signin'
+import SignupPage from '@pages/Signup'
 
-import ScrollToTop from '@components/shared/ScrollToTop'
+import ScrollToTop from '@shared/ScrollToTop'
+import NavBar from '@shared/NavBar'
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <NavBar />
       <Routes>
         <Route path="/" Component={HomePage} />
+        <Route path="/signin" Component={SigninPage} />
+        <Route path="/signup" Component={SignupPage} />
         <Route path="/card/:id" Component={CardPage} />
         <Route path="/test" Component={TestPage} />
       </Routes>
