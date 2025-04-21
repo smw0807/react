@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import styled from '@emotion/styled'
+import { motion } from 'framer-motion'
+
 import { getCard } from '@remote/card'
 
 import Top from '@shared/Top'
@@ -16,7 +18,6 @@ function CardPage() {
     enabled: id !== '', // id가 ''가 아니면 호출하겠다.
   })
 
-  console.log(data)
   if (!data) return null
 
   const { name, corpName, promotion, tags, benefit } = data
@@ -30,13 +31,31 @@ function CardPage() {
       <ul>
         {benefit.map((text, index) => {
           return (
-            <ListRow
+            <motion.li
               key={index}
-              left={<IconCheck />}
-              content={
-                <ListRow.Texts title={`혜택 ${index + 1}`} subtitle={text} />
-              }
-            />
+              initial={{
+                opacity: 0,
+                translateX: -90,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: [0.25, 0.1, 0.25, 0.1],
+                delay: index * 0.1,
+              }}
+              animate={{
+                opacity: 1,
+                translateX: 0,
+              }}
+            >
+              <ListRow
+                as="div"
+                key={index}
+                left={<IconCheck />}
+                content={
+                  <ListRow.Texts title={`혜택 ${index + 1}`} subtitle={text} />
+                }
+              />
+            </motion.li>
           )
         })}
       </ul>

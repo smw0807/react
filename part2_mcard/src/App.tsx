@@ -5,10 +5,13 @@ import { useAlertContext } from '@contexts/AlertContext'
 import HomePage from '@pages/Home'
 import CardPage from '@pages/Card'
 import TestPage from '@pages/Test'
+
+import ScrollToTop from '@components/shared/ScrollToTop'
+
 function App() {
-  const { open } = useAlertContext()
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" Component={HomePage} />
         <Route path="/card/:id" Component={CardPage} />

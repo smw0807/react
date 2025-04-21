@@ -7,11 +7,19 @@ interface ListRowProps {
   right?: React.ReactNode
   withArrow?: boolean
   onClick?: () => void
+  as?: 'div' | 'li'
 }
 
-function ListRow({ left, content, right, withArrow, onClick }: ListRowProps) {
+function ListRow({
+  left,
+  content,
+  right,
+  withArrow,
+  onClick,
+  as = 'li',
+}: ListRowProps) {
   return (
-    <ListRowContainer as="li" onClick={onClick}>
+    <ListRowContainer as={as} onClick={onClick}>
       <ListRowLeftContainer>{left}</ListRowLeftContainer>
       <ListRowContentContainer>{content}</ListRowContentContainer>
       <Flex>{right}</Flex>
