@@ -11,7 +11,9 @@
       "@pages/*": ["src/pages/*"],
       "@mock/*": ["src/mock/*"],
       "@remote/*": ["src/remote/*"],
-      "@constants": ["src/constants/index.ts"]
+      "@constants": ["src/constants/index.ts"],
+      "@atoms/*": ["src/atoms/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   }
 }
