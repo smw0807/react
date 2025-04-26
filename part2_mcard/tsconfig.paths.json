@@ -12,6 +12,7 @@
       "@mock/*": ["src/mock/*"],
       "@remote/*": ["src/remote/*"],
       "@constants": ["src/constants/index.ts"],
+      "@constants/*": ["src/constants/*"],
       "@atoms/*": ["src/atoms/*"],
       "@hooks/*": ["src/hooks/*"]
     }
