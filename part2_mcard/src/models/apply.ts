@@ -4,6 +4,12 @@ export interface Term {
   link?: string
   title: string
 }
+export const APPLY_STATE = {
+  READY: 'READY',
+  PROGRESS: 'PROGRESS',
+  COMPLETE: 'COMPLETE',
+  REJECTED: 'REJECTED',
+} as const
 
 export interface ApplyValues {
   userId: User['uid']
@@ -16,6 +22,8 @@ export interface ApplyValues {
   isMaster: boolean
   isHipass: boolean
   isRf: boolean
+  status: keyof typeof APPLY_STATE
+  step: number
 }
 
 export interface Option {

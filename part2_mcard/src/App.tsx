@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import HomePage from '@pages/Home'
@@ -7,6 +7,7 @@ import TestPage from '@pages/Test'
 import SigninPage from '@pages/Signin'
 import SignupPage from '@pages/Signup'
 import ApplyPage from '@pages/Apply'
+import ApplyDonePage from '@pages/ApplyDone'
 
 import ScrollToTop from '@shared/ScrollToTop'
 import NavBar from '@shared/NavBar'
@@ -27,7 +28,17 @@ function App() {
           path="/apply/:id"
           element={
             <PrivateRoute>
-              <ApplyPage />
+              <Suspense fallback={<div>Loading...</div>}>
+                <ApplyPage />
+              </Suspense>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/apply/done"
+          element={
+            <PrivateRoute>
+              <ApplyDonePage />
             </PrivateRoute>
           }
         />
