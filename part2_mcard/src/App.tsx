@@ -13,6 +13,7 @@ import ScrollToTop from '@shared/ScrollToTop'
 import NavBar from '@shared/NavBar'
 
 import PrivateRoute from '@components/auth/PrivateRoute'
+import MyPage from '@pages/My'
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
           element={
             <PrivateRoute>
               <ApplyDonePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my"
+          element={
+            <PrivateRoute>
+              <MyPage />
             </PrivateRoute>
           }
         />

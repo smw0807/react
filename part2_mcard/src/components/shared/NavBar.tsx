@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import styled from '@emotion/styled'
 import { Link, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
@@ -8,20 +9,21 @@ import useUser from '@hooks/auth/useUser'
 
 import Flex from './Flex'
 import Button from './Button'
-import { useCallback } from 'react'
+import MyImage from '@components/my/MyImage'
+
 function NavBar() {
   const location = useLocation()
   const showSignButton =
     ['/signin', '/signup'].includes(location.pathname) === false
 
-  const handleLogout = useCallback(() => {
-    signOut(auth)
-  }, [])
-
   const user = useUser()
   const renderButton = useCallback(() => {
     if (user !== null) {
-      return <Button onClick={handleLogout}>로그아웃</Button>
+      return (
+        <Link to="/my">
+          <MyImage />
+        </Link>
+      )
     }
     if (showSignButton) {
       return (
