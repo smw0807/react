@@ -1,5 +1,6 @@
 const CracoAlias = require('craco-alias')
-
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
   plugins: [
     {
@@ -10,7 +11,7 @@ module.exports = {
       },
     },
   ],
-  bable: {
+  babel: {
     presets: [
       [
         '@babel/preset-react',
@@ -18,5 +19,8 @@ module.exports = {
       ],
     ],
     plugins: ['@emotion/babel-plugin'],
+  },
+  webpack: {
+    plugins: isProd ? [] : [new BundleAnalyzerPlugin()],
   },
 }

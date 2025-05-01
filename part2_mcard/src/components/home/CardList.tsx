@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { flatten } from 'lodash'
+import flatten from 'lodash.flatten'
 import { useNavigate } from 'react-router-dom'
 import { getCards } from '@remote/card'
 
