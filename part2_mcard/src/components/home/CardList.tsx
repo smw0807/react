@@ -24,6 +24,7 @@ function CardList() {
       getNextPageParam: (snapshot) => {
         return snapshot.lastVisible
       },
+      suspense: true,
     },
   )
 
@@ -43,7 +44,7 @@ function CardList() {
       <InfiniteScroll
         dataLength={cards.length}
         hasMore={hasNextPage}
-        loader={<></>}
+        loader={<ListRow.Skeleton />}
         next={loadMore}
         scrollThreshold="100px"
       >

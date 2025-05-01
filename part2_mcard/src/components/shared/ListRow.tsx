@@ -1,6 +1,9 @@
 import styled from '@emotion/styled'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
+import Skeleton from '@shared/Skeleton'
+import Spacing from '@shared/Spacing'
+
 interface ListRowProps {
   left?: React.ReactNode
   content: React.ReactNode
@@ -45,8 +48,8 @@ function ListRowTexts({
   title,
   subtitle,
 }: {
-  title: string
-  subtitle: string
+  title: React.ReactNode
+  subtitle: React.ReactNode
 }) {
   return (
     <Flex direction="column">
@@ -56,7 +59,25 @@ function ListRowTexts({
   )
 }
 
-ListRow.Texts = ListRowTexts
+function ListRowSkeleton() {
+  return (
+    <ListRowContainer as="li">
+      <ListRowLeftContainer></ListRowLeftContainer>
+      <ListRowContentContainer>
+        <ListRow.Texts
+          title={
+            <>
+              <Skeleton width={67} height={23} />
+              <Spacing size={2} />
+            </>
+          }
+          subtitle={<Skeleton width={85} height={20} />}
+        />
+      </ListRowContentContainer>
+      <IconArrowRight />
+    </ListRowContainer>
+  )
+}
 
 function IconArrowRight() {
   return (
@@ -72,4 +93,6 @@ function IconArrowRight() {
   )
 }
 
+ListRow.Texts = ListRowTexts
+ListRow.Skeleton = ListRowSkeleton
 export default ListRow
