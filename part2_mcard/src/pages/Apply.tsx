@@ -13,6 +13,12 @@ import { APPLY_STATE } from '@models/apply'
 import useUser from '@hooks/auth/useUser'
 import PullPageLoader from '@shared/PullPageLoader'
 
+const STATUS_MESSAGE = {
+  [APPLY_STATE.READY]: '카드 심사를 준비하고있습니다.',
+  [APPLY_STATE.PROGRESS]: '카드를 심사중입니다. 잠시만 기다려주세요.',
+  [APPLY_STATE.COMPLETE]: '카드 신청이 완료되었습니다.',
+}
+
 function ApplyPage() {
   const navigate = useNavigate()
   const { open } = useAlertContext()
@@ -47,7 +53,7 @@ function ApplyPage() {
     },
   })
 
-  usePollApplyStatus({
+  const { data: status } = usePollApplyStatus({
     onSuccess: async () => {
       await updateApplyCard({
         cardId: id as string,
@@ -86,7 +92,7 @@ function ApplyPage() {
   }
 
   if (readyToPoll || isLoading) {
-    return <PullPageLoader message="카드를 신청중입니다." />
+    return <PullPageLoader message={STATUS_MESSAGE[status ?? 'READY']} />
   }
 
   return <Apply onSubmit={mutate} />
