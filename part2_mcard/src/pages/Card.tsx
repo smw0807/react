@@ -11,6 +11,8 @@ import ListRow from '@shared/ListRow'
 import FixedBottomButton from '@shared/FixedBottomButton'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
+import Spacing from '@shared/Spacing'
+import Review from '@components/card/Review'
 
 import useUser from '@hooks/auth/useUser'
 import { useAlertContext } from '@contexts/AlertContext'
@@ -86,6 +88,12 @@ function CardPage() {
           <Text typography="t7">{removeHtmlTags(promotion?.terms)}</Text>
         </TermsContainer>
       ) : null}
+
+      <Spacing size={1000} />
+
+      <Review />
+
+      <Spacing size={100} />
       <FixedBottomButton
         label="1분만에 신청하고 혜택받기"
         onClick={moveToApply}
