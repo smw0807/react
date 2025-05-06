@@ -1,3 +1,4 @@
+import { SerializedStyles } from '@emotion/react'
 import styled from '@emotion/styled'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
@@ -11,6 +12,7 @@ interface ListRowProps {
   withArrow?: boolean
   onClick?: () => void
   as?: 'div' | 'li'
+  style?: SerializedStyles
 }
 
 function ListRow({
@@ -20,12 +22,13 @@ function ListRow({
   withArrow,
   onClick,
   as = 'li',
+  style,
 }: ListRowProps) {
   return (
-    <ListRowContainer as={as} onClick={onClick}>
-      <ListRowLeftContainer>{left}</ListRowLeftContainer>
+    <ListRowContainer as={as} onClick={onClick} css={style}>
+      {left && <ListRowLeftContainer>{left}</ListRowLeftContainer>}
       <ListRowContentContainer>{content}</ListRowContentContainer>
-      <Flex>{right}</Flex>
+      {right && <Flex>{right}</Flex>}
       {withArrow && <IconArrowRight />}
     </ListRowContainer>
   )

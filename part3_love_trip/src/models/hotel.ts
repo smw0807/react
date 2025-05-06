@@ -1,0 +1,17 @@
+export interface Hotel {
+  comments: string
+  contents: string
+  id: string
+  images: string[]
+  location: {
+    directions: string
+    pointGeolocation: {
+      x: number
+      y: number
+    }
+  }
+  mainImageUrl: string
+  name: string
+  price: number
+  starRating: number
+}
