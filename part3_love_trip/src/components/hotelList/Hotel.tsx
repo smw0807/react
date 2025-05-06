@@ -16,7 +16,7 @@ function Hotel({ hotel }: { hotel: IHotel }) {
           <Flex direction="column">
             <ListRow.Texts
               title={hotel.name}
-              subtitle={hotel.comments}
+              subtitle={hotel.comment}
             ></ListRow.Texts>
             <Spacing size={4} />
             <Text typography="t7" color="gray600">
@@ -28,7 +28,9 @@ function Hotel({ hotel }: { hotel: IHotel }) {
           <Flex direction="column" align="flex-end">
             <img src={hotel.mainImageUrl} alt={hotel.name} css={ImageStyles} />
             <Spacing size={8} />
-            <Text bold>{addDelimiter(hotel.price, ',')}원</Text>
+            <Text textAlign="end" bold>
+              {addDelimiter(hotel.price, ',')}원
+            </Text>
           </Flex>
         }
         style={ContainerStyles}

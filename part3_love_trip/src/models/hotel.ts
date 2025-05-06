@@ -1,5 +1,5 @@
 export interface Hotel {
-  comments: string
+  comment: string
   contents: string
   id: string
   images: string[]
