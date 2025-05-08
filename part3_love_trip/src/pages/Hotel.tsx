@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import Top from '@shared/Top'
 import Carousel from '@/components/hotel/Carousel'
 import Contents from '@/components/hotel/Contents'
-
+import Rooms from '@/components/hotel/Rooms'
 function HotelPage() {
   const { id } = useParams() as { id: string }
 
@@ -20,6 +20,7 @@ function HotelPage() {
     <div>
       <Top title={name} subtitle={comment} />
       <Carousel images={images} />
+      <Rooms hotelId={id} />
       <Contents contents={contents} />
     </div>
   )
