@@ -1,5 +1,3 @@
-// t1, t2, t3
-
 import { css } from '@emotion/react'
 
 export const typographyMap = {
