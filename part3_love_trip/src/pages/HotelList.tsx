@@ -6,8 +6,11 @@ import HotelItem from '@/components/hotelList/HotelItem'
 import { Fragment } from 'react'
 import Spacing from '@shared/Spacing'
 
+import useLike from '@/hooks/like/useLike'
+
 function HotelList() {
   const { data: hotels, hasNextPage, loadMore } = useHotels()
+  const { data: likes, mutate: like } = useLike()
   return (
     <div>
       <Top title="인기 호텔" subtitle="호텔부터 펜션까지 최저가"></Top>
@@ -21,7 +24,13 @@ function HotelList() {
         <ul>
           {hotels?.map((hotel, idx) => (
             <Fragment key={hotel.id}>
-              <HotelItem hotel={hotel} />
+              <HotelItem
+                hotel={hotel}
+                isLike={Boolean(
+                  likes?.find((like) => like.hotelId === hotel.id),
+                )}
+                onLike={like}
+              />
 
               {hotels.length - 1 === idx ? null : (
                 <Spacing
