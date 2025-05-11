@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import styled from '@emotion/styled'
 import { Link, useLocation } from 'react-router-dom'
+import useUser from '@hooks/auth/useUser'
 
 import { colors } from '@styles/colorPalette'
 
@@ -12,13 +13,23 @@ function NavBar() {
   const showSignButton =
     ['/signin', '/signup'].includes(location.pathname) === false
 
-  const user = null
+  const user = useUser()
+
   const renderButton = useCallback(() => {
     if (user !== null) {
       return (
         <Link to="/my">
           {/* <MyImage /> */}
-          <img src="" alt="" />
+          <img
+            src={
+              user.photoURL ??
+              'https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_user-512.png'
+            }
+            alt=""
+            width={40}
+            height={40}
+            style={{ borderRadius: '100%' }}
+          />
         </Link>
       )
     }
@@ -33,7 +44,7 @@ function NavBar() {
   }, [user, showSignButton])
   return (
     <Container justify="space-between" align="center">
-      <Link to="/">홈</Link>
+      <Link to="/">Love Trip</Link>
       {renderButton()}
     </Container>
   )

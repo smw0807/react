@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Flex from '@shared/Flex'
 import Spacer from '@shared/Spacing'
@@ -30,18 +29,18 @@ function ActionButtons({ hotel }: { hotel: Hotel }) {
         }}
         iconUrl="https://cdn1.iconfinder.com/data/icons/rounded-social-media/512/kakao-64.png"
       />
-      <CopyToClipboard
-        text={window.location.href}
-        onCopy={() => {
-          alert('링크가 복사되었습니다.')
+      <Button
+        label="링크복사"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href)
+            alert('링크가 복사되었습니다.')
+          } catch (e) {
+            console.error('클립보드 복사 실패:', e)
+          }
         }}
-      >
-        <Button
-          label="링크복사"
-          onClick={() => {}}
-          iconUrl="https://cdn3.iconfinder.com/data/icons/feather-5/24/copy-512.png"
-        />
-      </CopyToClipboard>
+        iconUrl="https://cdn3.iconfinder.com/data/icons/feather-5/24/copy-512.png"
+      />
     </ContainerStyles>
   )
 }

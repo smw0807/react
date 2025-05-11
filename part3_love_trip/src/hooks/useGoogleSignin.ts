@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
 
 import { auth, store } from '@remote/firebase'
 import { COLLECTIONS } from '@/constants'
@@ -13,6 +13,15 @@ function useGoogleSignin() {
     const provider = new GoogleAuthProvider()
     try {
       const { user } = await signInWithPopup(auth, provider)
+
+      const snapshot = await getDoc(
+        doc(collection(store, COLLECTIONS.USER), user.uid),
+      )
+
+      if (snapshot.exists()) {
+        return navigate('/')
+      }
+
       const newUser = {
         uid: user.uid,
         email: user.email,
