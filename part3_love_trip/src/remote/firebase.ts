@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp, FirebaseOptions } from 'firebase/app'
 
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
@@ -13,7 +13,7 @@ const {
   REACT_APP_MEASUREMENT_ID,
 } = process.env
 
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: REACT_APP_API_KEY,
   authDomain: REACT_APP_AUTH_DOMAIN,
   databaseURL: REACT_APP_DATABASE_URL,
