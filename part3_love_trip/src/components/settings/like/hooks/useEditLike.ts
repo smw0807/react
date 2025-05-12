@@ -24,7 +24,7 @@ function useEditLike() {
     (from: number, to: number) => {
       setIsEdit(true)
       setUpdatedLikes((prev) => {
-        const newItems = [...data]
+        const newItems = [...prev]
 
         const [fromItem] = newItems.splice(from, 1)
         if (fromItem != null) {
