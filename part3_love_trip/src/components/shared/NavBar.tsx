@@ -7,6 +7,7 @@ import { colors } from '@styles/colorPalette'
 
 import Flex from './Flex'
 import Button from './Button'
+import Spacing from './Spacing'
 
 function NavBar() {
   const location = useLocation()
@@ -18,19 +19,29 @@ function NavBar() {
   const renderButton = useCallback(() => {
     if (user !== null) {
       return (
-        <Link to="/my">
-          {/* <MyImage /> */}
-          <img
-            src={
-              user.photoURL ??
-              'https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_user-512.png'
-            }
-            alt=""
-            width={40}
-            height={40}
-            style={{ borderRadius: '100%' }}
-          />
-        </Link>
+        <Flex align="center">
+          <Link to="/my">
+            <img
+              src={
+                user.photoURL ??
+                'https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_user-512.png'
+              }
+              alt=""
+              width={40}
+              height={40}
+              style={{ borderRadius: '100%' }}
+            />
+          </Link>
+          <Spacing size={4} direction="horizontal" />
+          <Link to="/settings">
+            <img
+              src="https://cdn4.iconfinder.com/data/icons/multimedia-75/512/multimedia-06-64.png"
+              alt="설정"
+              width={40}
+              height={40}
+            />
+          </Link>
+        </Flex>
       )
     }
     if (showSignButton) {
