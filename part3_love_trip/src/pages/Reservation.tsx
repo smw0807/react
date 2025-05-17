@@ -3,8 +3,10 @@ import { parse } from 'qs'
 
 import Summary from '@/components/reservation/Summary'
 import Spacing from '@/components/shared/Spacing'
+import Form from '@/components/reservation/Form'
 
 import useReservation from '@/components/reservation/hooks/useReservation'
+import addDelimiter from '@/utils/addDelimiter'
 function ReservationPage() {
   const { startDate, endDate, nights, roomId, hotelId } = parse(
     window.location.search,
@@ -31,6 +33,10 @@ function ReservationPage() {
 
   const { hotel, room } = data
 
+  const handleSubmit = () => {}
+
+  const buttonLabel = `${nights}박 ${addDelimiter(room.price * Number(nights))}원 예약하기`
+
   return (
     <div>
       <Summary
@@ -42,6 +48,12 @@ function ReservationPage() {
       />
 
       <Spacing size={8} backgroundColor="gray100" />
+
+      <Form
+        forms={hotel.form}
+        onSubmit={handleSubmit}
+        buttonLabel={buttonLabel}
+      />
     </div>
   )
 }
