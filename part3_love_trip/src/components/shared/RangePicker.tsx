@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { parseISO, isSameDay, format, differenceInDays } from 'date-fns'
+import {
+  parseISO,
+  isSameDay,
+  format,
+  differenceInDays,
+  addDays,
+} from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { DayPicker, DateRange } from 'react-day-picker'
 import { colors } from '@/styles/colorPalette'
@@ -43,6 +48,9 @@ function RangePicker({ startDate, endDate, onChange }: RangePickerProps) {
         defaultMonth={today}
         onSelect={handleDayClick}
         selected={selected}
+        disabled={{
+          before: addDays(new Date(), 1),
+        }}
       />
     </Container>
   )
