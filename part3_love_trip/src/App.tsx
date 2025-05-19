@@ -9,6 +9,8 @@ import SettingsPage from '@pages/settings'
 import SchedulePage from '@pages/Schedule'
 import ReservationPage from '@pages/Reservation'
 import LikePage from '@pages/settings/like'
+import ReservationDonePage from '@pages/ReservationDone'
+import ReservationListPage from '@pages/ReservationList'
 
 import PrivateRoute from '@components/auth/PrivateRoute'
 import AuthGuard from '@components/auth/AuthGuard'
@@ -67,6 +69,22 @@ function App() {
             }
           />
           <Route path="/test" element={<TestPage />} />
+          <Route
+            path="/reservation/done"
+            element={
+              <PrivateRoute>
+                <ReservationDonePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/reservation/list"
+            element={
+              <PrivateRoute>
+                <ReservationListPage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </AuthGuard>
     </BrowserRouter>
