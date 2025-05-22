@@ -9,6 +9,7 @@ import ListRow from '@shared/ListRow'
 import Tag from '@shared/Tag'
 import Spacing from '@shared/Spacing'
 import Button from '@shared/Button'
+import withSuspense from '@shared/hocs/withSuspense'
 
 import useRooms from './hooks/useRooms'
 import useUser from '@hooks/auth/useUser'
@@ -113,4 +114,6 @@ const ImageStyles = css`
   object-fit: cover;
   border-radius: 4px;
 `
-export default Rooms
+export default withSuspense(Rooms, {
+  fallback: <div>객실 정보 불러오는 중...</div>,
+})

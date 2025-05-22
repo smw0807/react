@@ -5,6 +5,7 @@ import Top from '@shared/Top'
 import HotelItem from '@/components/hotelList/HotelItem'
 import { Fragment } from 'react'
 import Spacing from '@shared/Spacing'
+import withSuspense from '@shared/hocs/withSuspense'
 
 import useLike from '@/hooks/like/useLike'
 
@@ -46,4 +47,6 @@ function HotelList() {
     </div>
   )
 }
-export default HotelList
+export default withSuspense(HotelList, {
+  fallback: <div>호텔리스트 불러오는 중...</div>,
+})
