@@ -14,25 +14,32 @@ function EventBanners() {
   const { data } = useEventBanners()
   console.log(data)
   return (
-    <Swiper spaceBetween={8}>
-      {data?.map((banner) => (
-        <SwiperSlide key={banner.id}>
-          <Link href={banner.link}>
-            <Flex
-              style={{ backgroundColor: banner.backgroundColor }}
-              justify="space-between"
-              css={BannerStyles}
-            >
-              <Flex direction="column">
-                <Text bold>{banner.title}</Text>
-                <Text typography="t6">{banner.subTitle}</Text>
+    <div style={{ padding: 24 }}>
+      <Swiper spaceBetween={8}>
+        {data?.map((banner) => (
+          <SwiperSlide key={banner.id}>
+            <Link href={banner.link}>
+              <Flex
+                style={{ backgroundColor: banner.backgroundColor }}
+                justify="space-between"
+                css={BannerStyles}
+              >
+                <Flex direction="column">
+                  <Text bold>{banner.title}</Text>
+                  <Text typography="t6">{banner.subTitle}</Text>
+                </Flex>
+                <Image
+                  alt="banner"
+                  src={banner.iconUrl}
+                  width={40}
+                  height={40}
+                />
               </Flex>
-              <Image alt="banner" src={banner.iconUrl} width={40} height={40} />
-            </Flex>
-          </Link>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   )
 }
 
@@ -41,6 +48,14 @@ const BannerStyles = css`
   border-radius: 8px;
 `
 
+export function EventBannersSkeleton() {
+  return (
+    <div style={{ padding: 24 }}>
+      <Skeleton width="100%" height={100} style={{ borderRadius: 8 }} />
+    </div>
+  )
+}
+
 export default withSuspense(EventBanners, {
-  fallback: <Skeleton width="100%" height={100} style={{ borderRadius: 8 }} />,
+  fallback: <EventBannersSkeleton />,
 })
