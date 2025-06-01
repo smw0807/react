@@ -1,18 +1,24 @@
 import type { AppProps } from 'next/app'
 import { Global } from '@emotion/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider, Hydrate } from 'react-query'
 
 import Layout from '@shared/Layout'
 import globalStyles from '@styles/globalStyles'
 
 const client = new QueryClient()
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { dehydratedState, ...pageProps },
+}: AppProps) {
+  console.log('__app')
   return (
     <Layout>
       <QueryClientProvider client={client}>
         <Global styles={globalStyles} />
-        <Component {...pageProps} />
+        <Hydrate state={dehydratedState}>
+          <Component {...pageProps} />
+        </Hydrate>
       </QueryClientProvider>
     </Layout>
   )
