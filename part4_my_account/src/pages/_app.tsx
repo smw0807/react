@@ -7,6 +7,7 @@ import Layout from '@shared/Layout'
 import globalStyles from '@styles/globalStyles'
 
 import AuthGuard from '@components/auth/AuthGuard'
+import NavBar from '@components/shared/NavBar'
 
 const client = new QueryClient()
 
@@ -21,6 +22,7 @@ export default function App({
         <SessionProvider session={session}>
           <Hydrate state={dehydratedState}>
             <AuthGuard>
+              <NavBar />
               <Component {...pageProps} />
             </AuthGuard>
           </Hydrate>
