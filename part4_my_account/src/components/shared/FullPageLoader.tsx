@@ -1,8 +1,9 @@
 import Flex from './Flex'
 import Text from './Text'
 import Spacing from './Spacing'
+import Image from 'next/image'
 
-function PullPageLoader({ message }: { message?: string }) {
+function FullPageLoader({ message }: { message?: string }) {
   return (
     <Flex
       style={{
@@ -16,9 +17,10 @@ function PullPageLoader({ message }: { message?: string }) {
       align="center"
     >
       <Flex direction="column" align="center">
-        <img
+        <Image
           width={120}
-          src="https://pixabay.com/ko/gifs/%EB%A1%9C%EC%BC%93-%EC%9A%B0%EC%A3%BC-%EB%B6%80%EC%8A%A4%ED%84%B0-%EC%97%B0%EC%86%8C-6594/"
+          height={120}
+          src="https://cdn.pixabay.com/animation/2023/06/13/15/12/15-12-47-323_512.gif"
           alt=""
         />
 
@@ -35,4 +37,4 @@ function PullPageLoader({ message }: { message?: string }) {
   )
 }
 
-export default PullPageLoader
+export default FullPageLoader

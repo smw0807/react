@@ -1,3 +1,7 @@
+import { useCallback } from 'react'
+import { QueryClient, dehydrate } from 'react-query'
+import { getSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
@@ -10,17 +14,19 @@ import CreditScoreChart from '@shared/CreditScoreChart'
 import { useAlertContext } from '@contexts/AlertContext'
 
 import useUser from '@hooks/useUser'
-import { useCallback } from 'react'
+import { getCredit } from '@/remote/credit'
+import { User } from '@models/user'
+import useCredit from '@/components/credit/hooks/useCredit'
 
 const FixedBottomButton = dynamic(() => import('@shared/FixedBottomButton'), {
   ssr: false,
 })
 
 function CreditPage() {
-  const isSearchCredit = false
   const router = useRouter()
   const { open } = useAlertContext()
   const user = useUser()
+  const { data } = useCredit()
 
   const handleCheck = useCallback(() => {
     if (user == null) {
@@ -36,7 +42,7 @@ function CreditPage() {
     }
     router.push('/credit/check')
   }, [user, router, open])
-  return isSearchCredit ? (
+  return data != null ? (
     <div>
       <Spacing size={40} />
       <Flex direction="column" align="center">
@@ -44,7 +50,7 @@ function CreditPage() {
           나의 신용점수
         </Text>
         <Spacing size={10} />
-        <CreditScoreChart score={0} width={100} height={100} />
+        <CreditScoreChart score={data.creditScore} width={100} height={100} />
       </Flex>
       <Spacing size={80} />
       <ul>
@@ -98,6 +104,23 @@ function CreditPage() {
       />
     </div>
   )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context)
+  if (session != null && session.user != null) {
+    const client = new QueryClient()
+    await client.prefetchQuery(['credit', (session.user as User).id], () =>
+      getCredit((session.user as User).id),
+    )
+    return {
+      props: {
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(client))),
+      },
+    }
+  }
+
+  return {}
 }
 
 export default CreditPage
