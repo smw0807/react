@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { css } from '@emotion/react'
 
 import useEventBanners from './hooks/useEventBanners'
-import withSuspense from '../shared/hooks/withSuspense'
+import withSuspense from '../../hooks/withSuspense'
 
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'

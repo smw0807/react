@@ -1,5 +1,5 @@
 import { signOut } from 'next-auth/react'
-import withAuth from '@components/shared/hooks/withAuth'
+import withAuth from '@/hooks/withAuth'
 
 import Flex from '@shared/Flex'
 import Spacing from '@shared/Spacing'

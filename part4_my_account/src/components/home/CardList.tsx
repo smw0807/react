@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import withSuspense from '@shared/hooks/withSuspense'
+import withSuspense from '@/hooks/withSuspense'
 import Text from '@shared/Text'
 import ListRow from '@shared/ListRow'
 import Badge from '@shared/Badge'

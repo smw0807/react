@@ -9,7 +9,7 @@ import ListRow from '@shared/ListRow'
 import Badge from '@shared/Badge'
 
 import { getSearchCards } from '@remote/card'
-import useDebounce from '@shared/hooks/useDebounce'
+import useDebounce from '@/hooks/useDebounce'
 
 function SearchPage() {
   const navigate = useRouter()
