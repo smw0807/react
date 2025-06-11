@@ -1,6 +1,7 @@
 import EventBannerAddButton from '@components/test/EventBannerAddButton'
 import CardListAddButton from '@components/test/CardListAddButton'
 import EventForm from '@components/test/EventForm'
+import TransactionForm from '@components/test/TransactionForm'
 
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
@@ -29,6 +30,15 @@ function Test() {
 
       <Text bold>이벤트 폼</Text>
       <EventForm />
+
+      <Spacing
+        size={8}
+        backgroundColor="gray100"
+        style={{ margin: '20px 0' }}
+      />
+
+      <Text bold>입출금 테스트</Text>
+      <TransactionForm />
     </Flex>
   )
 }
