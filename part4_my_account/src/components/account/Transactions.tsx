@@ -29,7 +29,7 @@ function Transactions() {
         <>
           <ul>
             {transactions?.map((transaction) => {
-              const 입금인가 = transaction.type === 'diposit'
+              const 입금인가 = transaction.type === 'deposit'
               return (
                 <ListRow
                   key={transaction.id}

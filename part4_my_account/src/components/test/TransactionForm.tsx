@@ -13,7 +13,7 @@ import { Transaction } from '@/models/transaction'
 function TransactionForm() {
   const [formValues, setFormValues] = useState({
     userId: '',
-    type: 'diposit',
+    type: 'deposit',
     amount: '',
     displayText: '',
   })
@@ -29,7 +29,7 @@ function TransactionForm() {
       return
     }
     if (
-      formValues.type === 'diposit' &&
+      formValues.type === 'deposit' &&
       account.balance - Number(formValues.amount) < 0
     ) {
       window.alert(
@@ -38,7 +38,7 @@ function TransactionForm() {
       return
     }
     const balance =
-      formValues.type === 'diposit'
+      formValues.type === 'deposit'
         ? account.balance + Number(formValues.amount)
         : account.balance - Number(formValues.amount)
 
@@ -76,7 +76,7 @@ function TransactionForm() {
           options={[
             {
               label: '입금',
-              value: 'diposit',
+              value: 'deposit',
             },
             {
               label: '출금',
@@ -100,7 +100,7 @@ function TransactionForm() {
         />
         <Spacing size={8} />
         <Button onClick={handleSubmit}>
-          {formValues.type === 'diposit' ? '입금' : '출금'}
+          {formValues.type === 'deposit' ? '입금' : '출금'}
         </Button>
       </Flex>
     </div>
