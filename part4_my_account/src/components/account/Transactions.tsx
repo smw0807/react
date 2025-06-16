@@ -15,7 +15,6 @@ function Transactions() {
   const { data } = useTransactions({ suspense: true })
 
   const transactions = data?.pages.flatMap((page) => page.items).slice(0, 5)
-  console.log(transactions)
   return (
     <div>
       <Text bold style={{ padding: 24 }}>
