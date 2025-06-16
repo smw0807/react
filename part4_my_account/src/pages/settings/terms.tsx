@@ -1,10 +1,16 @@
 import { useMemo } from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { getSession } from 'next-auth/react'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import {
+  dehydrate,
+  QueryClient,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from 'react-query'
 
 import useUser from '@/hooks/useUser'
-import { getTerms } from '@remote/account'
+import { getTerms, updateTerms } from '@remote/account'
 import { User } from '@/models/user'
 import { 약관목록 } from '@/constants/account'
 
@@ -15,6 +21,7 @@ import Button from '@shared/Button'
 
 function TermsPage() {
   const user = useUser()
+  const client = useQueryClient()
   const { data: terms } = useQuery(
     ['terms', user?.id],
     () => getTerms(user?.id as string),
@@ -22,6 +29,18 @@ function TermsPage() {
       enabled: user != null,
     },
   )
+  const { mutate: updateTermsMutation, isLoading } = useMutation(
+    (termIds: string[]) => updateTerms(user?.id as string, termIds),
+    {
+      onSuccess: () => {
+        client.invalidateQueries(['terms', user?.id])
+      },
+      onError: (error) => {
+        console.log(error)
+      },
+    },
+  )
+
   const 동의한약관목록 = useMemo(() => {
     if (terms == null) {
       return null
@@ -39,7 +58,18 @@ function TermsPage() {
       선택약관목록,
     }
   }, [terms])
-  console.log('동의한약관목록 : ', 동의한약관목록)
+
+  const handleDisagree = (selectedTermId: string) => {
+    const updateTermIds = terms?.termIds.filter(
+      (termId) => termId !== selectedTermId,
+    )
+
+    if (updateTermIds == null) {
+      return
+    }
+
+    updateTermsMutation(updateTermIds)
+  }
   return (
     <div>
       <Top title="약관" subtitle="약관목록 및 철회" />
@@ -64,7 +94,14 @@ function TermsPage() {
                 content={
                   <ListRow.Texts title={`[선택] ${term.title}`} subtitle="" />
                 }
-                right={<Button>철회</Button>}
+                right={
+                  <Button
+                    onClick={() => handleDisagree(term.id)}
+                    disabled={isLoading}
+                  >
+                    철회
+                  </Button>
+                }
               />
             )
           })}

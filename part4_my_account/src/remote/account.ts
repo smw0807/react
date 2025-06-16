@@ -65,3 +65,9 @@ export async function updateAccountBalance(userId: string, balance: number) {
 
   return updateDoc(snapshot.ref, { balance })
 }
+
+export async function updateTerms(userId: string, termsIds: string[]) {
+  const snapshot = doc(collection(store, COLLECTIONS.TERMS), userId)
+
+  return updateDoc(snapshot, { termsIds })
+}
