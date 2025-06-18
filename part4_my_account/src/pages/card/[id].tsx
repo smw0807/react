@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next'
+import dynamic from 'next/dynamic'
 import { useQuery } from 'react-query'
 import { useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -11,7 +12,7 @@ import ListRow from '@shared/ListRow'
 import Image from 'next/image'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
-import dynamic from 'next/dynamic'
+import SEO from '@shared/SEO'
 
 const FixedBottomButton = dynamic(() => import('@shared/FixedBottomButton'), {
   ssr: false,
@@ -36,6 +37,11 @@ function CardDetailPage({ initialCard }: CardDetailPageProps) {
 
   return (
     <div>
+      <SEO
+        title={`${corpName} ${name}`}
+        description={subTitle}
+        image={'/images/logo.png'}
+      />
       <Top title={`${corpName} ${name}`} subtitle={subTitle} />
 
       <ul>

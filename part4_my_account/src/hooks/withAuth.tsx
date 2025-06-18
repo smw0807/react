@@ -8,7 +8,12 @@ function withAuth<Props = Record<string, never>>(
   return function AuthenticatedComponent(props: Props) {
     const { data, status } = useSession()
     const router = useRouter()
-    if (status !== 'loading' && data == null) {
+
+    if (status === 'loading') {
+      return null
+    }
+
+    if (data == null) {
       router.replace('/auth/signin')
       return null
     }
