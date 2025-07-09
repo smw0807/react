@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
-import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+import type { AppProps } from 'next/app';
+
+import '@/styles/globals.css';
 
 /**
  * 모든 페이지에 적용되는 부모 컴포넌트
