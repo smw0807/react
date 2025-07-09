@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Link from 'next/link';
@@ -15,12 +16,19 @@ export default function App({ Component, pageProps }: AppProps) {
   const onClickButton = () => {
     router.push('/test');
   };
+  useEffect(() => {
+    router.prefetch('/test');
+  }, [router]);
+
   return (
     <>
       <header>
         <Link href="/">Home</Link>
         &nbsp;
-        <Link href="/search">Search</Link>
+        <Link href="/search" prefetch={false}>
+          {/* prefetch false속성을 사용하면 페이지 이동 시 미리 페이지를 로드하지 않음 */}
+          Search
+        </Link>
         &nbsp;
         <Link href="/book/1">book/1</Link>
         &nbsp;
