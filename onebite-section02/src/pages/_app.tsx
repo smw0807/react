@@ -1,8 +1,14 @@
+import { ReactNode } from 'react';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 
 import GlobalLayout from '@/components/global-layout';
+
 import '@/styles/globals.css';
 
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactNode) => ReactNode;
+};
 /**
  * 모든 페이지에 적용되는 부모 컴포넌트
  * root 컴포넌트 역할
@@ -10,10 +16,10 @@ import '@/styles/globals.css';
  * pageProps : 현재 페이지에 전달된 props를 받음
  * 헤더나 레이아웃 비즈니스 로직을 여기에서 처리할 수 있음.
  */
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <GlobalLayout>
-      <Component {...pageProps} />
-    </GlobalLayout>
-  );
+export default function App({
+  Component,
+  pageProps,
+}: AppProps & { Component: NextPageWithLayout }) {
+  const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
+  return <GlobalLayout>{getLayout(<Component {...pageProps} />)}</GlobalLayout>;
 }
