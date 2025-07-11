@@ -1,13 +1,21 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import SearchableLayout from '@/components/searchable-layout';
+import books from '@/mock/books.json';
+import BookItem from '@/components/book-item';
 
 export default function Page() {
-  const router = useRouter();
+  // const router = useRouter();
 
   //http://localhost:3000/search?q=minwoo
-  const { q } = router.query;
+  // const { q } = router.query;
 
-  return <h1>Search {q}</h1>;
+  return (
+    <div>
+      {books.map((book) => (
+        <BookItem key={book.id} {...book} />
+      ))}
+    </div>
+  );
 }
 
 Page.getLayout = (page: React.ReactNode) => {
