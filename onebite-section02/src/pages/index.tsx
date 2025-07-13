@@ -1,6 +1,7 @@
 // import { InferGetServerSidePropsType } from 'next';
 import { InferGetStaticPropsType } from 'next';
 
+import SEO from '@/components/SEO';
 import SearchableLayout from '@/components/searchable-layout';
 import styles from './index.module.css';
 
@@ -68,20 +69,23 @@ export default function Home({
   randomBooks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <div className={styles.container}>
-      <section>
-        <h3>지금 추천하는 도서</h3>
-        {randomBooks.map((book) => (
-          <BookItem key={book.id} {...book} />
-        ))}
-      </section>
-      <section>
-        <h3>등록된 모든 도서</h3>
-        {allBooks.map((book) => (
-          <BookItem key={book.id} {...book} />
-        ))}
-      </section>
-    </div>
+    <>
+      <SEO />
+      <div className={styles.container}>
+        <section>
+          <h3>지금 추천하는 도서</h3>
+          {randomBooks.map((book) => (
+            <BookItem key={book.id} {...book} />
+          ))}
+        </section>
+        <section>
+          <h3>등록된 모든 도서</h3>
+          {allBooks.map((book) => (
+            <BookItem key={book.id} {...book} />
+          ))}
+        </section>
+      </div>
+    </>
   );
 }
 

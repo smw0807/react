@@ -1,5 +1,7 @@
 // import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+
+import SEO from '@/components/SEO';
 import styles from './[id].module.css';
 import fetchOneBook from '@/lib/fetch-one-book';
 import { useRouter } from 'next/router';
@@ -15,6 +17,9 @@ export const getStaticPaths = () => {
     // fallback: false, //false: 404 페이지 반환
     // fallback: 'blocking', //즉시 생성 (Like SSR) / 사전 렌더링해서 브라우저에게 반환해줌
     fallback: true, //true: 즉시 생성 + 페이지만 미리 반환 / ui를 먼저 렌더링해서 보내준 후 데이터가 준비되면 데이터를 받아서 렌더링함
+    // false : 404 Not Found 반환
+    // 'blocking' : SSR 방식으로 렌더링
+    // true : SSR방식 -> 데이터가 없는 폴백 상태의 페이지부터 반환
   };
 };
 
@@ -38,27 +43,35 @@ export default function Page({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
   if (router.isFallback) {
-    return '로딩중...';
+    return (
+      <>
+        <SEO />
+        <div>로딩중입니다.</div>
+      </>
+    );
   }
   if (!book) {
     return '문제가 발생했습니다. 다시 시도하세요.';
   }
   const { title, subTitle, description, author, publisher, coverImgUrl } = book;
   return (
-    <div className={styles.container}>
-      <div
-        className={styles.cover_img_container}
-        style={{ backgroundImage: `url(${coverImgUrl})` }}
-      >
-        <img src={coverImgUrl} alt={title} />
+    <>
+      <SEO title={title} image={coverImgUrl} description={description} />
+      <div className={styles.container}>
+        <div
+          className={styles.cover_img_container}
+          style={{ backgroundImage: `url(${coverImgUrl})` }}
+        >
+          <img src={coverImgUrl} alt={title} />
+        </div>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.subTitle}>{subTitle}</div>
+        <div className={styles.author}>
+          {author} | {publisher}
+        </div>
+        <div className={styles.description}>{description}</div>
       </div>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.subTitle}>{subTitle}</div>
-      <div className={styles.author}>
-        {author} | {publisher}
-      </div>
-      <div className={styles.description}>{description}</div>
-    </div>
+    </>
   );
 }
 // export const getServerSideProps = async (
