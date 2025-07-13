@@ -59,6 +59,7 @@ export const getStaticProps = async () => {
       allBooks,
       randomBooks,
     },
+    revalidate: 3, // 3초마다 다시 렌더링, ISR
   };
 };
 
