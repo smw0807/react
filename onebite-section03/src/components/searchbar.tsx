@@ -6,7 +6,7 @@ import style from './serachbar.module.css';
 
 export default function Searchbar() {
   const router = useRouter();
-  const searchParams = useSearchParams(); // 현재 검색 쿼리스트링 파라미터 가져오기
+  const searchParams = useSearchParams(); // 현재 검색 쿼리스트링 파라미터 가져오기, 빌드 타임에서는 알 수가 없음?
   const [search, setSearch] = useState('');
 
   const q = searchParams.get('q');
