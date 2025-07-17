@@ -1,5 +1,13 @@
 import { BookData } from '@/types';
 import style from './page.module.css';
+import { notFound } from 'next/navigation';
+
+// export const dynamicParams = false;
+
+// 빌드 타임에 미리 생성할 파라미터 목록을 정의하는 함수
+export function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+}
 
 export default async function Page({
   params,
@@ -10,7 +18,12 @@ export default async function Page({
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`
   );
-  if (!response.ok) return <div>오류가 발생했습니다...</div>;
+  if (!response.ok) {
+    if (response.status === 404) {
+      notFound();
+    }
+    return <div>오류가 발생했습니다...</div>;
+  }
   const book: BookData = await response.json();
 
   const { title, subTitle, description, author, publisher, coverImgUrl } = book;
