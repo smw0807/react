@@ -3,6 +3,7 @@ import BookItem from '@/components/book-item';
 import style from './page.module.css';
 import { BookData } from '@/types';
 import { delay } from '@/utils/delay';
+import BookListSkeleton from '@/components/skeleton/book-list-skeleton';
 
 // 특정 페이지의 유형을 강제로 Static, Dynamic 페이지로 설정
 // 1. auto : 기본값, 아무것도 강제하지 않음
@@ -52,13 +53,13 @@ export default function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<BookListSkeleton count={3} />}>
           <RecoBooks />
         </Suspense>
       </section>
       <section>
         <h3>등록된 모든 도서</h3>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<BookListSkeleton count={10} />}>
           <AllBooks />
         </Suspense>
       </section>
