@@ -1,6 +1,7 @@
 import { BookData } from '@/types';
 import style from './page.module.css';
 import { notFound } from 'next/navigation';
+import { createReviewAction } from '@/actions/create-review.action';
 
 // export const dynamicParams = false;
 
@@ -41,17 +42,13 @@ async function BookDetail({ id }: { id: string }) {
   );
 }
 
-function ReviewEditor() {
-  async function createReviewAction(formData: FormData) {
-    'use server';
-    const content = formData.get('content')?.toString();
-    const author = formData.get('author')?.toString();
-  }
+function ReviewEditor({ bookId }: { bookId: string }) {
   return (
     <section>
       <form action={createReviewAction}>
-        <input name="content" placeholder="리뷰 내용" />
-        <input name="author" placeholder="작성자" />
+        <input name="bookId" value={bookId} hidden readOnly />
+        <input required name="content" placeholder="리뷰 내용" />
+        <input required name="author" placeholder="작성자" />
         <button type="submit">작성하기</button>
       </form>
     </section>
@@ -68,7 +65,7 @@ export default async function Page({
   return (
     <div className={style.container}>
       <BookDetail id={id} />
-      <ReviewEditor />
+      <ReviewEditor bookId={id} />
     </div>
   );
 }
