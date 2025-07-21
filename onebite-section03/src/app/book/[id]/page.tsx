@@ -13,7 +13,12 @@ export function generateStaticParams() {
 
 async function BookDetail({ id }: { id: string }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`,
+    {
+      next: {
+        tags: [`review-${id}`],
+      },
+    }
   );
   if (!response.ok) {
     if (response.status === 404) {
