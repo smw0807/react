@@ -2,13 +2,16 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-export async function createReviewAction(formData: FormData) {
+export async function createReviewAction(_: any, formData: FormData) {
   const bookId = formData.get('bookId')?.toString();
   const content = formData.get('content')?.toString();
   const author = formData.get('author')?.toString();
 
   if (!bookId || !content || !author) {
-    return;
+    return {
+      status: false,
+      error: '모든 필수 값을 입력해주세요.',
+    };
   }
 
   try {
@@ -23,7 +26,10 @@ export async function createReviewAction(formData: FormData) {
         }),
       }
     );
-    console.log(response.status);
+    if (!response.ok) {
+      throw new Error(`리뷰 작성에 실패했습니다. : ${response.statusText}`);
+    }
+
     // next 서버에게 해당 경로를 다시 생성할 것을 요청함(재검증)
     // 오직 서버측에서만 호출할 수 있음
     // 모든 캐시를 무효화함, 풀 라우트 캐시도 삭제함
@@ -48,8 +54,14 @@ export async function createReviewAction(formData: FormData) {
     //     },
     //   }
     // );
+    return {
+      status: true,
+      error: '',
+    };
   } catch (err) {
-    console.error(err);
-    return;
+    return {
+      status: false,
+      error: `리뷰 작성에 실패했습니다. : ${err}`,
+    };
   }
 }
