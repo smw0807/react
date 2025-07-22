@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 import BookItem from '@/components/book-item';
 import style from './page.module.css';
@@ -47,6 +48,16 @@ async function RecoBooks() {
 }
 //현재 페이지는 dynamic 페이지로 설정
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: '한입 북스',
+  description: '한입 북스에 등록된 도서를 만나보세요',
+  openGraph: {
+    title: '한입 북스',
+    description: '한입 북스에 등록된 도서를 만나보세요',
+    images: ['/thumbnail.png'],
+  },
+};
 
 export default function Home() {
   return (
