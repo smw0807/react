@@ -8,8 +8,15 @@ import ReviewEditor from '@/components/review-editor';
 // export const dynamicParams = false;
 
 // 빌드 타임에 미리 생성할 파라미터 목록을 정의하는 함수
-export function generateStaticParams() {
-  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+export async function generateStaticParams() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`
+  );
+  if (!response.ok) {
+    throw new Error(`Book fetch failed : ${response.statusText}`);
+  }
+  const books: BookData[] = await response.json();
+  return books.map((book) => ({ id: book.id.toString() }));
 }
 
 async function BookDetail({ id }: { id: string }) {

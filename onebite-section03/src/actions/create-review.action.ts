@@ -33,7 +33,7 @@ export async function createReviewAction(_: any, formData: FormData) {
     // next 서버에게 해당 경로를 다시 생성할 것을 요청함(재검증)
     // 오직 서버측에서만 호출할 수 있음
     // 모든 캐시를 무효화함, 풀 라우트 캐시도 삭제함
-    revalidatePath(`/book/${bookId}`);
+    // revalidatePath(`/book/${bookId}`);
 
     // 특정 경로의 모든 동적 페이지를 재검증
     // revalidatePath(`/book/[id]`, 'page');
