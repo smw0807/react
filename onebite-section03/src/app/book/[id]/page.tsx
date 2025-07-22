@@ -1,6 +1,7 @@
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { BookData, ReviewData } from '@/types';
 import style from './page.module.css';
-import { notFound } from 'next/navigation';
 import ReviewItem from '@/components/review-item';
 import ReviewEditor from '@/components/review-editor';
 
@@ -36,7 +37,12 @@ async function BookDetail({ id }: { id: string }) {
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
       >
-        <img src={coverImgUrl} />
+        <Image
+          src={coverImgUrl}
+          alt={`도서 ${title}의 표지 이미지`}
+          width={240}
+          height={300}
+        />
       </div>
       <div className={style.title}>{title}</div>
       <div className={style.subTitle}>{subTitle}</div>
