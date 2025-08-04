@@ -1,21 +1,23 @@
+import { useState } from 'react';
 import './App.css';
-import Button from './components/Button';
-import Header from './components/Header';
 
 function App() {
-  const buttonProps = {
-    text: '메일',
-    color: 'red',
-    a: 1,
-    b: 2,
-  };
+  const [count, setCount] = useState(0);
+  const [light, setLight] = useState('OFF');
+
   return (
     <>
-      <Button {...buttonProps} />
-      <Button text={'카페'} />
-      <Button text={'블로그'}>
-        <Header />
-      </Button>
+      <div>
+        <h1>{light}</h1>
+        <button onClick={() => setLight(light === 'OFF' ? 'ON' : 'OFF')}>
+          {light === 'OFF' ? '켜기' : '끄기'}
+        </button>
+      </div>
+      <div>
+        <h1>{count}</h1>
+        <button onClick={() => setCount(count + 1)}>+1</button>
+        <button onClick={() => setCount(count - 1)}>-1</button>
+      </div>
     </>
   );
 }
