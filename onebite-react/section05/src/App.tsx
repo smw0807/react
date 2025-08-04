@@ -1,5 +1,6 @@
 import './App.css';
 import Button from './components/Button';
+import Header from './components/Header';
 
 function App() {
   const buttonProps = {
@@ -13,7 +14,7 @@ function App() {
       <Button {...buttonProps} />
       <Button text={'카페'} />
       <Button text={'블로그'}>
-        <div>자식 요소</div>
+        <Header />
       </Button>
     </>
   );
