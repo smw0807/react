@@ -5,24 +5,9 @@ import Editor from './components/Editor';
 import List from './components/List';
 import type { Todo } from './components/TodoItem';
 
-const mockData: Todo[] = [
-  {
-    id: 0,
-    isDone: false,
-    content: 'React Study',
-    date: new Date().getTime(),
-  },
-  {
-    id: 1,
-    isDone: false,
-    content: 'React Study2',
-    date: new Date().getTime(),
-  },
-];
-
 function App() {
-  const [todos, setTodos] = useState(mockData);
-  const idRef = useRef(2);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const idRef = useRef(0);
   const onCreate = (content: string) => {
     const newTodo = {
       id: idRef.current++,
@@ -32,11 +17,15 @@ function App() {
     };
     setTodos([...todos, newTodo]);
   };
+
+  const onUpdate = (id: number) => {
+    setTodos(todos.map((v) => (v.id === id ? { ...v, isDone: !v.isDone } : v)));
+  };
   return (
     <div className="App">
       <Header />
       <Editor onCreate={onCreate} />
-      <List todos={todos} />
+      <List todos={todos} onUpdate={onUpdate} />
     </div>
   );
 }

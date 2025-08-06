@@ -5,9 +5,10 @@ import type { Todo } from './TodoItem';
 
 interface ListProps {
   todos: Todo[];
+  onUpdate: (id: number) => void;
 }
 
-export default function List({ todos }: ListProps) {
+export default function List({ todos, onUpdate }: ListProps) {
   const [search, setSearch] = useState('');
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,7 @@ export default function List({ todos }: ListProps) {
       />
       <div className="todos_wrapper">
         {getFilteredData().map((v) => {
-          return <TodoItem key={v.id} {...v} />;
+          return <TodoItem key={v.id} {...v} onUpdate={onUpdate} />;
         })}
       </div>
     </div>
