@@ -3,13 +3,7 @@ import { useState, useRef } from 'react';
 import Header from './components/Header';
 import Editor from './components/Editor';
 import List from './components/List';
-
-interface Todo {
-  id: number;
-  isDone: boolean;
-  content: string;
-  date: number;
-}
+import type { Todo } from './components/TodoItem';
 
 const mockData: Todo[] = [
   {
@@ -42,7 +36,7 @@ function App() {
     <div className="App">
       <Header />
       <Editor onCreate={onCreate} />
-      <List />
+      <List todos={todos} />
     </div>
   );
 }
