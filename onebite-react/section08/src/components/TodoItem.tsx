@@ -8,6 +8,7 @@ export interface Todo {
 
 interface TodoItemProps extends Todo {
   onUpdate: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
 export default function TodoItem({
@@ -16,6 +17,7 @@ export default function TodoItem({
   content,
   date,
   onUpdate,
+  onDelete,
 }: TodoItemProps) {
   return (
     <div className="TodoItem">
@@ -28,7 +30,7 @@ export default function TodoItem({
       />
       <div className="content">{content}</div>
       <div className="date">{new Date(date).toLocaleDateString()}</div>
-      <button>삭제</button>
+      <button onClick={() => onDelete(id)}>삭제</button>
     </div>
   );
 }

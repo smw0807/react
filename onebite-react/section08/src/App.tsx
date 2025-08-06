@@ -21,11 +21,15 @@ function App() {
   const onUpdate = (id: number) => {
     setTodos(todos.map((v) => (v.id === id ? { ...v, isDone: !v.isDone } : v)));
   };
+
+  const onDelete = (id: number) => {
+    setTodos(todos.filter((v) => v.id !== id));
+  };
   return (
     <div className="App">
       <Header />
       <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} />
+      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
   );
 }
