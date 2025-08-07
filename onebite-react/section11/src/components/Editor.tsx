@@ -1,11 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import './Editor.css';
+import { TodoDispatchContext } from '../context/TodoContext';
 
-interface EditorProps {
-  onCreate: (content: string) => void;
-}
-
-export default function Editor({ onCreate }: EditorProps) {
+export default function Editor() {
+  const { onCreate } = useContext(TodoDispatchContext);
   const [content, setContent] = useState('');
   const contentRef = useRef<HTMLInputElement>(null);
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {

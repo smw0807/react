@@ -1,15 +1,10 @@
 import './List.css';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
 import TodoItem from './TodoItem';
-import type { Todo } from './TodoItem';
+import { TodoStateContext } from '../context/TodoContext';
 
-interface ListProps {
-  todos: Todo[];
-  onUpdate: (id: number) => void;
-  onDelete: (id: number) => void;
-}
-
-export default function List({ todos, onUpdate, onDelete }: ListProps) {
+export default function List() {
+  const todos = useContext(TodoStateContext);
   const [search, setSearch] = useState('');
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,14 +44,7 @@ export default function List({ todos, onUpdate, onDelete }: ListProps) {
       />
       <div className="todos_wrapper">
         {getFilteredData().map((v) => {
-          return (
-            <TodoItem
-              key={v.id}
-              {...v}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-            />
-          );
+          return <TodoItem key={v.id} {...v} />;
         })}
       </div>
     </div>

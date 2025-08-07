@@ -1,5 +1,6 @@
 import './TodoItem.css';
-import { memo } from 'react';
+import { memo, useContext } from 'react';
+import { TodoDispatchContext } from '../context/TodoContext';
 export interface Todo {
   id: number;
   isDone?: boolean;
@@ -7,19 +8,8 @@ export interface Todo {
   date?: number;
 }
 
-interface TodoItemProps extends Todo {
-  onUpdate: (id: number) => void;
-  onDelete: (id: number) => void;
-}
-
-function TodoItem({
-  id,
-  isDone,
-  content,
-  date,
-  onUpdate,
-  onDelete,
-}: TodoItemProps) {
+function TodoItem({ id, isDone, content, date }: Todo) {
+  const { onUpdate, onDelete } = useContext(TodoDispatchContext);
   return (
     <div className="TodoItem">
       <input type="hidden" value={id} />

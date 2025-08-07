@@ -1,9 +1,10 @@
 import './App.css';
-import { useRef, useReducer, useCallback } from 'react';
+import { useRef, useReducer, useCallback, useMemo } from 'react';
 import Header from './components/Header';
 import Editor from './components/Editor';
 import List from './components/List';
 import type { Todo } from './components/TodoItem';
+import { TodoDispatchContext, TodoStateContext } from './context/TodoContext';
 
 function reducer(state: Todo[], action: { type: string; payload: Todo }) {
   switch (action.type) {
@@ -52,11 +53,20 @@ function App() {
       },
     });
   }, []);
+
+  const memoizedTodos = useMemo(() => {
+    return { onCreate, onUpdate, onDelete };
+  }, []);
+
   return (
     <div className="App">
       <Header />
-      <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedTodos}>
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }
