@@ -1,5 +1,5 @@
 import './App.css';
-import { useRef, useReducer } from 'react';
+import { useRef, useReducer, useCallback } from 'react';
 import Header from './components/Header';
 import Editor from './components/Editor';
 import List from './components/List';
@@ -11,7 +11,7 @@ function reducer(state: Todo[], action: { type: string; payload: Todo }) {
       return [...state, action.payload];
     case 'UPDATE':
       return state.map((v) =>
-        v.id === action.payload.id ? { ...v, isDone: action.payload.isDone } : v
+        v.id === action.payload.id ? { ...v, isDone: !v.isDone } : v
       );
     case 'DELETE':
       return state.filter((v) => v.id !== action.payload.id);
@@ -23,7 +23,7 @@ function reducer(state: Todo[], action: { type: string; payload: Todo }) {
 function App() {
   const [todos, dispatch] = useReducer(reducer, []);
   const idRef = useRef(0);
-  const onCreate = (content: string) => {
+  const onCreate = useCallback((content: string) => {
     dispatch({
       type: 'CREATE',
       payload: {
@@ -33,26 +33,25 @@ function App() {
         date: new Date().getTime(),
       },
     });
-  };
+  }, []);
 
-  const onUpdate = (id: number) => {
+  const onUpdate = useCallback((id: number) => {
     dispatch({
       type: 'UPDATE',
       payload: {
         id,
-        isDone: !todos.find((v) => v.id === id)?.isDone,
       },
     });
-  };
+  }, []);
 
-  const onDelete = (id: number) => {
+  const onDelete = useCallback((id: number) => {
     dispatch({
       type: 'DELETE',
       payload: {
         id,
       },
     });
-  };
+  }, []);
   return (
     <div className="App">
       <Header />
