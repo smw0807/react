@@ -1,9 +1,9 @@
 import './TodoItem.css';
 export interface Todo {
   id: number;
-  isDone: boolean;
-  content: string;
-  date: number;
+  isDone?: boolean;
+  content?: string;
+  date?: number;
 }
 
 interface TodoItemProps extends Todo {
@@ -29,7 +29,7 @@ export default function TodoItem({
         onChange={() => onUpdate(id)}
       />
       <div className="content">{content}</div>
-      <div className="date">{new Date(date).toLocaleDateString()}</div>
+      <div className="date">{new Date(date!).toLocaleDateString()}</div>
       <button onClick={() => onDelete(id)}>삭제</button>
     </div>
   );

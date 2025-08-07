@@ -1,29 +1,57 @@
 import './App.css';
-import { useState, useRef } from 'react';
+import { useRef, useReducer } from 'react';
 import Header from './components/Header';
 import Editor from './components/Editor';
 import List from './components/List';
 import type { Todo } from './components/TodoItem';
 
+function reducer(state: Todo[], action: { type: string; payload: Todo }) {
+  switch (action.type) {
+    case 'CREATE':
+      return [...state, action.payload];
+    case 'UPDATE':
+      return state.map((v) =>
+        v.id === action.payload.id ? { ...v, isDone: action.payload.isDone } : v
+      );
+    case 'DELETE':
+      return state.filter((v) => v.id !== action.payload.id);
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, dispatch] = useReducer(reducer, []);
   const idRef = useRef(0);
   const onCreate = (content: string) => {
-    const newTodo = {
-      id: idRef.current++,
-      isDone: false,
-      content,
-      date: new Date().getTime(),
-    };
-    setTodos([...todos, newTodo]);
+    dispatch({
+      type: 'CREATE',
+      payload: {
+        id: idRef.current++,
+        isDone: false,
+        content,
+        date: new Date().getTime(),
+      },
+    });
   };
 
   const onUpdate = (id: number) => {
-    setTodos(todos.map((v) => (v.id === id ? { ...v, isDone: !v.isDone } : v)));
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        id,
+        isDone: !todos.find((v) => v.id === id)?.isDone,
+      },
+    });
   };
 
   const onDelete = (id: number) => {
-    setTodos(todos.filter((v) => v.id !== id));
+    dispatch({
+      type: 'DELETE',
+      payload: {
+        id,
+      },
+    });
   };
   return (
     <div className="App">
