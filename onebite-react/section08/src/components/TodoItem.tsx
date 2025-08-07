@@ -1,4 +1,5 @@
 import './TodoItem.css';
+import { memo } from 'react';
 export interface Todo {
   id: number;
   isDone?: boolean;
@@ -11,7 +12,7 @@ interface TodoItemProps extends Todo {
   onDelete: (id: number) => void;
 }
 
-export default function TodoItem({
+function TodoItem({
   id,
   isDone,
   content,
@@ -34,3 +35,19 @@ export default function TodoItem({
     </div>
   );
 }
+
+export default memo(TodoItem, (prevProps, nextProps) => {
+  if (prevProps.id !== nextProps.id) {
+    return false;
+  }
+  if (prevProps.isDone !== nextProps.isDone) {
+    return false;
+  }
+  if (prevProps.content !== nextProps.content) {
+    return false;
+  }
+  if (prevProps.date !== nextProps.date) {
+    return false;
+  }
+  return true;
+});

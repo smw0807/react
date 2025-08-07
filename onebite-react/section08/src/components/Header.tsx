@@ -1,6 +1,7 @@
 import './Header.css';
+import { memo } from 'react';
 
-export default function Header() {
+function Header() {
   return (
     <div className="Header">
       <h3>오늘은 🗓️</h3>
@@ -8,3 +9,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default memo(Header);
