@@ -1,5 +1,5 @@
 import './List.css';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import TodoItem from './TodoItem';
 import type { Todo } from './TodoItem';
 
@@ -19,12 +19,29 @@ export default function List({ todos, onUpdate, onDelete }: ListProps) {
   const getFilteredData = () => {
     if (search.length === 0) return todos;
     return todos.filter((v) =>
-      v.content.toLowerCase().includes(search.toLowerCase())
+      v.content?.toLowerCase().includes(search.toLowerCase())
     );
   };
+
+  const { totalCount, doneCount, notDoneCount } = useMemo(() => {
+    const totalCount = todos.length;
+    const doneCount = todos.filter((v) => v.isDone).length;
+    const notDoneCount = totalCount - doneCount;
+    return {
+      totalCount,
+      doneCount,
+      notDoneCount,
+    };
+  }, [todos]);
+
   return (
     <div className="List">
       <h4>Todo List 🌱</h4>
+      <div>
+        <div>total : {totalCount}</div>
+        <div>done : {doneCount}</div>
+        <div>not done : {notDoneCount}</div>
+      </div>
       <input
         value={search}
         onChange={onChangeSearch}
