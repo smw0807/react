@@ -1,8 +1,9 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Diary from './pages/Diary';
 import New from './pages/New';
+import Diary from './pages/Diary';
+import Edit from './pages/Edit';
 import NotFound from './pages/NotFount';
 
 import Header from './components/Header';
@@ -11,11 +12,11 @@ import Button from './components/Button';
 function App() {
   return (
     <>
-      <Header
+      {/* <Header
         title="Header"
         leftChild={
           <Button
-            text="123"
+            text="<"
             onClick={() => {
               console.log('123');
             }}
@@ -23,39 +24,19 @@ function App() {
         }
         rightChild={
           <Button
-            text="123"
+            text=">"
             onClick={() => {
               console.log('123');
             }}
           />
         }
-      />
-
-      <Button
-        text="123"
-        onClick={() => {
-          console.log('123');
-        }}
-      />
-      <Button
-        text="123"
-        type="POSITIVE"
-        onClick={() => {
-          console.log('123');
-        }}
-      />
-      <Button
-        text="123"
-        type="NEGATIVE"
-        onClick={() => {
-          console.log('123');
-        }}
-      />
+      /> */}
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/diary/:id" element={<Diary />} />
         <Route path="/new" element={<New />} />
+        <Route path="/diary/:id" element={<Diary />} />
+        <Route path="/edit/:id" element={<Edit />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
