@@ -11,9 +11,6 @@ import { DiaryStateContext, DiaryDispatchContext } from './context/diary';
 
 import type { Diary } from './models';
 
-import Header from './components/Header';
-import Button from './components/Button';
-
 function reducer(
   state: Diary[],
   action: { type: string; data: Partial<Diary> }
@@ -100,48 +97,6 @@ function App() {
   };
   return (
     <>
-      <Header
-        title="Header"
-        leftChild={
-          <Button
-            text="<"
-            onClick={() => {
-              console.log('123');
-            }}
-          />
-        }
-        rightChild={
-          <Button
-            text=">"
-            onClick={() => {
-              console.log('123');
-            }}
-          />
-        }
-      />
-
-      <button
-        onClick={() => {
-          onCreate(new Date().getTime(), 1, '오늘의 일기 3');
-        }}
-      >
-        새로운 일기 추가
-      </button>
-      <button
-        onClick={() => {
-          onUpdate(1, new Date().getTime(), 1, '오늘의 일기 33');
-        }}
-      >
-        기존 일기 수정
-      </button>
-      <button
-        onClick={() => {
-          onDelete(1);
-        }}
-      >
-        기존 일기 삭제
-      </button>
-
       <DiaryStateContext.Provider value={data}>
         <DiaryDispatchContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
