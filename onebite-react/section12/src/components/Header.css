@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   padding: 20px 0;
-  justify-content: space-between;
   border-bottom: 1px solid rgb(226, 226, 226);
 }
 
@@ -11,7 +10,7 @@
 }
 
 .Header .header_center {
-  width: 50px;
+  width: 50%;
   font-size: 25px;
   justify-content: center;
 }

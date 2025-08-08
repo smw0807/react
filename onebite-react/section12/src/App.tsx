@@ -35,15 +35,21 @@ function reducer(
 const mockData: Diary[] = [
   {
     id: 1,
-    createdDate: new Date().getTime(),
+    createdDate: new Date('2025-08-01').getTime(),
     emotionId: 1,
     content: '오늘의 일기 1',
   },
   {
     id: 2,
-    createdDate: new Date().getTime(),
+    createdDate: new Date('2025-08-02').getTime(),
     emotionId: 2,
     content: '오늘의 일기 2',
+  },
+  {
+    id: 3,
+    createdDate: new Date('2025-07-03').getTime(),
+    emotionId: 3,
+    content: '오늘의 일기 3',
   },
 ];
 
