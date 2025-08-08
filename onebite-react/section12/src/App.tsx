@@ -16,14 +16,16 @@ import Button from './components/Button';
 
 function reducer(
   state: Diary[],
-  action: { type: string; data: Diary | { id: number } }
+  action: { type: string; data: Partial<Diary> }
 ) {
   switch (action.type) {
     case 'CREATE':
-      return [action.data, ...state];
+      return [action.data as Diary, ...state];
     case 'UPDATE':
       return state.map((item: Diary) =>
-        String(item.id) === String(action.data.id) ? action.data : item
+        String(item.id) === String(action.data.id)
+          ? (action.data as Diary)
+          : item
       );
     case 'DELETE':
       return state.filter(
