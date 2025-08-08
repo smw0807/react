@@ -1,18 +1,56 @@
 import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Diary from './pages/Diary';
 import New from './pages/New';
 import NotFound from './pages/NotFount';
 
+import Header from './components/Header';
+import Button from './components/Button';
+
 function App() {
   return (
     <>
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/new">New</Link>
-        <Link to="/diary">Diary</Link>
-      </div>
+      <Header
+        title="Header"
+        leftChild={
+          <Button
+            text="123"
+            onClick={() => {
+              console.log('123');
+            }}
+          />
+        }
+        rightChild={
+          <Button
+            text="123"
+            onClick={() => {
+              console.log('123');
+            }}
+          />
+        }
+      />
+
+      <Button
+        text="123"
+        onClick={() => {
+          console.log('123');
+        }}
+      />
+      <Button
+        text="123"
+        type="POSITIVE"
+        onClick={() => {
+          console.log('123');
+        }}
+      />
+      <Button
+        text="123"
+        type="NEGATIVE"
+        onClick={() => {
+          console.log('123');
+        }}
+      />
 
       <Routes>
         <Route path="/" element={<Home />} />
