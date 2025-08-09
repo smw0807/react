@@ -1,8 +1,8 @@
 import './Header.css';
 interface Props {
   title: string;
-  leftChild: React.ReactNode;
-  rightChild: React.ReactNode;
+  leftChild?: React.ReactNode;
+  rightChild?: React.ReactNode;
 }
 function Header({ title, leftChild, rightChild }: Props) {
   return (

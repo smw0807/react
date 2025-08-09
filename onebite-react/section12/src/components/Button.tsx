@@ -3,7 +3,7 @@ import './Button.css';
 interface Props {
   text: string;
   type?: 'POSITIVE' | 'NEGATIVE';
-  onClick: () => void;
+  onClick?: () => void;
 }
 function Button({ text, type, onClick }: Props) {
   return (
