@@ -1,4 +1,4 @@
-import type { Diary } from '@/models';
+import type { Diary } from '../models/index';
 import { createContext } from 'react';
 
 export const DiaryStateContext = createContext<Diary[]>([]);
