@@ -1,5 +1,5 @@
 import './Editor.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EmotionItem from './EmotionItem';
 import Button from './Button';
@@ -28,13 +28,30 @@ const emotionList = [
     emotionName: '끔찍함',
   },
 ];
-function Editor({ onSubmit }: { onSubmit: (input: Diary) => void }) {
+function Editor({
+  onSubmit,
+  initData,
+}: {
+  onSubmit: (input: Diary) => void;
+  initData?: Diary;
+}) {
   const navigate = useNavigate();
   const [input, setInput] = useState({
     createdDate: new Date(),
     emotionId: 3,
     content: '',
   });
+
+  useEffect(() => {
+    if (initData) {
+      setInput({
+        createdDate: new Date(Number(initData.createdDate)),
+        emotionId: initData.emotionId,
+        content: initData.content,
+      });
+    }
+  }, [initData]);
+
   const getStringedDate = (date: Date) => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

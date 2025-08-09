@@ -54,7 +54,7 @@ const mockData: Diary[] = [
 ];
 
 function App() {
-  const idRef = useRef(3);
+  const idRef = useRef(4);
   const [data, dispatch] = useReducer(reducer, mockData);
 
   // 새로운 일기 추가
