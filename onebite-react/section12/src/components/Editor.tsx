@@ -4,30 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import EmotionItem from './EmotionItem';
 import Button from './Button';
 import type { Diary } from '../models';
+import { emotionList } from '../utils/constants';
+import { getStringedDate } from '../utils/get-stringed-date';
 
-const emotionList = [
-  {
-    emotionId: 1,
-    emotionName: '완전 좋음',
-  },
-  {
-    emotionId: 2,
-    emotionName: '좋음',
-  },
-
-  {
-    emotionId: 3,
-    emotionName: '그럭저럭',
-  },
-  {
-    emotionId: 4,
-    emotionName: '나쁨',
-  },
-  {
-    emotionId: 5,
-    emotionName: '끔찍함',
-  },
-];
 function Editor({
   onSubmit,
   initData,
@@ -51,13 +30,6 @@ function Editor({
       });
     }
   }, [initData]);
-
-  const getStringedDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
 
   const onChangeInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

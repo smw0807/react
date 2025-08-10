@@ -1,6 +1,7 @@
 import './DiaryItem.css';
 import { useNavigate } from 'react-router-dom';
 import { getEmotionImage } from '../utils/get-emotion-image';
+import { getStringedDate } from '../utils/get-stringed-date';
 import Button from './Button';
 import type { Diary } from '../models';
 
@@ -16,7 +17,7 @@ function DiaryItem({ id, emotionId, content, createdDate }: Diary) {
       </div>
       <div onClick={() => navigate(`/diary/${id}`)} className="info_section">
         <div className="created_date">
-          {new Date(createdDate).toLocaleDateString()}
+          {getStringedDate(new Date(createdDate))}
         </div>
         <div className="content">{content}</div>
       </div>

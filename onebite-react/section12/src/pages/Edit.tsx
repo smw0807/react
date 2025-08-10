@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
-import { DiaryDispatchContext, DiaryStateContext } from '../context/diary';
+import { useContext } from 'react';
+import { DiaryDispatchContext } from '../context/diary';
 import { useParams, useNavigate } from 'react-router-dom';
+import useDiary from '../hooks/useDiary';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Editor from '../components/Editor';
@@ -10,19 +11,7 @@ function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { onDelete, onUpdate } = useContext(DiaryDispatchContext);
-  const data = useContext(DiaryStateContext);
-  const [currentDiaryItem, setCurrentDiaryItem] = useState<Diary>();
-
-  useEffect(() => {
-    const currentDiaryItem = data.find(
-      (item) => String(item.id) === String(id)
-    );
-    if (!currentDiaryItem) {
-      window.alert('존재하지 않는 일기입니다.');
-      navigate('/', { replace: true });
-    }
-    setCurrentDiaryItem(currentDiaryItem);
-  }, [id]);
+  const { currentDiaryItem } = useDiary(id as string);
 
   const onClickDelete = () => {
     if (window.confirm('일기를 정말 삭제할까요? 다시 복구되지 않아요!')) {
