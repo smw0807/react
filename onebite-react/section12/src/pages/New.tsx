@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiaryDispatchContext } from '../context/diary';
+import usePageTitle from '../hooks/usePageTitle';
 
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -8,6 +9,7 @@ import Editor from '../components/Editor';
 import type { Diary } from '../models';
 
 function New() {
+  usePageTitle('새 일기 쓰기');
   const navigate = useNavigate();
   const { onCreate } = useContext(DiaryDispatchContext);
   const onSubmit = (input: Diary) => {
@@ -18,6 +20,7 @@ function New() {
     onCreate(createdDate, input.emotionId, input.content);
     navigate('/', { replace: true });
   };
+
   return (
     <div>
       <Header
