@@ -1,5 +1,5 @@
 import './App.css';
-import { useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NewPage from './pages/New';
@@ -15,47 +15,63 @@ function reducer(
   state: Diary[],
   action: { type: string; data: Partial<Diary> }
 ) {
+  let nextState;
   switch (action.type) {
+    case 'INIT':
+      return action.data as Diary[];
     case 'CREATE':
-      return [action.data as Diary, ...state];
+      nextState = [action.data as Diary, ...state];
+      break;
     case 'UPDATE':
-      return state.map((item: Diary) =>
+      nextState = state.map((item: Diary) =>
         String(item.id) === String(action.data.id)
           ? (action.data as Diary)
           : item
       );
+      break;
     case 'DELETE':
-      return state.filter(
+      nextState = state.filter(
         (item: Diary) => String(item.id) !== String(action.data.id)
       );
+      break;
+    default:
+      nextState = state;
   }
-  return state;
+  localStorage.setItem('diary', JSON.stringify(nextState));
+  return nextState;
 }
 
-const mockData: Diary[] = [
-  {
-    id: 1,
-    createdDate: new Date('2025-08-01').getTime(),
-    emotionId: 1,
-    content: '오늘의 일기 1',
-  },
-  {
-    id: 2,
-    createdDate: new Date('2025-08-02').getTime(),
-    emotionId: 2,
-    content: '오늘의 일기 2',
-  },
-  {
-    id: 3,
-    createdDate: new Date('2025-07-03').getTime(),
-    emotionId: 3,
-    content: '오늘의 일기 3',
-  },
-];
-
 function App() {
-  const idRef = useRef(4);
-  const [data, dispatch] = useReducer(reducer, mockData);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, dispatch] = useReducer(reducer, []);
+  const idRef = useRef(0);
+
+  useEffect(() => {
+    const storeData = localStorage.getItem('diary');
+    if (!storeData) {
+      setIsLoading(false);
+      return;
+    }
+
+    const parseData = JSON.parse(storeData);
+    if (!Array.isArray(parseData)) {
+      setIsLoading(false);
+      return;
+    }
+
+    let maxId = 0;
+    parseData.forEach((item: Diary) => {
+      if (Number(item.id) > maxId) {
+        maxId = Number(item.id);
+      }
+    });
+    idRef.current = maxId + 1;
+    dispatch({
+      type: 'INIT',
+      data: parseData as Partial<Diary>,
+    });
+    setIsLoading(false);
+  }, []);
 
   // 새로운 일기 추가
   const onCreate = (
@@ -101,6 +117,9 @@ function App() {
       },
     });
   };
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <>
       <DiaryStateContext.Provider value={data}>
