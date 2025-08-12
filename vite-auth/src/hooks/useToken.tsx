@@ -1,7 +1,7 @@
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { verifyToken, refreshToken } from '../api/auth';
+import { login, verifyToken, refreshToken } from '../api/auth';
 
 export interface CookieSetOptions {
   path?: string;
@@ -39,11 +39,11 @@ export default function useToken() {
     return cookies[type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME];
   };
 
-  // const removeToken = (type: TokenType) => {
-  //   setCookie(type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME, '', {
-  //     expires: new Date(0),
-  //   });
-  // };
+  const removeToken = (type: TokenType) => {
+    setCookie(type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME, '', {
+      expires: new Date(0),
+    });
+  };
 
   // 토큰 검증
   const verify = async (token: string) => {
@@ -69,14 +69,37 @@ export default function useToken() {
     return false;
   };
 
+  // 로그인
+  const handleLogin = async (email: string, password: string) => {
+    const res = await login(email, password);
+
+    const { message, success, token } = await res.json();
+    console.log('message : ', message);
+    if (success) {
+      setToken('access', token.access_token);
+      setToken('refresh', token.refresh_token);
+      navigate('/');
+    } else {
+      alert(message);
+    }
+  };
+
+  // 로그아웃
+  const handleLogout = () => {
+    removeToken('access');
+    removeToken('refresh');
+    navigate('/login');
+  };
+
   // 토큰 체크 및 자동 리다이렉트
   const checkAuth = async () => {
     const accessToken = getToken('access');
     const refreshTokenValue = getToken('refresh');
 
     if ((!accessToken && !refreshTokenValue) || !refreshTokenValue) {
+      console.log('navigate to login');
       navigate('/login');
-      return false;
+      return;
     }
 
     if (accessToken) {
@@ -85,18 +108,19 @@ export default function useToken() {
         const refreshSuccess = await refresh(refreshTokenValue);
         if (!refreshSuccess) {
           navigate('/login');
-          return false;
+          return;
         }
       }
+    } else {
+      refresh(refreshTokenValue);
     }
 
     return true;
   };
 
-  // 컴포넌트 마운트 시 자동 토큰 체크
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [cookies]);
 
-  return { setToken, checkAuth };
+  return { setToken, handleLogin, handleLogout, checkAuth };
 }
