@@ -54,6 +54,17 @@ export default function useToken() {
   };
 
   // 토큰 재발급
+  const refresh = async (token: string) => {
+    const res = await refreshToken(token);
+    const { message, success, token: newToken } = await res.json();
+    console.log('message : ', message);
+    if (success) {
+      setToken('access', newToken.access_token);
+      setToken('refresh', newToken.refresh_token);
+      return true;
+    }
+    return false;
+  };
 
-  return { setToken, getToken, removeToken, verify };
+  return { setToken, getToken, removeToken, verify, refresh };
 }

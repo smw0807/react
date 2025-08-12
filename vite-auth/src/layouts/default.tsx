@@ -4,9 +4,8 @@ import useToken from '../hooks/useToken';
 import Header from '../components/Header';
 
 function DefaultLayout() {
-  console.log('DefaultLayout');
   const navigate = useNavigate();
-  const { getToken, verify } = useToken();
+  const { getToken, verify, refresh } = useToken();
 
   useEffect(() => {
     const accessToken = getToken('access');
@@ -17,7 +16,7 @@ function DefaultLayout() {
     if (accessToken) {
       verify(accessToken).then((res) => {
         if (!res) {
-          //todo 토큰 재발급 요청
+          refresh(refreshToken);
         }
       });
     }
