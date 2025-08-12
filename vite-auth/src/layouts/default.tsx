@@ -7,8 +7,9 @@ function DefaultLayout() {
   const { getToken } = useToken();
 
   useEffect(() => {
-    const accessToken = getToken('access');
-    if (!accessToken) {
+    //todo accessToken 없을 시 재발급 로직 추가
+    const refreshToken = getToken('refresh');
+    if (!refreshToken) {
       navigate('/login');
     }
   }, [navigate]);
