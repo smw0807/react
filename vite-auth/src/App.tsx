@@ -1,14 +1,20 @@
 import './App.css';
 import { Routes, Route } from 'react-router';
+
+import DefaultLayout from './layouts/default';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Routes>
+        <Route element={<DefaultLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
