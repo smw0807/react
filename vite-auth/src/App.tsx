@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router';
 import DefaultLayout from './layouts/default';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Board from './pages/Board';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/board" element={<Board />} />
           <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
