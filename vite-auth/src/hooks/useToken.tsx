@@ -1,4 +1,6 @@
 import { useCookies } from 'react-cookie';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { verifyToken, refreshToken } from '../api/auth';
 
 export interface CookieSetOptions {
@@ -19,6 +21,7 @@ export type TokenType = 'access' | 'refresh';
 
 export default function useToken() {
   const [cookies, setCookie] = useCookies();
+  const navigate = useNavigate();
 
   const setToken = (
     type: TokenType,
@@ -36,11 +39,11 @@ export default function useToken() {
     return cookies[type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME];
   };
 
-  const removeToken = (type: TokenType) => {
-    setCookie(type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME, '', {
-      expires: new Date(0),
-    });
-  };
+  // const removeToken = (type: TokenType) => {
+  //   setCookie(type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME, '', {
+  //     expires: new Date(0),
+  //   });
+  // };
 
   // 토큰 검증
   const verify = async (token: string) => {
@@ -66,5 +69,34 @@ export default function useToken() {
     return false;
   };
 
-  return { setToken, getToken, removeToken, verify, refresh };
+  // 토큰 체크 및 자동 리다이렉트
+  const checkAuth = async () => {
+    const accessToken = getToken('access');
+    const refreshTokenValue = getToken('refresh');
+
+    if ((!accessToken && !refreshTokenValue) || !refreshTokenValue) {
+      navigate('/login');
+      return false;
+    }
+
+    if (accessToken) {
+      const isValid = await verify(accessToken);
+      if (!isValid) {
+        const refreshSuccess = await refresh(refreshTokenValue);
+        if (!refreshSuccess) {
+          navigate('/login');
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  // 컴포넌트 마운트 시 자동 토큰 체크
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  return { setToken, checkAuth };
 }
