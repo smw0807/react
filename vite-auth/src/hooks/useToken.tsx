@@ -122,5 +122,5 @@ export default function useToken() {
     checkAuth();
   }, [cookies]);
 
-  return { setToken, handleLogin, handleLogout, checkAuth };
+  return { setToken, getToken, handleLogin, handleLogout, checkAuth };
 }
