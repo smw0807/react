@@ -16,6 +16,8 @@ function Login() {
       setToken('access', token.access_token);
       setToken('refresh', token.refresh_token);
       navigate('/');
+    } else {
+      alert(message);
     }
   };
   return (
