@@ -1,4 +1,5 @@
 import { useCookies } from 'react-cookie';
+import { verifyToken, refreshToken } from '../api/auth';
 
 export interface CookieSetOptions {
   path?: string;
@@ -41,5 +42,18 @@ export default function useToken() {
     });
   };
 
-  return { setToken, getToken, removeToken };
+  // 토큰 검증
+  const verify = async (token: string) => {
+    const res = await verifyToken(token);
+    const { message, success } = await res.json();
+    console.log('message : ', message);
+    if (success) {
+      return true;
+    }
+    return false;
+  };
+
+  // 토큰 재발급
+
+  return { setToken, getToken, removeToken, verify };
 }

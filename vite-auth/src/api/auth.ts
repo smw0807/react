@@ -14,7 +14,7 @@ export async function verifyToken(token: string) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 }
@@ -25,7 +25,7 @@ export async function refreshToken(token: string) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 }
