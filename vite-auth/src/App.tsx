@@ -10,10 +10,13 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Routes>
+        {/* 인증이 필요하지 않은 페이지 */}
+        <Route path="/login" element={<Login />} />
+
+        {/* 인증이 필요한 페이지들 */}
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/board" element={<Board />} />
-          <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
     </div>

@@ -47,40 +47,54 @@ export default function useToken() {
 
   // 토큰 검증
   const verify = async (token: string) => {
-    const res = await verifyToken(token);
-    const { message, success } = await res.json();
-    console.log('message : ', message);
-    if (success) {
-      return true;
+    try {
+      const res = await verifyToken(token);
+      const { message, success } = await res.json();
+      console.log('message : ', message);
+      if (success) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token verification failed:', error);
+      return false;
     }
-    return false;
   };
 
   // 토큰 재발급
   const refresh = async (token: string) => {
-    const res = await refreshToken(token);
-    const { message, success, token: newToken } = await res.json();
-    console.log('message : ', message);
-    if (success) {
-      setToken('access', newToken.access_token);
-      setToken('refresh', newToken.refresh_token);
-      return true;
+    try {
+      const res = await refreshToken(token);
+      const { message, success, token: newToken } = await res.json();
+      console.log('message : ', message);
+      if (success) {
+        setToken('access', newToken.access_token);
+        setToken('refresh', newToken.refresh_token);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      return false;
     }
-    return false;
   };
 
   // 로그인
   const handleLogin = async (email: string, password: string) => {
-    const res = await login(email, password);
-
-    const { message, success, token } = await res.json();
-    console.log('message : ', message);
-    if (success) {
-      setToken('access', token.access_token);
-      setToken('refresh', token.refresh_token);
-      navigate('/');
-    } else {
-      alert(message);
+    try {
+      const res = await login(email, password);
+      const { message, success, token } = await res.json();
+      console.log('message : ', message);
+      if (success) {
+        setToken('access', token.access_token);
+        setToken('refresh', token.refresh_token);
+        navigate('/');
+      } else {
+        alert(message);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('로그인 중 오류가 발생했습니다.');
     }
   };
 
@@ -120,7 +134,7 @@ export default function useToken() {
 
   useEffect(() => {
     checkAuth();
-  }, [cookies]);
+  }, []);
 
   return { setToken, getToken, handleLogin, handleLogout, checkAuth };
 }
