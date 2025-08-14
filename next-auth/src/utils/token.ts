@@ -1,10 +1,9 @@
 import { cookies } from 'next/headers';
-
-type TokenType = 'access' | 'refresh';
-const ACCESS_TOKEN_NAME =
-  (process.env.NEXT_PUBLIC_ACCESS_TOKEN as string) || '';
-const REFRESH_TOKEN_NAME =
-  (process.env.NEXT_PUBLIC_REFRESH_TOKEN as string) || '';
+import {
+  TokenType,
+  ACCESS_TOKEN_NAME,
+  REFRESH_TOKEN_NAME,
+} from '@/constants/token';
 
 // 토큰 가져오기
 export const getToken = async (type: TokenType) => {
@@ -16,6 +15,7 @@ export const getToken = async (type: TokenType) => {
 
 // 토큰 저장
 export const setToken = async (type: TokenType, token: string) => {
+  console.log('setToken : ', type, token);
   const cookieStore = await cookies();
   cookieStore.set(
     type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME,
