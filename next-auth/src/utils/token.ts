@@ -1,8 +1,10 @@
 import { cookies } from 'next/headers';
 
 type TokenType = 'access' | 'refresh';
-const ACCESS_TOKEN_NAME = (process.env.NEXT_ACCESS_TOKEN as string) || '';
-const REFRESH_TOKEN_NAME = (process.env.NEXT_REFRESH_TOKEN as string) || '';
+const ACCESS_TOKEN_NAME =
+  (process.env.NEXT_PUBLIC_ACCESS_TOKEN as string) || '';
+const REFRESH_TOKEN_NAME =
+  (process.env.NEXT_PUBLIC_REFRESH_TOKEN as string) || '';
 
 // 토큰 가져오기
 export const getToken = async (type: TokenType) => {
