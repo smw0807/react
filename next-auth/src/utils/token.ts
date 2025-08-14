@@ -15,7 +15,6 @@ export const getToken = async (type: TokenType) => {
 
 // 토큰 저장
 export const setToken = async (type: TokenType, token: string) => {
-  console.log('setToken : ', type, token);
   const cookieStore = await cookies();
   cookieStore.set(
     type === 'access' ? ACCESS_TOKEN_NAME : REFRESH_TOKEN_NAME,
