@@ -6,8 +6,9 @@ import { verifyToken, refreshToken } from '@/apis/auth';
 async function handleVerifyToken(token: string): Promise<boolean> {
   try {
     const response = await verifyToken(token);
-    const data = await response.json();
-    return data.success === true;
+    const result = await response.json();
+
+    return result.success === true;
   } catch (error) {
     console.error('토큰 검증 중 에러:', error);
     return false;
@@ -79,23 +80,8 @@ export async function middleware(request: NextRequest) {
       const response = NextResponse.next();
 
       // 새로운 토큰을 쿠키에 설정
-      response.cookies.set(ACCESS_TOKEN_NAME, refreshResult.newTokens.access, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 7, // 7일
-      });
-
-      response.cookies.set(
-        REFRESH_TOKEN_NAME,
-        refreshResult.newTokens.refresh,
-        {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          maxAge: 60 * 60 * 24 * 30, // 30일
-        }
-      );
+      response.cookies.set(ACCESS_TOKEN_NAME, refreshResult.newTokens.access);
+      response.cookies.set(REFRESH_TOKEN_NAME, refreshResult.newTokens.refresh);
 
       return response;
     }
