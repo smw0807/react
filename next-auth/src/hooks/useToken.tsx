@@ -1,10 +1,9 @@
 import { useCookies } from 'next-client-cookies';
-
-type TokenType = 'access' | 'refresh';
-const ACCESS_TOKEN_NAME =
-  (process.env.NEXT_PUBLIC_ACCESS_TOKEN as string) || '';
-const REFRESH_TOKEN_NAME =
-  (process.env.NEXT_PUBLIC_REFRESH_TOKEN as string) || '';
+import {
+  TokenType,
+  ACCESS_TOKEN_NAME,
+  REFRESH_TOKEN_NAME,
+} from '@/constants/token';
 
 export default function useToken() {
   const cookies = useCookies();
