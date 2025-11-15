@@ -49,6 +49,34 @@ function App() {
         <div className="m-5 h-50 w-50 bg-red-400 p-5">
           <div className="h-full w-full justify-center bg-blue-400">box</div>
         </div>
+
+        {/* 5. 보더 */}
+        <div className="m-5 p-5">
+          <div className="border border-black">box</div>
+          <div className="mb-5 border-2 border-black">box</div>
+          <div className="border-x border-red-500">box</div>
+          <div className="border-y border-green-500">box</div>
+          <div className="border-t border-yellow-500">box</div>
+          <div className="border-b border-purple-500">box</div>
+          <div className="border-l border-orange-500">box</div>
+          <div className="border-r border-blue-500">box</div>
+          <div className="border-tl border-red-500">box</div>
+          <div className="border-tr border-green-500">box</div>
+        </div>
+
+        {/* 6. 플렉스 컨테이터 */}
+        <div className="flex items-center justify-evenly">
+          <div className="h-10 w-10 flex-1 border">1</div>
+          <div className="h-20 w-10 border">2</div>
+          <div className="h-30 w-10 border">3</div>
+          <div className="h-40 w-10 border">4</div>
+        </div>
+        <div className="flex flex-col items-center justify-evenly">
+          <div className="h-10 w-10 border">1</div>
+          <div className="h-20 w-10 border">2</div>
+          <div className="h-30 w-10 border">3</div>
+          <div className="h-40 w-10 border">4</div>
+        </div>
       </div>
     </>
   );
