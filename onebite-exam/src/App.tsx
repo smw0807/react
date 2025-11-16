@@ -6,6 +6,38 @@ import { Textarea } from "./components/ui/textarea";
 import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
 import { CircleCheckIcon } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./components/ui/carousel";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./components/ui/alert-dialog";
+import { AnvilIcon } from "lucide-react";
 
 function App() {
   const isActive = true;
@@ -116,7 +148,74 @@ function App() {
 
         <div>
           <Input placeholder="Enter your name" value="John Doe" />
-          <Textarea placeholder="Enter your message" value="Hello, world!" />
+          <Textarea placeholder="Enter your message" />
+        </div>
+
+        <div>
+          <Carousel className="mx-10">
+            <CarouselContent>
+              <CarouselItem className="basis-1/3">1</CarouselItem>
+              <CarouselItem className="basis-1/3">2</CarouselItem>
+              <CarouselItem className="basis-1/3">3</CarouselItem>
+              <CarouselItem className="basis-1/3">4</CarouselItem>
+              <CarouselItem className="basis-1/3">5</CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+
+        <div className="mt-5">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button>Open</Button>
+            </PopoverTrigger>
+            <PopoverContent className="bg-black">
+              <div className="text-white">Hello, world!</div>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="mt-5">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Open</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Hello, world!</DialogTitle>
+                <DialogDescription>Hello, world!</DialogDescription>
+              </DialogHeader>
+              <DialogDescription>Hello, world!</DialogDescription>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <div className="mt-5">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button>Open</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Hello, world!</AlertDialogTitle>
+                <AlertDialogDescription>Hello, world!</AlertDialogDescription>
+              </AlertDialogHeader>
+              <div>body content</div>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() =>
+                    toast.success("Hello, world!", {
+                      icon: <AnvilIcon className="size-4" />,
+                    })
+                  }
+                >
+                  Confirm
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </>
