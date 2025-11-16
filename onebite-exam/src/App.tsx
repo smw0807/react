@@ -1,12 +1,21 @@
 import "./App.css";
 import { Button } from "@/components/ui/button";
 import { cn } from "./lib/utils";
+import { Input } from "./components/ui/input";
+import { Textarea } from "./components/ui/textarea";
+import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner";
+import { CircleCheckIcon } from "lucide-react";
 
 function App() {
   const isActive = true;
   return (
     <>
-      <div>
+      <Toaster
+        position={"top-center"}
+        icons={{ success: <CircleCheckIcon className="size-4" /> }}
+      />
+      <div className="p-5">
         {/* 1. 타이포그래피 */}
         <div className="text-xs text-red-500">text-xs</div>
         <div className="text-sm text-[rgb(100,30,200)]">text-sm</div>
@@ -80,30 +89,35 @@ function App() {
           <div className="h-30 w-10 border">3</div>
           <div className="h-40 w-10 border">4</div>
         </div>
-      </div>
 
-      <Button>Click me</Button>
-      <Button variant="outline">Click me</Button>
-      <Button variant="secondary">Click me</Button>
-      <Button variant="ghost">Click me</Button>
-      <Button variant="link">Click me</Button>
-      <Button variant="destructive">Click me</Button>
-      <Button variant="outline">Click me</Button>
-      <Button variant="secondary">Click me</Button>
-      <Button variant="ghost">Click me</Button>
-      <Button variant="link">Click me</Button>
+        <Button onClick={() => toast.success("Hello, world!")}>Click me</Button>
+        <Button variant="outline">Click me</Button>
+        <Button variant="secondary">Click me</Button>
+        <Button variant="ghost">Click me</Button>
+        <Button variant="link">Click me</Button>
+        <Button variant="destructive">Click me</Button>
+        <Button variant="outline">Click me</Button>
+        <Button variant="secondary">Click me</Button>
+        <Button variant="ghost">Click me</Button>
+        <Button variant="link">Click me</Button>
 
-      <div>
-        <div className={cn("text-primary", isActive && "animate-pulse")}>
-          text-primary
+        <div>
+          <div className={cn("text-primary", isActive && "animate-pulse")}>
+            text-primary
+          </div>
+          <div className="text-secondary">text-secondary</div>
+          <div className="text-accent">text-accent</div>
+          <div className="text-destructive">text-destructive</div>
+          <div className="text-foreground">text-foreground</div>
+          <div className="text-muted">text-muted</div>
+          <div className="text-muted-foreground">text-muted-foreground</div>
+          <div className="text-card">text-card</div>
         </div>
-        <div className="text-secondary">text-secondary</div>
-        <div className="text-accent">text-accent</div>
-        <div className="text-destructive">text-destructive</div>
-        <div className="text-foreground">text-foreground</div>
-        <div className="text-muted">text-muted</div>
-        <div className="text-muted-foreground">text-muted-foreground</div>
-        <div className="text-card">text-card</div>
+
+        <div>
+          <Input placeholder="Enter your name" value="John Doe" />
+          <Textarea placeholder="Enter your message" value="Hello, world!" />
+        </div>
       </div>
     </>
   );
