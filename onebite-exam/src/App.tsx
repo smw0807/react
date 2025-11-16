@@ -1,224 +1,27 @@
+import { Outlet, Route, Routes } from "react-router";
 import "./App.css";
-import { Button } from "@/components/ui/button";
-import { cn } from "./lib/utils";
-import { Input } from "./components/ui/input";
-import { Textarea } from "./components/ui/textarea";
-import { Toaster } from "./components/ui/sonner";
-import { toast } from "sonner";
-import { CircleCheckIcon } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./components/ui/carousel";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./components/ui/popover";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./components/ui/alert-dialog";
-import { AnvilIcon } from "lucide-react";
+import IndexPage from "./pages/index-page";
+import SignInPage from "./pages/sign-in-page";
+import SignUpPage from "./pages/sign-up-page";
+
+function AuthLayout() {
+  return (
+    <div>
+      <header>Auth!</header>
+      <Outlet />
+    </div>
+  );
+}
 
 function App() {
-  const isActive = true;
   return (
-    <>
-      <Toaster
-        position={"top-center"}
-        icons={{ success: <CircleCheckIcon className="size-4" /> }}
-      />
-      <div className="p-5">
-        {/* 1. 타이포그래피 */}
-        <div className="text-xs text-red-500">text-xs</div>
-        <div className="text-sm text-[rgb(100,30,200)]">text-sm</div>
-        <div className="text-base font-bold">text-base</div>
-        <div className="text-lg font-extrabold">text-lg</div>
-        <div className="text-xl font-black">text-xl</div>
-        <div className="text-2xl">text-2xl</div>
-        <div className="text-[13px]">text-[13px]</div>
-        <div className="text-3xl">text-3xl</div>
-        <div className="text-4xl">text-4xl</div>
-        <div className="text-5xl">text-5xl</div>
-        <div className="text-6xl">text-6xl</div>
-        <div className="text-7xl">text-7xl</div>
-        <div className="text-8xl">text-8xl</div>
-        <div className="text-9xl">text-9xl</div>
-
-        {/* 2. 백그라운드컬러 */}
-        <div className="bg-amber-500">bg-amber-500</div>
-        <div className="bg-red-500">bg-red-500</div>
-        <div className="bg-blue-500">bg-blue-500</div>
-        <div className="bg-green-500">bg-green-500</div>
-        <div className="bg-yellow-500">bg-yellow-500</div>
-        <div className="bg-purple-500">bg-purple-500</div>
-        <div className="bg-pink-500">bg-pink-500</div>
-        <div className="bg-gray-500">bg-gray-500</div>
-        <div className="bg-black-500">bg-black-500</div>
-
-        {/* 3. 사이즈 */}
-        <div className="h-20 w-20 bg-black">box</div>
-        <div className="w-40 bg-black">box</div>
-        <div className="w-60 bg-black">box</div>
-        <div className="w-80 bg-black">box</div>
-        <div className="w-100 bg-black">box</div>
-        <div className="w-120 bg-black">box</div>
-        <div className="w-140 bg-black">box</div>
-        <div className="w-160 bg-black">box</div>
-        <div className="w-180 bg-black">box</div>
-        <div className="w-200 bg-black">box</div>
-        <div className="w-[20px] bg-black">box</div>
-        <div className="w-full bg-black">box</div>
-
-        {/* 4. 여백 */}
-        <div className="m-5 h-50 w-50 bg-red-400 p-5">
-          <div className="h-full w-full justify-center bg-blue-400">box</div>
-        </div>
-
-        {/* 5. 보더 */}
-        <div className="m-5 p-5">
-          <div className="border border-black">box</div>
-          <div className="mb-5 border-2 border-black">box</div>
-          <div className="border-x border-red-500">box</div>
-          <div className="border-y border-green-500">box</div>
-          <div className="border-t border-yellow-500">box</div>
-          <div className="border-b border-purple-500">box</div>
-          <div className="border-l border-orange-500">box</div>
-          <div className="border-r border-blue-500">box</div>
-          <div className="border-tl border-red-500">box</div>
-          <div className="border-tr border-green-500">box</div>
-        </div>
-
-        {/* 6. 플렉스 컨테이터 */}
-        <div className="flex items-center justify-evenly">
-          <div className="h-10 w-10 flex-1 border">1</div>
-          <div className="h-20 w-10 border">2</div>
-          <div className="h-30 w-10 border">3</div>
-          <div className="h-40 w-10 border">4</div>
-        </div>
-        <div className="flex flex-col items-center justify-evenly">
-          <div className="h-10 w-10 border">1</div>
-          <div className="h-20 w-10 border">2</div>
-          <div className="h-30 w-10 border">3</div>
-          <div className="h-40 w-10 border">4</div>
-        </div>
-
-        <Button onClick={() => toast.success("Hello, world!")}>Click me</Button>
-        <Button variant="outline">Click me</Button>
-        <Button variant="secondary">Click me</Button>
-        <Button variant="ghost">Click me</Button>
-        <Button variant="link">Click me</Button>
-        <Button variant="destructive">Click me</Button>
-        <Button variant="outline">Click me</Button>
-        <Button variant="secondary">Click me</Button>
-        <Button variant="ghost">Click me</Button>
-        <Button variant="link">Click me</Button>
-
-        <div>
-          <div className={cn("text-primary", isActive && "animate-pulse")}>
-            text-primary
-          </div>
-          <div className="text-secondary">text-secondary</div>
-          <div className="text-accent">text-accent</div>
-          <div className="text-destructive">text-destructive</div>
-          <div className="text-foreground">text-foreground</div>
-          <div className="text-muted">text-muted</div>
-          <div className="text-muted-foreground">text-muted-foreground</div>
-          <div className="text-card">text-card</div>
-        </div>
-
-        <div>
-          <Input placeholder="Enter your name" value="John Doe" />
-          <Textarea placeholder="Enter your message" />
-        </div>
-
-        <div>
-          <Carousel className="mx-10">
-            <CarouselContent>
-              <CarouselItem className="basis-1/3">1</CarouselItem>
-              <CarouselItem className="basis-1/3">2</CarouselItem>
-              <CarouselItem className="basis-1/3">3</CarouselItem>
-              <CarouselItem className="basis-1/3">4</CarouselItem>
-              <CarouselItem className="basis-1/3">5</CarouselItem>
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-
-        <div className="mt-5">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button>Open</Button>
-            </PopoverTrigger>
-            <PopoverContent className="bg-black">
-              <div className="text-white">Hello, world!</div>
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <div className="mt-5">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Open</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Hello, world!</DialogTitle>
-                <DialogDescription>Hello, world!</DialogDescription>
-              </DialogHeader>
-              <DialogDescription>Hello, world!</DialogDescription>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        <div className="mt-5">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button>Open</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Hello, world!</AlertDialogTitle>
-                <AlertDialogDescription>Hello, world!</AlertDialogDescription>
-              </AlertDialogHeader>
-              <div>body content</div>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() =>
-                    toast.success("Hello, world!", {
-                      icon: <AnvilIcon className="size-4" />,
-                    })
-                  }
-                >
-                  Confirm
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<IndexPage />} />
+      <Route element={<AuthLayout />}>
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
+      </Route>
+    </Routes>
   );
 }
 
