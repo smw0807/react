@@ -11,8 +11,9 @@ export function useTodoDataById(id: number) {
     // refetchOnWindowFocus: false, // 컴포넌트가 포커스될 때 데이터를 가져올지 여부
     // refetchOnReconnect: false, // 네트워크가 다시 연결될 때 데이터를 가져올지 여부
     // refetchInterval: 1000, // 데이터를 가져올 주기
-    // refetchInterval: false, // 데이터를 가져올 주기
 
     // staleTime: 5000, // 데이터가 실행된 후 데이터를 가져올 주기
+
+    // gcTime: 5000, // 데이터가 가비지 컬렉션될 주기
   });
 }
