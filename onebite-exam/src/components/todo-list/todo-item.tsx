@@ -3,14 +3,14 @@ import { Button } from "../ui/button";
 import { useDeleteTodo } from "@/store/todos";
 
 interface TodoItemProps {
-  id: number;
+  id: string;
   content: string;
 }
 export default function TodoItem({ id, content }: TodoItemProps) {
   const deleteTodo = useDeleteTodo();
 
   const handleDeleteClick = () => {
-    deleteTodo(id);
+    deleteTodo(id.toString());
   };
   return (
     <div className="flex items-center justify-between border p-2">

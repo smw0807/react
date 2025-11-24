@@ -16,12 +16,12 @@ export const useTodosStore = create(
         createTodo: (content: string) => {
           set((state) => {
             state.todos.push({
-              id: new Date().getTime(),
+              id: new Date().getTime().toString(),
               content,
             });
           });
         },
-        deleteTodo: (id: number) => {
+        deleteTodo: (id: string) => {
           set((state) => {
             state.todos = state.todos.filter((todo) => todo.id !== id);
           });

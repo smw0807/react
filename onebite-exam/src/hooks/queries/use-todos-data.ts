@@ -5,6 +5,5 @@ export function useTodoData() {
   return useQuery({
     queryFn: fetchTodos,
     queryKey: ["todos"],
-    retry: 0,
   });
 }

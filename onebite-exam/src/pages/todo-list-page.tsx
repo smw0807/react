@@ -16,7 +16,7 @@ export default function TodoListPage() {
       <TodoEditor />
 
       {todos?.map((todo) => (
-        <TodoItem key={todo.id} {...todo} />
+        <TodoItem key={todo.id} id={todo.id} content={todo.content} />
       ))}
     </div>
   );
