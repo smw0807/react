@@ -8,7 +8,12 @@ export function useUpdateTodoMutation() {
 
   return useMutation({
     mutationFn: updateTodo,
-    onMutate: (updatedTodo) => {
+    onMutate: async (updatedTodo) => {
+      // 캐시 데이터 취소
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.todo.list });
+
+      const prevTodos = queryClient.getQueryData<Todo[]>(QUERY_KEYS.todo.list);
+      // 캐시 데이터 업데이트
       queryClient.setQueryData<Todo[]>(QUERY_KEYS.todo.list, (prevTodos) => {
         if (!prevTodos) return [];
         return prevTodos.map((prevTodo) =>
@@ -17,6 +22,23 @@ export function useUpdateTodoMutation() {
             : prevTodo,
         );
       });
+      // 이전 데이터 반환
+      return {
+        prevTodos,
+      };
+    },
+    onError: (error, variable, context) => {
+      // 이전 데이터 복구
+      if (context && context.prevTodos) {
+        queryClient.setQueryData<Todo[]>(
+          QUERY_KEYS.todo.list,
+          context.prevTodos,
+        );
+      }
+    },
+    onSettled: () => {
+      // 캐시 데이터 무효화
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.todo.list });
     },
   });
 }
