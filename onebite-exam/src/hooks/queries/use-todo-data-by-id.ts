@@ -1,10 +1,11 @@
 import { fetchTodoById } from "@/api/fetch-todo-by-id";
+import { QUERY_KEYS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 
 export function useTodoDataById(id: string) {
   return useQuery({
     queryFn: () => fetchTodoById(id),
-    queryKey: ["todo", id],
+    queryKey: QUERY_KEYS.todo.detail(id),
     retry: 0,
     // refetchInterval: 1000,
     // refetchOnMount: false, // 컴포넌트가 마운트될 때 데이터를 가져올지 여부

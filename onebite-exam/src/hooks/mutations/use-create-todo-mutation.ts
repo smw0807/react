@@ -1,18 +1,16 @@
 import { createTodo } from "@/api/create-todo";
+import { QUERY_KEYS } from "@/lib/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateTodoMutation() {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: createTodo,
     onMutate: () => {},
-    onSettled: () => {
-      // mutation이 완료된 후 (성공/실패 모두) todos 쿼리를 무효화하여 자동으로 refetch
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
+    onSettled: () => {},
     onSuccess: () => {
-      alert("할 일 추가에 성공했습니다.");
+      // 데이터 갱신, 캐시 데이터 무효화
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.todo.list });
     },
     onError: () => {
       alert("할 일 추가에 실패했습니다.");
