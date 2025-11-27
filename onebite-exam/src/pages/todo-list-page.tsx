@@ -5,7 +5,7 @@ import { useTodoData } from "@/hooks/queries/use-todos-data";
 
 export default function TodoListPage() {
   // const todos = useTodos();
-  const { data: todos, isLoading, error } = useTodoData();
+  const { data: todoIds, isLoading, error } = useTodoData();
 
   if (error) return <div>Error: {error.message}</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -15,8 +15,9 @@ export default function TodoListPage() {
       <h1 className="text-2xl font-bold">Todo List</h1>
       <TodoEditor />
 
-      {todos?.map((todo) => (
-        <TodoItem key={todo.id} id={todo.id} content={todo.content} />
+      {todoIds?.map((id) => (
+        // <TodoItem key={todo.id} id={todo.id} content={todo.content} />
+        <TodoItem key={id} id={id} />
       ))}
     </div>
   );

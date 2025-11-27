@@ -2,10 +2,11 @@ import { fetchTodoById } from "@/api/fetch-todo-by-id";
 import { QUERY_KEYS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 
-export function useTodoDataById(id: string) {
+export function useTodoDataById(id: string, type: "LIST" | "DETAIL") {
   return useQuery({
     queryFn: () => fetchTodoById(id),
     queryKey: QUERY_KEYS.todo.detail(id),
+    enabled: type === "DETAIL",
     retry: 0,
     // refetchInterval: 1000,
     // refetchOnMount: false, // 컴포넌트가 마운트될 때 데이터를 가져올지 여부
@@ -13,7 +14,7 @@ export function useTodoDataById(id: string) {
     // refetchOnReconnect: false, // 네트워크가 다시 연결될 때 데이터를 가져올지 여부
     // refetchInterval: 1000, // 데이터를 가져올 주기
 
-    // staleTime: 5000, // 데이터가 실행된 후 데이터를 가져올 주기
+    staleTime: 1000, // 데이터가 실행된 후 데이터를 가져올 주기
 
     // gcTime: 5000, // 데이터가 가비지 컬렉션될 주기
   });
