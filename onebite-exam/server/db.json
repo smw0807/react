@@ -1,14 +1,9 @@
 {
   "todos": [
     {
-      "id": "1",
-      "content": "할 일 1",
-      "isDone": true
-    },
-    {
-      "id": "ded5",
-      "content": "123",
-      "isDone": true
+      "id": "cebf",
+      "content": "1",
+      "isDone": false
     }
   ]
 }
