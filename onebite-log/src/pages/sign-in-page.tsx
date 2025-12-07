@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useSignIn } from "@/hooks/mutations/useSignIn";
+import { useSignInWithPassword } from "@/hooks/mutations/useSignInWithPassword";
 import { useSignInWithOAuth } from "@/hooks/mutations/useSignInWithOAuth";
 
 import githubLogo from "@/assets/github-mark.svg";
@@ -13,7 +14,20 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: signInWithPassword } = useSignIn();
+  const { mutate: signInWithPassword } = useSignInWithPassword({
+    onSuccess: () => {
+      console.log("로그인 성공");
+      toast.success("로그인 성공", {
+        position: "top-center",
+      });
+    },
+    onError: (error) => {
+      setPassword("");
+      toast.error(error.message, {
+        position: "top-center",
+      });
+    },
+  });
   const { mutate: signInWithOAuth } = useSignInWithOAuth();
 
   const handleSignInWithPasswordClick = () => {
