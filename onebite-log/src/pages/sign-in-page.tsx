@@ -16,7 +16,6 @@ export default function SignInPage() {
 
   const { mutate: signInWithPassword } = useSignInWithPassword({
     onSuccess: () => {
-      console.log("로그인 성공");
       toast.success("로그인 성공", {
         position: "top-center",
       });
