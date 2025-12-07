@@ -5,12 +5,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useSignUp } from "@/hooks/mutations/useSignUp";
+import { toast } from "sonner";
+import { generateErrorMessage } from "@/lib/error";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: signUp } = useSignUp();
+  const { mutate: signUp, isPending: isSigningUpPending } = useSignUp({
+    onSuccess: () => {
+      toast.success("회원가입 성공", {
+        position: "top-center",
+      });
+      setEmail("");
+      setPassword("");
+    },
+    onError: (error) => {
+      const errorMessage = generateErrorMessage(error);
+      toast.error(errorMessage, {
+        position: "top-center",
+      });
+    },
+  });
 
   const handleSignUpClick = () => {
     if (email.trim() === "") return;
@@ -24,6 +40,7 @@ export default function SignUpPage() {
       <div className="flex flex-col gap-2">
         <Input
           value={email}
+          disabled={isSigningUpPending}
           onChange={(e) => setEmail(e.target.value)}
           className="py-6"
           type="email"
@@ -31,6 +48,7 @@ export default function SignUpPage() {
         />
         <Input
           value={password}
+          disabled={isSigningUpPending}
           onChange={(e) => setPassword(e.target.value)}
           className="py-6"
           type="password"
@@ -38,7 +56,11 @@ export default function SignUpPage() {
         />
       </div>
       <div>
-        <Button className="w-full" onClick={handleSignUpClick}>
+        <Button
+          className="w-full"
+          onClick={handleSignUpClick}
+          disabled={isSigningUpPending}
+        >
           회원가입
         </Button>
       </div>
