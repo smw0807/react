@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 
 import { useSignIn } from "@/hooks/mutations/useSignIn";
 import { useSignInWithOAuth } from "@/hooks/mutations/useSignInWithOAuth";
+
 import githubLogo from "@/assets/github-mark.svg";
 
 export default function SignInPage() {
@@ -23,6 +24,10 @@ export default function SignInPage() {
 
   const handleSignInWithGitHubClick = () => {
     signInWithOAuth("github");
+  };
+
+  const handleSignInWithGoogleClick = () => {
+    signInWithOAuth("google");
   };
 
   return (
@@ -55,6 +60,13 @@ export default function SignInPage() {
         >
           <img src={githubLogo} alt="GitHub" className="h-4 w-4" />
           GitHub 게정으로 로그인
+        </Button>
+        <Button
+          className="w-full"
+          variant={"outline"}
+          onClick={handleSignInWithGoogleClick}
+        >
+          Google 게정으로 로그인
         </Button>
       </div>
       <div>
