@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useSignInWithPassword } from "@/hooks/mutations/useSignInWithPassword";
-import { useSignInWithOAuth } from "@/hooks/mutations/useSignInWithOAuth";
+import { useSignInWithPassword } from "@/hooks/mutations/auth/useSignInWithPassword";
+import { useSignInWithOAuth } from "@/hooks/mutations/auth/useSignInWithOAuth";
 
 import githubLogo from "@/assets/github-mark.svg";
 import { generateErrorMessage } from "@/lib/error";

@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useSignUp } from "@/hooks/mutations/useSignUp";
+import { useSignUp } from "@/hooks/mutations/auth/useSignUp";
 import { toast } from "sonner";
 import { generateErrorMessage } from "@/lib/error";
 
