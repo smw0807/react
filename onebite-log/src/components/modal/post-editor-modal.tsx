@@ -72,10 +72,16 @@ export default function PostEditorModal() {
 
   const handleCreatePostClick = () => {
     if (content.trim() === "") return;
-    createPost({
-      content,
-      images: images.map((image) => image.file),
-      userId: session!.user.id,
+    openAlertModal({
+      title: "게시글 생성",
+      description: "게시글을 생성하시겠습니까?",
+      onPositive: () => {
+        createPost({
+          content,
+          images: images.map((image) => image.file),
+          userId: session!.user.id,
+        });
+      },
     });
   };
 
