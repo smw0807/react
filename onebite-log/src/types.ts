@@ -8,6 +8,8 @@ export type ProfileEntity = Database["public"]["Tables"]["profile"]["Row"];
 export type ProfileInsert = Database["public"]["Tables"]["profile"]["Insert"];
 export type ProfileUpdate = Database["public"]["Tables"]["profile"]["Update"];
 
+export type Post = PostEntity & { author: ProfileEntity };
+
 export type UseMutationCallback = {
   onSuccess?: () => void;
   onMutate?: () => void;
