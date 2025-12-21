@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { useSession } from "@/store/session";
 import { useOpenAlertModal } from "@/store/alert-modal";
+import { useUpdatePost } from "@/hooks/mutations/post/useUpdatePost";
 
 type Image = {
   file: File;
@@ -17,14 +18,26 @@ type Image = {
 export default function PostEditorModal() {
   const session = useSession();
   const openAlertModal = useOpenAlertModal();
-  const { isOpen, close } = usePostEditorModal();
+  const postEditorModal = usePostEditorModal();
   const { mutate: createPost, isPending: isCreatingPostPending } =
     useCreatePost({
       onSuccess: () => {
-        close();
+        postEditorModal.actions.close();
       },
       onError: (error) => {
         toast.error("포스트 생성에 실패했습니다.", {
+          position: "top-center",
+        });
+      },
+    });
+
+  const { mutate: updatePost, isPending: isUpdatingPostPending } =
+    useUpdatePost({
+      onSuccess: () => {
+        postEditorModal.actions.close();
+      },
+      onError: (error) => {
+        toast.error("포스트 수정에 실패했습니다.", {
           position: "top-center",
         });
       },
@@ -44,17 +57,24 @@ export default function PostEditorModal() {
   }, [content]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!postEditorModal.isOpen) {
       images.forEach((image) => {
         // 이미지 미리보기 URL 해제 ,메모리로부터 이미지 삭제
         URL.revokeObjectURL(image.previewUrl);
       });
       return;
     }
+
+    if (postEditorModal.type === "CREATE") {
+      setContent("");
+      setImages([]);
+    } else {
+      setContent(postEditorModal.content);
+      setImages([]);
+    }
+
     textareaRef.current?.focus();
-    setContent("");
-    setImages([]);
-  }, [isOpen]);
+  }, [postEditorModal.isOpen]);
 
   const handleCloseModal = () => {
     if (content.trim() !== "" || images.length !== 0) {
@@ -62,27 +82,37 @@ export default function PostEditorModal() {
         title: "게시글 작성이 마무리 되지 않았습니다",
         description: "이 화면에서 나가면 작성중이던 내용이 사라집니다.",
         onPositive: () => {
-          close();
+          postEditorModal.actions.close();
         },
       });
       return;
     }
-    close();
+    postEditorModal.actions.close();
   };
 
-  const handleCreatePostClick = () => {
+  const handleSavePostClick = () => {
     if (content.trim() === "") return;
-    openAlertModal({
-      title: "게시글 생성",
-      description: "게시글을 생성하시겠습니까?",
-      onPositive: () => {
-        createPost({
-          content,
-          images: images.map((image) => image.file),
-          userId: session!.user.id,
-        });
-      },
-    });
+    if (!postEditorModal.isOpen) return;
+
+    if (postEditorModal.type === "CREATE") {
+      openAlertModal({
+        title: "게시글 생성",
+        description: "게시글을 생성하시겠습니까?",
+        onPositive: () => {
+          createPost({
+            content,
+            images: images.map((image) => image.file),
+            userId: session!.user.id,
+          });
+        },
+      });
+    } else {
+      if (content === postEditorModal.content) return;
+      updatePost({
+        id: postEditorModal.postId,
+        content,
+      });
+    }
   };
 
   const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,14 +136,16 @@ export default function PostEditorModal() {
     URL.revokeObjectURL(image.previewUrl);
   };
 
+  const isPending = isCreatingPostPending || isUpdatingPostPending;
+
   return (
-    <Dialog open={isOpen} onOpenChange={handleCloseModal}>
+    <Dialog open={postEditorModal.isOpen} onOpenChange={handleCloseModal}>
       <DialogContent className="max-h-[90vh]">
         <DialogTitle>포스트 작성</DialogTitle>
         <textarea
           ref={textareaRef}
           value={content}
-          disabled={isCreatingPostPending}
+          disabled={isPending}
           onChange={(e) => setContent(e.target.value)}
           className="max-h-125 min-h-25 focus:outline-none"
           placeholder="무슨 일이 있었나요?"
@@ -126,6 +158,23 @@ export default function PostEditorModal() {
           className="hidden"
           onChange={handleSelectImages}
         />
+        {postEditorModal.isOpen && postEditorModal.type === "EDIT" && (
+          <Carousel>
+            <CarouselContent>
+              {postEditorModal.imageUrls?.map((url) => (
+                <CarouselItem className="basis-2/5" key={url}>
+                  <div className="relative">
+                    <img
+                      src={url}
+                      alt={url}
+                      className="h-full w-full rounded-sm object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        )}
         {images.length > 0 && (
           <Carousel>
             <CarouselContent>
@@ -149,21 +198,24 @@ export default function PostEditorModal() {
             </CarouselContent>
           </Carousel>
         )}
+        {postEditorModal.isOpen && postEditorModal.type === "CREATE" && (
+          <Button
+            disabled={isPending}
+            variant={"outline"}
+            className="cursor-pointer"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <ImageIcon className="h-5 w-5" />
+            이미지 추가
+          </Button>
+        )}
+
         <Button
-          disabled={isCreatingPostPending}
-          variant={"outline"}
           className="cursor-pointer"
-          onClick={() => fileInputRef.current?.click()}
+          onClick={handleSavePostClick}
+          disabled={isPending}
         >
-          <ImageIcon className="h-5 w-5" />
-          이미지 추가
-        </Button>
-        <Button
-          className="cursor-pointer"
-          onClick={handleCreatePostClick}
-          disabled={isCreatingPostPending}
-        >
-          {isCreatingPostPending ? "저장중..." : "저장"}
+          {isPending ? "저장중..." : "저장"}
         </Button>
       </DialogContent>
     </Dialog>
