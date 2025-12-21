@@ -12,6 +12,22 @@ export async function fetchPosts() {
   return data;
 }
 
+export async function fetchInfinitePosts({
+  from,
+  to,
+}: {
+  from: number;
+  to: number;
+}) {
+  const { data, error } = await supabase
+    .from("post")
+    .select("*, author:profile!author_id(*)")
+    .order("created_at", { ascending: false })
+    .range(from, to);
+  if (error) throw error;
+  return data;
+}
+
 export async function createPost(content: string) {
   const { data, error } = await supabase
     .from("post")
