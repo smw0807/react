@@ -11,6 +11,7 @@ import { formatTimeAgo } from "@/lib/time";
 import EditPostButton from "./button/edit-post-button";
 import DeletePostButton from "./button/delete-post-button";
 import { useSession } from "@/store/session";
+import PostCarousel from "./ui/post-carousel";
 
 export default function PostItem(post: Post) {
   const session = useSession();
@@ -57,20 +58,7 @@ export default function PostItem(post: Post) {
         </div>
 
         {/* 2-2. 이미지 캐러셀 */}
-        <Carousel>
-          <CarouselContent>
-            {post.image_urls?.map((url, index) => (
-              <CarouselItem className={`basis-3/5`} key={index}>
-                <div className="overflow-hidden rounded-xl">
-                  <img
-                    src={url}
-                    className="h-full max-h-[350px] w-full object-cover"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <PostCarousel imageUrls={post.image_urls || []} />
       </div>
 
       {/* 3. 좋아요, 댓글 버튼 */}
