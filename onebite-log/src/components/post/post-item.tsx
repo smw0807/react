@@ -1,12 +1,6 @@
 import { HeartIcon, MessageCircle } from "lucide-react";
 import type { Post } from "@/types";
 import defaultAvatar from "@/assets/default-avatar.jpg";
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { formatTimeAgo } from "@/lib/time";
 import EditPostButton from "./button/edit-post-button";
 import DeletePostButton from "./button/delete-post-button";
