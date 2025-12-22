@@ -29,5 +29,7 @@ export function useInfinitePostData() {
       if (lastPage.length < PAGE_SIZE) return undefined;
       return allPages.length;
     },
+    // 데이터를 캐싱할 시간
+    staleTime: Infinity, // 무한대로 캐싱
   });
 }
