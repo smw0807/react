@@ -1,10 +1,12 @@
 import { fetchInfinitePosts } from "@/api/post";
 import { QUERY_KEYS } from "@/lib/constants";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 
 const PAGE_SIZE = 5;
 
 export function useInfinitePostData() {
+  const queryClient = useQueryClient();
+
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.post.list,
     queryFn: async ({ pageParam }) => {
@@ -12,7 +14,12 @@ export function useInfinitePostData() {
       const to = from + PAGE_SIZE - 1;
 
       const posts = await fetchInfinitePosts({ from, to });
-      return posts;
+      posts.forEach((post) => {
+        // 개별적으로 데이터 캐싱
+        queryClient.setQueryData(QUERY_KEYS.post.byId(post.id), post);
+      });
+      // return posts;
+      return posts.map((post) => post.id);
     },
     initialPageParam: 0,
     // 다음 페이지 번호를 계산하기 위한 함수? 스크롤 최하단까지 내려가서 다음 페이지를 불러올 때 사용됨

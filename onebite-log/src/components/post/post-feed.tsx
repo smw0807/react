@@ -29,7 +29,7 @@ export default function PostFeed() {
         <PostItem key={post.id} {...post} />
       ))} */}
       {data.pages.map((page) =>
-        page.map((post) => <PostItem key={post.id} {...post} />),
+        page.map((postId) => <PostItem key={postId} postId={postId} />),
       )}
       {isFetchingNextPage && <Loader />}
       <div ref={ref}></div>
