@@ -7,10 +7,10 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useInfinitePostData } from "@/hooks/queries/useInfinitePostData";
 
-export default function PostFeed() {
+export default function PostFeed({ authorId }: { authorId?: string }) {
   // const { data, error, isPending } = usePostsData();
   const { data, error, isPending, fetchNextPage, isFetchingNextPage } =
-    useInfinitePostData();
+    useInfinitePostData(authorId);
   const { ref, inView } = useInView();
 
   useEffect(() => {

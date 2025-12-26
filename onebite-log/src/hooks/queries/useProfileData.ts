@@ -4,9 +4,8 @@ import { useSession } from "@/store/session";
 import type { PostgrestError } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
-export function useProfileData() {
+export function useProfileData(userId?: string) {
   const session = useSession();
-  const userId = session?.user.id;
   const isMine = userId === session?.user.id;
   return useQuery({
     queryKey: QUERY_KEYS.profile.byId(userId!),
