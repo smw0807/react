@@ -10,6 +10,14 @@ export type ProfileUpdate = Database["public"]["Tables"]["profile"]["Update"];
 
 export type Post = PostEntity & { author: ProfileEntity; isLiked: boolean };
 
+export type CommentEntity = Database["public"]["Tables"]["comment"]["Row"];
+export type CommentInsert = Database["public"]["Tables"]["comment"]["Insert"];
+export type CommentUpdate = Database["public"]["Tables"]["comment"]["Update"];
+
+export type Comment = CommentEntity & { author: ProfileEntity } & {
+  post: PostEntity;
+};
+
 export type UseMutationCallback = {
   onSuccess?: () => void;
   onMutate?: () => void;
