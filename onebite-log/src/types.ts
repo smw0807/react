@@ -14,9 +14,7 @@ export type CommentEntity = Database["public"]["Tables"]["comment"]["Row"];
 export type CommentInsert = Database["public"]["Tables"]["comment"]["Insert"];
 export type CommentUpdate = Database["public"]["Tables"]["comment"]["Update"];
 
-export type Comment = CommentEntity & { author: ProfileEntity } & {
-  post: PostEntity;
-};
+export type Comment = CommentEntity & { author: ProfileEntity };
 
 export type UseMutationCallback = {
   onSuccess?: () => void;
