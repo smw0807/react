@@ -1,15 +1,28 @@
 import { updateComment } from "@/api/comment";
-import type { UseMutationCallback } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { type Comment, type UseMutationCallback } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateComment(callbacks?: UseMutationCallback) {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: updateComment,
-    onSuccess: () => {
+    onSuccess: (updatedComment) => {
       if (callbacks?.onSuccess) callbacks.onSuccess();
-    },
-    onError: (error) => {
-      if (callbacks?.onError) callbacks.onError(error);
+      queryClient.setQueryData<Comment[]>(
+        QUERY_KEYS.comment.post(updatedComment.post_id),
+        (comments) => {
+          if (!comments)
+            throw new Error("댓글 목록을 캐시 데이터에서 찾을 수 없습니다.");
+          return comments.map((comment) => {
+            if (comment.id === updatedComment.id) {
+              return { ...comment, ...updatedComment };
+            }
+            return comment;
+          });
+        },
+      );
     },
   });
 }
