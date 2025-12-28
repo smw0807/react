@@ -26,3 +26,5 @@ export type UseMutationCallback = {
   onSettled?: () => void;
   onError?: (error: Error) => void;
 };
+
+export type Theme = "system" | "light" | "dark";
