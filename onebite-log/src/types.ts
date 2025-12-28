@@ -15,6 +15,10 @@ export type CommentInsert = Database["public"]["Tables"]["comment"]["Insert"];
 export type CommentUpdate = Database["public"]["Tables"]["comment"]["Update"];
 
 export type Comment = CommentEntity & { author: ProfileEntity };
+export type NestedComment = Comment & {
+  parentComment?: Comment;
+  children: NestedComment[];
+};
 
 export type UseMutationCallback = {
   onSuccess?: () => void;
